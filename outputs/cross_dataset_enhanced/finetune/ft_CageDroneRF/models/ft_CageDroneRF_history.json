@@ -1,0 +1,37 @@
+[
+  {
+    "epoch": 1,
+    "train_loss": 0.22251186323430558,
+    "CageDroneRF_acc": 0.998567335243553,
+    "CageDroneRF_f1": 0.9966678601265067,
+    "avg_f1": 0.9966678601265067
+  },
+  {
+    "epoch": 2,
+    "train_loss": 0.21394183196074573,
+    "CageDroneRF_acc": 1.0,
+    "CageDroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 3,
+    "train_loss": 0.21153830776161667,
+    "CageDroneRF_acc": 1.0,
+    "CageDroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 4,
+    "train_loss": 0.21038798230630984,
+    "CageDroneRF_acc": 1.0,
+    "CageDroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 5,
+    "train_loss": 0.20930606906075114,
+    "CageDroneRF_acc": 1.0,
+    "CageDroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  }
+]

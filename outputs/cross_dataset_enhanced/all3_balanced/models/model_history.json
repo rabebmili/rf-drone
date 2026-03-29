@@ -1,0 +1,222 @@
+[
+  {
+    "epoch": 1,
+    "train_loss": 0.2883682469019413,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 0.9899713467048711,
+    "CageDroneRF_f1": 0.9775710029700289,
+    "avg_f1": 0.9925236676566763
+  },
+  {
+    "epoch": 2,
+    "train_loss": 0.22537586062874038,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 1.0,
+    "CageDroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 3,
+    "train_loss": 0.21665863570111363,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 1.0,
+    "CageDroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 4,
+    "train_loss": 0.21059540794291207,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 1.0,
+    "CageDroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 5,
+    "train_loss": 0.2093121124926669,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 1.0,
+    "CageDroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 6,
+    "train_loss": 0.20570411440778028,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 1.0,
+    "CageDroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 7,
+    "train_loss": 0.20577756081684573,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 1.0,
+    "CageDroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 8,
+    "train_loss": 0.20358091996449923,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 1.0,
+    "CageDroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 9,
+    "train_loss": 0.20260001339772565,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 1.0,
+    "CageDroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 10,
+    "train_loss": 0.2023559178568444,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 1.0,
+    "CageDroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 11,
+    "train_loss": 0.20216242940840906,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 1.0,
+    "CageDroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 12,
+    "train_loss": 0.20130554644214133,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 1.0,
+    "CageDroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 13,
+    "train_loss": 0.2010242555540693,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 1.0,
+    "CageDroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 14,
+    "train_loss": 0.20083855750413393,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 1.0,
+    "CageDroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 15,
+    "train_loss": 0.20078402164605694,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 1.0,
+    "CageDroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 16,
+    "train_loss": 0.20057601802396458,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 1.0,
+    "CageDroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 17,
+    "train_loss": 0.20041919738589983,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 1.0,
+    "CageDroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 18,
+    "train_loss": 0.2003933529077889,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 1.0,
+    "CageDroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 19,
+    "train_loss": 0.20030888058867827,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 1.0,
+    "CageDroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 20,
+    "train_loss": 0.20028811272613184,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 1.0,
+    "CageDroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  }
+]

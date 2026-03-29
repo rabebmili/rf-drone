@@ -1,0 +1,27 @@
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Data (too large for Git — share separately)
+data/
+
+# IDE
+.idea/
+
+# Model weights
+*.pt
+*.pth
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp files
+git_objects.txt
+git_objects_sorted.txt

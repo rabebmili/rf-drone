@@ -1,0 +1,2737 @@
+{
+  "report_metadata": {
+    "generated_at": "2026-03-14T23:28:01.057056",
+    "source_file": "data\\raw\\DroneRF\\AR drone\\10111H_11.csv",
+    "total_segments": 151,
+    "framework": "RF Drone Forensics Pipeline"
+  },
+  "summary": {
+    "class_distribution": {
+      "AR Drone": 151
+    },
+    "drone_segments_count": 151,
+    "anomalous_segments_count": 0,
+    "average_confidence": 0.9854,
+    "anomalous_segment_ids": []
+  },
+  "timeline": [
+    {
+      "segment_id": 0,
+      "start_sample": 0,
+      "end_sample": 131072,
+      "start_time_s": 0.0,
+      "end_time_s": 131072.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.999,
+      "energy_score": 5.9486,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.999,
+        "Bepop Drone": 0.0009,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 1,
+      "start_sample": 65536,
+      "end_sample": 196608,
+      "start_time_s": 65536.0,
+      "end_time_s": 196608.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9994,
+      "energy_score": 6.0881,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9994,
+        "Bepop Drone": 0.0005,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 2,
+      "start_sample": 131072,
+      "end_sample": 262144,
+      "start_time_s": 131072.0,
+      "end_time_s": 262144.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9797,
+      "energy_score": 3.3698,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0017,
+        "AR Drone": 0.9797,
+        "Bepop Drone": 0.0144,
+        "Phantom Drone": 0.0041
+      }
+    },
+    {
+      "segment_id": 3,
+      "start_sample": 196608,
+      "end_sample": 327680,
+      "start_time_s": 196608.0,
+      "end_time_s": 327680.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9339,
+      "energy_score": 2.5991,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.003,
+        "AR Drone": 0.9339,
+        "Bepop Drone": 0.0513,
+        "Phantom Drone": 0.0117
+      }
+    },
+    {
+      "segment_id": 4,
+      "start_sample": 262144,
+      "end_sample": 393216,
+      "start_time_s": 262144.0,
+      "end_time_s": 393216.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9988,
+      "energy_score": 6.0044,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9988,
+        "Bepop Drone": 0.0012,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 5,
+      "start_sample": 327680,
+      "end_sample": 458752,
+      "start_time_s": 327680.0,
+      "end_time_s": 458752.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.999,
+      "energy_score": 6.1962,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.999,
+        "Bepop Drone": 0.001,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 6,
+      "start_sample": 393216,
+      "end_sample": 524288,
+      "start_time_s": 393216.0,
+      "end_time_s": 524288.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9989,
+      "energy_score": 6.1675,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9989,
+        "Bepop Drone": 0.0011,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 7,
+      "start_sample": 458752,
+      "end_sample": 589824,
+      "start_time_s": 458752.0,
+      "end_time_s": 589824.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9941,
+      "energy_score": 5.4686,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9941,
+        "Bepop Drone": 0.0058,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 8,
+      "start_sample": 524288,
+      "end_sample": 655360,
+      "start_time_s": 524288.0,
+      "end_time_s": 655360.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9797,
+      "energy_score": 4.6279,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9797,
+        "Bepop Drone": 0.0202,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 9,
+      "start_sample": 589824,
+      "end_sample": 720896,
+      "start_time_s": 589824.0,
+      "end_time_s": 720896.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.7146,
+      "energy_score": 1.991,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0027,
+        "AR Drone": 0.7146,
+        "Bepop Drone": 0.2641,
+        "Phantom Drone": 0.0187
+      }
+    },
+    {
+      "segment_id": 10,
+      "start_sample": 655360,
+      "end_sample": 786432,
+      "start_time_s": 655360.0,
+      "end_time_s": 786432.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.8419,
+      "energy_score": 2.2414,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0026,
+        "AR Drone": 0.8419,
+        "Bepop Drone": 0.1409,
+        "Phantom Drone": 0.0146
+      }
+    },
+    {
+      "segment_id": 11,
+      "start_sample": 720896,
+      "end_sample": 851968,
+      "start_time_s": 720896.0,
+      "end_time_s": 851968.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9597,
+      "energy_score": 4.0996,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.9597,
+        "Bepop Drone": 0.0399,
+        "Phantom Drone": 0.0003
+      }
+    },
+    {
+      "segment_id": 12,
+      "start_sample": 786432,
+      "end_sample": 917504,
+      "start_time_s": 786432.0,
+      "end_time_s": 917504.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.901,
+      "energy_score": 3.7007,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.901,
+        "Bepop Drone": 0.0985,
+        "Phantom Drone": 0.0004
+      }
+    },
+    {
+      "segment_id": 13,
+      "start_sample": 851968,
+      "end_sample": 983040,
+      "start_time_s": 851968.0,
+      "end_time_s": 983040.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9673,
+      "energy_score": 4.3197,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.9673,
+        "Bepop Drone": 0.0325,
+        "Phantom Drone": 0.0002
+      }
+    },
+    {
+      "segment_id": 14,
+      "start_sample": 917504,
+      "end_sample": 1048576,
+      "start_time_s": 917504.0,
+      "end_time_s": 1048576.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9849,
+      "energy_score": 4.8722,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9849,
+        "Bepop Drone": 0.015,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 15,
+      "start_sample": 983040,
+      "end_sample": 1114112,
+      "start_time_s": 983040.0,
+      "end_time_s": 1114112.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.967,
+      "energy_score": 3.3402,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.001,
+        "AR Drone": 0.967,
+        "Bepop Drone": 0.0294,
+        "Phantom Drone": 0.0025
+      }
+    },
+    {
+      "segment_id": 16,
+      "start_sample": 1048576,
+      "end_sample": 1179648,
+      "start_time_s": 1048576.0,
+      "end_time_s": 1179648.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9717,
+      "energy_score": 3.346,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0012,
+        "AR Drone": 0.9717,
+        "Bepop Drone": 0.0241,
+        "Phantom Drone": 0.003
+      }
+    },
+    {
+      "segment_id": 17,
+      "start_sample": 1114112,
+      "end_sample": 1245184,
+      "start_time_s": 1114112.0,
+      "end_time_s": 1245184.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9973,
+      "energy_score": 6.0075,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9973,
+        "Bepop Drone": 0.0026,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 18,
+      "start_sample": 1179648,
+      "end_sample": 1310720,
+      "start_time_s": 1179648.0,
+      "end_time_s": 1310720.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9383,
+      "energy_score": 3.8218,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.9383,
+        "Bepop Drone": 0.0612,
+        "Phantom Drone": 0.0004
+      }
+    },
+    {
+      "segment_id": 19,
+      "start_sample": 1245184,
+      "end_sample": 1376256,
+      "start_time_s": 1245184.0,
+      "end_time_s": 1376256.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9825,
+      "energy_score": 4.3219,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.9825,
+        "Bepop Drone": 0.0171,
+        "Phantom Drone": 0.0003
+      }
+    },
+    {
+      "segment_id": 20,
+      "start_sample": 1310720,
+      "end_sample": 1441792,
+      "start_time_s": 1310720.0,
+      "end_time_s": 1441792.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9976,
+      "energy_score": 5.8206,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9976,
+        "Bepop Drone": 0.0024,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 21,
+      "start_sample": 1376256,
+      "end_sample": 1507328,
+      "start_time_s": 1376256.0,
+      "end_time_s": 1507328.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9331,
+      "energy_score": 3.0797,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0009,
+        "AR Drone": 0.9331,
+        "Bepop Drone": 0.0632,
+        "Phantom Drone": 0.0028
+      }
+    },
+    {
+      "segment_id": 22,
+      "start_sample": 1441792,
+      "end_sample": 1572864,
+      "start_time_s": 1441792.0,
+      "end_time_s": 1572864.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9442,
+      "energy_score": 3.1619,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0009,
+        "AR Drone": 0.9442,
+        "Bepop Drone": 0.0521,
+        "Phantom Drone": 0.0027
+      }
+    },
+    {
+      "segment_id": 23,
+      "start_sample": 1507328,
+      "end_sample": 1638400,
+      "start_time_s": 1507328.0,
+      "end_time_s": 1638400.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9868,
+      "energy_score": 4.9344,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9868,
+        "Bepop Drone": 0.0131,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 24,
+      "start_sample": 1572864,
+      "end_sample": 1703936,
+      "start_time_s": 1572864.0,
+      "end_time_s": 1703936.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9592,
+      "energy_score": 4.3675,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9592,
+        "Bepop Drone": 0.0407,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 25,
+      "start_sample": 1638400,
+      "end_sample": 1769472,
+      "start_time_s": 1638400.0,
+      "end_time_s": 1769472.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9891,
+      "energy_score": 4.8513,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9891,
+        "Bepop Drone": 0.0107,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 26,
+      "start_sample": 1703936,
+      "end_sample": 1835008,
+      "start_time_s": 1703936.0,
+      "end_time_s": 1835008.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9985,
+      "energy_score": 5.839,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9985,
+        "Bepop Drone": 0.0014,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 27,
+      "start_sample": 1769472,
+      "end_sample": 1900544,
+      "start_time_s": 1769472.0,
+      "end_time_s": 1900544.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9189,
+      "energy_score": 2.4146,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0041,
+        "AR Drone": 0.9189,
+        "Bepop Drone": 0.0626,
+        "Phantom Drone": 0.0144
+      }
+    },
+    {
+      "segment_id": 28,
+      "start_sample": 1835008,
+      "end_sample": 1966080,
+      "start_time_s": 1835008.0,
+      "end_time_s": 1966080.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9819,
+      "energy_score": 3.6325,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0008,
+        "AR Drone": 0.9819,
+        "Bepop Drone": 0.0153,
+        "Phantom Drone": 0.0019
+      }
+    },
+    {
+      "segment_id": 29,
+      "start_sample": 1900544,
+      "end_sample": 2031616,
+      "start_time_s": 1900544.0,
+      "end_time_s": 2031616.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9988,
+      "energy_score": 6.4263,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9988,
+        "Bepop Drone": 0.0012,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 30,
+      "start_sample": 1966080,
+      "end_sample": 2097152,
+      "start_time_s": 1966080.0,
+      "end_time_s": 2097152.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9956,
+      "energy_score": 5.5771,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9956,
+        "Bepop Drone": 0.0043,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 31,
+      "start_sample": 2031616,
+      "end_sample": 2162688,
+      "start_time_s": 2031616.0,
+      "end_time_s": 2162688.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9953,
+      "energy_score": 5.5767,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9953,
+        "Bepop Drone": 0.0047,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 32,
+      "start_sample": 2097152,
+      "end_sample": 2228224,
+      "start_time_s": 2097152.0,
+      "end_time_s": 2228224.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9688,
+      "energy_score": 4.1546,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.9688,
+        "Bepop Drone": 0.0308,
+        "Phantom Drone": 0.0003
+      }
+    },
+    {
+      "segment_id": 33,
+      "start_sample": 2162688,
+      "end_sample": 2293760,
+      "start_time_s": 2162688.0,
+      "end_time_s": 2293760.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.984,
+      "energy_score": 4.5852,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.984,
+        "Bepop Drone": 0.0158,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 34,
+      "start_sample": 2228224,
+      "end_sample": 2359296,
+      "start_time_s": 2228224.0,
+      "end_time_s": 2359296.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9988,
+      "energy_score": 6.1256,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9988,
+        "Bepop Drone": 0.0011,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 35,
+      "start_sample": 2293760,
+      "end_sample": 2424832,
+      "start_time_s": 2293760.0,
+      "end_time_s": 2424832.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9989,
+      "energy_score": 5.8359,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9989,
+        "Bepop Drone": 0.0011,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 36,
+      "start_sample": 2359296,
+      "end_sample": 2490368,
+      "start_time_s": 2359296.0,
+      "end_time_s": 2490368.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9987,
+      "energy_score": 5.6959,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9987,
+        "Bepop Drone": 0.0012,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 37,
+      "start_sample": 2424832,
+      "end_sample": 2555904,
+      "start_time_s": 2424832.0,
+      "end_time_s": 2555904.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9984,
+      "energy_score": 5.6533,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9984,
+        "Bepop Drone": 0.0015,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 38,
+      "start_sample": 2490368,
+      "end_sample": 2621440,
+      "start_time_s": 2490368.0,
+      "end_time_s": 2621440.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9987,
+      "energy_score": 5.9024,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9987,
+        "Bepop Drone": 0.0012,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 39,
+      "start_sample": 2555904,
+      "end_sample": 2686976,
+      "start_time_s": 2555904.0,
+      "end_time_s": 2686976.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9996,
+      "energy_score": 6.5543,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9996,
+        "Bepop Drone": 0.0004,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 40,
+      "start_sample": 2621440,
+      "end_sample": 2752512,
+      "start_time_s": 2621440.0,
+      "end_time_s": 2752512.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9991,
+      "energy_score": 6.1302,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9991,
+        "Bepop Drone": 0.0009,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 41,
+      "start_sample": 2686976,
+      "end_sample": 2818048,
+      "start_time_s": 2686976.0,
+      "end_time_s": 2818048.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9965,
+      "energy_score": 5.4308,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9965,
+        "Bepop Drone": 0.0034,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 42,
+      "start_sample": 2752512,
+      "end_sample": 2883584,
+      "start_time_s": 2752512.0,
+      "end_time_s": 2883584.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9982,
+      "energy_score": 5.5024,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9982,
+        "Bepop Drone": 0.0017,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 43,
+      "start_sample": 2818048,
+      "end_sample": 2949120,
+      "start_time_s": 2818048.0,
+      "end_time_s": 2949120.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9993,
+      "energy_score": 6.1966,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9993,
+        "Bepop Drone": 0.0006,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 44,
+      "start_sample": 2883584,
+      "end_sample": 3014656,
+      "start_time_s": 2883584.0,
+      "end_time_s": 3014656.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9988,
+      "energy_score": 6.0843,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9988,
+        "Bepop Drone": 0.0012,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 45,
+      "start_sample": 2949120,
+      "end_sample": 3080192,
+      "start_time_s": 2949120.0,
+      "end_time_s": 3080192.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9986,
+      "energy_score": 6.3405,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9986,
+        "Bepop Drone": 0.0014,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 46,
+      "start_sample": 3014656,
+      "end_sample": 3145728,
+      "start_time_s": 3014656.0,
+      "end_time_s": 3145728.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9979,
+      "energy_score": 6.0834,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9979,
+        "Bepop Drone": 0.0021,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 47,
+      "start_sample": 3080192,
+      "end_sample": 3211264,
+      "start_time_s": 3080192.0,
+      "end_time_s": 3211264.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9983,
+      "energy_score": 5.7354,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9983,
+        "Bepop Drone": 0.0016,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 48,
+      "start_sample": 3145728,
+      "end_sample": 3276800,
+      "start_time_s": 3145728.0,
+      "end_time_s": 3276800.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9993,
+      "energy_score": 6.2309,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9993,
+        "Bepop Drone": 0.0007,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 49,
+      "start_sample": 3211264,
+      "end_sample": 3342336,
+      "start_time_s": 3211264.0,
+      "end_time_s": 3342336.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9995,
+      "energy_score": 6.4897,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9995,
+        "Bepop Drone": 0.0005,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 50,
+      "start_sample": 3276800,
+      "end_sample": 3407872,
+      "start_time_s": 3276800.0,
+      "end_time_s": 3407872.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9997,
+      "energy_score": 6.4829,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9997,
+        "Bepop Drone": 0.0002,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 51,
+      "start_sample": 3342336,
+      "end_sample": 3473408,
+      "start_time_s": 3342336.0,
+      "end_time_s": 3473408.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9995,
+      "energy_score": 6.0554,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.9995,
+        "Bepop Drone": 0.0004,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 52,
+      "start_sample": 3407872,
+      "end_sample": 3538944,
+      "start_time_s": 3407872.0,
+      "end_time_s": 3538944.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9996,
+      "energy_score": 6.2602,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9996,
+        "Bepop Drone": 0.0004,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 53,
+      "start_sample": 3473408,
+      "end_sample": 3604480,
+      "start_time_s": 3473408.0,
+      "end_time_s": 3604480.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9997,
+      "energy_score": 6.5794,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9997,
+        "Bepop Drone": 0.0003,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 54,
+      "start_sample": 3538944,
+      "end_sample": 3670016,
+      "start_time_s": 3538944.0,
+      "end_time_s": 3670016.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9993,
+      "energy_score": 5.8273,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.9993,
+        "Bepop Drone": 0.0006,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 55,
+      "start_sample": 3604480,
+      "end_sample": 3735552,
+      "start_time_s": 3604480.0,
+      "end_time_s": 3735552.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9992,
+      "energy_score": 6.0377,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9992,
+        "Bepop Drone": 0.0008,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 56,
+      "start_sample": 3670016,
+      "end_sample": 3801088,
+      "start_time_s": 3670016.0,
+      "end_time_s": 3801088.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9995,
+      "energy_score": 6.8373,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9995,
+        "Bepop Drone": 0.0005,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 57,
+      "start_sample": 3735552,
+      "end_sample": 3866624,
+      "start_time_s": 3735552.0,
+      "end_time_s": 3866624.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9992,
+      "energy_score": 6.3914,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9992,
+        "Bepop Drone": 0.0007,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 58,
+      "start_sample": 3801088,
+      "end_sample": 3932160,
+      "start_time_s": 3801088.0,
+      "end_time_s": 3932160.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9989,
+      "energy_score": 6.029,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9989,
+        "Bepop Drone": 0.001,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 59,
+      "start_sample": 3866624,
+      "end_sample": 3997696,
+      "start_time_s": 3866624.0,
+      "end_time_s": 3997696.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9987,
+      "energy_score": 5.9992,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9987,
+        "Bepop Drone": 0.0012,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 60,
+      "start_sample": 3932160,
+      "end_sample": 4063232,
+      "start_time_s": 3932160.0,
+      "end_time_s": 4063232.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.999,
+      "energy_score": 5.8359,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.999,
+        "Bepop Drone": 0.0009,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 61,
+      "start_sample": 3997696,
+      "end_sample": 4128768,
+      "start_time_s": 3997696.0,
+      "end_time_s": 4128768.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9995,
+      "energy_score": 6.0322,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9995,
+        "Bepop Drone": 0.0004,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 62,
+      "start_sample": 4063232,
+      "end_sample": 4194304,
+      "start_time_s": 4063232.0,
+      "end_time_s": 4194304.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9997,
+      "energy_score": 6.5197,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9997,
+        "Bepop Drone": 0.0002,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 63,
+      "start_sample": 4128768,
+      "end_sample": 4259840,
+      "start_time_s": 4128768.0,
+      "end_time_s": 4259840.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9997,
+      "energy_score": 6.4125,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9997,
+        "Bepop Drone": 0.0002,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 64,
+      "start_sample": 4194304,
+      "end_sample": 4325376,
+      "start_time_s": 4194304.0,
+      "end_time_s": 4325376.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9996,
+      "energy_score": 6.2625,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.9996,
+        "Bepop Drone": 0.0003,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 65,
+      "start_sample": 4259840,
+      "end_sample": 4390912,
+      "start_time_s": 4259840.0,
+      "end_time_s": 4390912.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9996,
+      "energy_score": 6.1922,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.9996,
+        "Bepop Drone": 0.0003,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 66,
+      "start_sample": 4325376,
+      "end_sample": 4456448,
+      "start_time_s": 4325376.0,
+      "end_time_s": 4456448.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9996,
+      "energy_score": 6.3957,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9996,
+        "Bepop Drone": 0.0003,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 67,
+      "start_sample": 4390912,
+      "end_sample": 4521984,
+      "start_time_s": 4390912.0,
+      "end_time_s": 4521984.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9998,
+      "energy_score": 6.8557,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9998,
+        "Bepop Drone": 0.0002,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 68,
+      "start_sample": 4456448,
+      "end_sample": 4587520,
+      "start_time_s": 4456448.0,
+      "end_time_s": 4587520.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9992,
+      "energy_score": 5.8278,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.9992,
+        "Bepop Drone": 0.0006,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 69,
+      "start_sample": 4521984,
+      "end_sample": 4653056,
+      "start_time_s": 4521984.0,
+      "end_time_s": 4653056.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9981,
+      "energy_score": 5.5179,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.9981,
+        "Bepop Drone": 0.0018,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 70,
+      "start_sample": 4587520,
+      "end_sample": 4718592,
+      "start_time_s": 4587520.0,
+      "end_time_s": 4718592.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9986,
+      "energy_score": 5.6711,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.9986,
+        "Bepop Drone": 0.0013,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 71,
+      "start_sample": 4653056,
+      "end_sample": 4784128,
+      "start_time_s": 4653056.0,
+      "end_time_s": 4784128.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9986,
+      "energy_score": 5.576,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0002,
+        "AR Drone": 0.9986,
+        "Bepop Drone": 0.0013,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 72,
+      "start_sample": 4718592,
+      "end_sample": 4849664,
+      "start_time_s": 4718592.0,
+      "end_time_s": 4849664.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9992,
+      "energy_score": 6.0679,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.9992,
+        "Bepop Drone": 0.0007,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 73,
+      "start_sample": 4784128,
+      "end_sample": 4915200,
+      "start_time_s": 4784128.0,
+      "end_time_s": 4915200.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9996,
+      "energy_score": 6.3804,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9996,
+        "Bepop Drone": 0.0003,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 74,
+      "start_sample": 4849664,
+      "end_sample": 4980736,
+      "start_time_s": 4849664.0,
+      "end_time_s": 4980736.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9996,
+      "energy_score": 6.0883,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.9996,
+        "Bepop Drone": 0.0003,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 75,
+      "start_sample": 4915200,
+      "end_sample": 5046272,
+      "start_time_s": 4915200.0,
+      "end_time_s": 5046272.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9997,
+      "energy_score": 6.4356,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.9997,
+        "Bepop Drone": 0.0002,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 76,
+      "start_sample": 4980736,
+      "end_sample": 5111808,
+      "start_time_s": 4980736.0,
+      "end_time_s": 5111808.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9998,
+      "energy_score": 6.6602,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9998,
+        "Bepop Drone": 0.0002,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 77,
+      "start_sample": 5046272,
+      "end_sample": 5177344,
+      "start_time_s": 5046272.0,
+      "end_time_s": 5177344.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9997,
+      "energy_score": 6.5415,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9997,
+        "Bepop Drone": 0.0002,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 78,
+      "start_sample": 5111808,
+      "end_sample": 5242880,
+      "start_time_s": 5111808.0,
+      "end_time_s": 5242880.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9997,
+      "energy_score": 6.7046,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9997,
+        "Bepop Drone": 0.0002,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 79,
+      "start_sample": 5177344,
+      "end_sample": 5308416,
+      "start_time_s": 5177344.0,
+      "end_time_s": 5308416.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9993,
+      "energy_score": 6.2472,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9993,
+        "Bepop Drone": 0.0007,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 80,
+      "start_sample": 5242880,
+      "end_sample": 5373952,
+      "start_time_s": 5242880.0,
+      "end_time_s": 5373952.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9993,
+      "energy_score": 6.0893,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9993,
+        "Bepop Drone": 0.0006,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 81,
+      "start_sample": 5308416,
+      "end_sample": 5439488,
+      "start_time_s": 5308416.0,
+      "end_time_s": 5439488.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9993,
+      "energy_score": 5.96,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.9993,
+        "Bepop Drone": 0.0006,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 82,
+      "start_sample": 5373952,
+      "end_sample": 5505024,
+      "start_time_s": 5373952.0,
+      "end_time_s": 5505024.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9996,
+      "energy_score": 6.6398,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9996,
+        "Bepop Drone": 0.0003,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 83,
+      "start_sample": 5439488,
+      "end_sample": 5570560,
+      "start_time_s": 5439488.0,
+      "end_time_s": 5570560.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9996,
+      "energy_score": 6.7079,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9996,
+        "Bepop Drone": 0.0003,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 84,
+      "start_sample": 5505024,
+      "end_sample": 5636096,
+      "start_time_s": 5505024.0,
+      "end_time_s": 5636096.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9986,
+      "energy_score": 5.9084,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9986,
+        "Bepop Drone": 0.0013,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 85,
+      "start_sample": 5570560,
+      "end_sample": 5701632,
+      "start_time_s": 5570560.0,
+      "end_time_s": 5701632.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.999,
+      "energy_score": 6.0148,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.999,
+        "Bepop Drone": 0.001,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 86,
+      "start_sample": 5636096,
+      "end_sample": 5767168,
+      "start_time_s": 5636096.0,
+      "end_time_s": 5767168.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9997,
+      "energy_score": 6.503,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9997,
+        "Bepop Drone": 0.0003,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 87,
+      "start_sample": 5701632,
+      "end_sample": 5832704,
+      "start_time_s": 5701632.0,
+      "end_time_s": 5832704.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9997,
+      "energy_score": 6.7143,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9997,
+        "Bepop Drone": 0.0003,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 88,
+      "start_sample": 5767168,
+      "end_sample": 5898240,
+      "start_time_s": 5767168.0,
+      "end_time_s": 5898240.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9997,
+      "energy_score": 6.9867,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9997,
+        "Bepop Drone": 0.0003,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 89,
+      "start_sample": 5832704,
+      "end_sample": 5963776,
+      "start_time_s": 5832704.0,
+      "end_time_s": 5963776.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9977,
+      "energy_score": 5.6742,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9977,
+        "Bepop Drone": 0.0022,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 90,
+      "start_sample": 5898240,
+      "end_sample": 6029312,
+      "start_time_s": 5898240.0,
+      "end_time_s": 6029312.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9973,
+      "energy_score": 5.1238,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.9973,
+        "Bepop Drone": 0.0025,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 91,
+      "start_sample": 5963776,
+      "end_sample": 6094848,
+      "start_time_s": 5963776.0,
+      "end_time_s": 6094848.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.999,
+      "energy_score": 5.8041,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.999,
+        "Bepop Drone": 0.0009,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 92,
+      "start_sample": 6029312,
+      "end_sample": 6160384,
+      "start_time_s": 6029312.0,
+      "end_time_s": 6160384.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.999,
+      "energy_score": 6.1199,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.999,
+        "Bepop Drone": 0.0009,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 93,
+      "start_sample": 6094848,
+      "end_sample": 6225920,
+      "start_time_s": 6094848.0,
+      "end_time_s": 6225920.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9997,
+      "energy_score": 6.6933,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9997,
+        "Bepop Drone": 0.0003,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 94,
+      "start_sample": 6160384,
+      "end_sample": 6291456,
+      "start_time_s": 6160384.0,
+      "end_time_s": 6291456.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9998,
+      "energy_score": 6.6354,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9998,
+        "Bepop Drone": 0.0002,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 95,
+      "start_sample": 6225920,
+      "end_sample": 6356992,
+      "start_time_s": 6225920.0,
+      "end_time_s": 6356992.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.998,
+      "energy_score": 5.221,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.998,
+        "Bepop Drone": 0.0018,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 96,
+      "start_sample": 6291456,
+      "end_sample": 6422528,
+      "start_time_s": 6291456.0,
+      "end_time_s": 6422528.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9976,
+      "energy_score": 5.1157,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.9976,
+        "Bepop Drone": 0.0021,
+        "Phantom Drone": 0.0002
+      }
+    },
+    {
+      "segment_id": 97,
+      "start_sample": 6356992,
+      "end_sample": 6488064,
+      "start_time_s": 6356992.0,
+      "end_time_s": 6488064.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9997,
+      "energy_score": 6.6013,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9997,
+        "Bepop Drone": 0.0003,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 98,
+      "start_sample": 6422528,
+      "end_sample": 6553600,
+      "start_time_s": 6422528.0,
+      "end_time_s": 6553600.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9996,
+      "energy_score": 6.6003,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9996,
+        "Bepop Drone": 0.0003,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 99,
+      "start_sample": 6488064,
+      "end_sample": 6619136,
+      "start_time_s": 6488064.0,
+      "end_time_s": 6619136.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9995,
+      "energy_score": 6.6287,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9995,
+        "Bepop Drone": 0.0005,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 100,
+      "start_sample": 6553600,
+      "end_sample": 6684672,
+      "start_time_s": 6553600.0,
+      "end_time_s": 6684672.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9989,
+      "energy_score": 5.9696,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9989,
+        "Bepop Drone": 0.001,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 101,
+      "start_sample": 6619136,
+      "end_sample": 6750208,
+      "start_time_s": 6619136.0,
+      "end_time_s": 6750208.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9993,
+      "energy_score": 6.0893,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9993,
+        "Bepop Drone": 0.0006,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 102,
+      "start_sample": 6684672,
+      "end_sample": 6815744,
+      "start_time_s": 6684672.0,
+      "end_time_s": 6815744.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9883,
+      "energy_score": 4.4393,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.9883,
+        "Bepop Drone": 0.0114,
+        "Phantom Drone": 0.0003
+      }
+    },
+    {
+      "segment_id": 103,
+      "start_sample": 6750208,
+      "end_sample": 6881280,
+      "start_time_s": 6750208.0,
+      "end_time_s": 6881280.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9812,
+      "energy_score": 4.145,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.9812,
+        "Bepop Drone": 0.0184,
+        "Phantom Drone": 0.0003
+      }
+    },
+    {
+      "segment_id": 104,
+      "start_sample": 6815744,
+      "end_sample": 6946816,
+      "start_time_s": 6815744.0,
+      "end_time_s": 6946816.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9969,
+      "energy_score": 5.6021,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9969,
+        "Bepop Drone": 0.003,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 105,
+      "start_sample": 6881280,
+      "end_sample": 7012352,
+      "start_time_s": 6881280.0,
+      "end_time_s": 7012352.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9954,
+      "energy_score": 5.5383,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9954,
+        "Bepop Drone": 0.0046,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 106,
+      "start_sample": 6946816,
+      "end_sample": 7077888,
+      "start_time_s": 6946816.0,
+      "end_time_s": 7077888.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9993,
+      "energy_score": 6.5223,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9993,
+        "Bepop Drone": 0.0007,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 107,
+      "start_sample": 7012352,
+      "end_sample": 7143424,
+      "start_time_s": 7012352.0,
+      "end_time_s": 7143424.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9995,
+      "energy_score": 6.6638,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9995,
+        "Bepop Drone": 0.0005,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 108,
+      "start_sample": 7077888,
+      "end_sample": 7208960,
+      "start_time_s": 7077888.0,
+      "end_time_s": 7208960.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9991,
+      "energy_score": 6.0579,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9991,
+        "Bepop Drone": 0.0009,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 109,
+      "start_sample": 7143424,
+      "end_sample": 7274496,
+      "start_time_s": 7143424.0,
+      "end_time_s": 7274496.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9979,
+      "energy_score": 5.3148,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.9979,
+        "Bepop Drone": 0.0019,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 110,
+      "start_sample": 7208960,
+      "end_sample": 7340032,
+      "start_time_s": 7208960.0,
+      "end_time_s": 7340032.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9974,
+      "energy_score": 5.4899,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9974,
+        "Bepop Drone": 0.0025,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 111,
+      "start_sample": 7274496,
+      "end_sample": 7405568,
+      "start_time_s": 7274496.0,
+      "end_time_s": 7405568.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9996,
+      "energy_score": 6.5777,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9996,
+        "Bepop Drone": 0.0004,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 112,
+      "start_sample": 7340032,
+      "end_sample": 7471104,
+      "start_time_s": 7340032.0,
+      "end_time_s": 7471104.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9998,
+      "energy_score": 6.6445,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9998,
+        "Bepop Drone": 0.0002,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 113,
+      "start_sample": 7405568,
+      "end_sample": 7536640,
+      "start_time_s": 7405568.0,
+      "end_time_s": 7536640.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9997,
+      "energy_score": 6.49,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9997,
+        "Bepop Drone": 0.0002,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 114,
+      "start_sample": 7471104,
+      "end_sample": 7602176,
+      "start_time_s": 7471104.0,
+      "end_time_s": 7602176.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9995,
+      "energy_score": 6.1332,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9995,
+        "Bepop Drone": 0.0004,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 115,
+      "start_sample": 7536640,
+      "end_sample": 7667712,
+      "start_time_s": 7536640.0,
+      "end_time_s": 7667712.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9988,
+      "energy_score": 5.9008,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9988,
+        "Bepop Drone": 0.0011,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 116,
+      "start_sample": 7602176,
+      "end_sample": 7733248,
+      "start_time_s": 7602176.0,
+      "end_time_s": 7733248.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9977,
+      "energy_score": 5.9744,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9977,
+        "Bepop Drone": 0.0022,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 117,
+      "start_sample": 7667712,
+      "end_sample": 7798784,
+      "start_time_s": 7667712.0,
+      "end_time_s": 7798784.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9974,
+      "energy_score": 5.7654,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9974,
+        "Bepop Drone": 0.0025,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 118,
+      "start_sample": 7733248,
+      "end_sample": 7864320,
+      "start_time_s": 7733248.0,
+      "end_time_s": 7864320.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9995,
+      "energy_score": 6.5178,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9995,
+        "Bepop Drone": 0.0005,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 119,
+      "start_sample": 7798784,
+      "end_sample": 7929856,
+      "start_time_s": 7798784.0,
+      "end_time_s": 7929856.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9929,
+      "energy_score": 4.8709,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9929,
+        "Bepop Drone": 0.007,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 120,
+      "start_sample": 7864320,
+      "end_sample": 7995392,
+      "start_time_s": 7864320.0,
+      "end_time_s": 7995392.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9888,
+      "energy_score": 4.7213,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9888,
+        "Bepop Drone": 0.011,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 121,
+      "start_sample": 7929856,
+      "end_sample": 8060928,
+      "start_time_s": 7929856.0,
+      "end_time_s": 8060928.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9987,
+      "energy_score": 6.631,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9987,
+        "Bepop Drone": 0.0013,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 122,
+      "start_sample": 7995392,
+      "end_sample": 8126464,
+      "start_time_s": 7995392.0,
+      "end_time_s": 8126464.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9979,
+      "energy_score": 6.2875,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9979,
+        "Bepop Drone": 0.0021,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 123,
+      "start_sample": 8060928,
+      "end_sample": 8192000,
+      "start_time_s": 8060928.0,
+      "end_time_s": 8192000.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9968,
+      "energy_score": 5.4907,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9968,
+        "Bepop Drone": 0.0031,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 124,
+      "start_sample": 8126464,
+      "end_sample": 8257536,
+      "start_time_s": 8126464.0,
+      "end_time_s": 8257536.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9992,
+      "energy_score": 6.3213,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9992,
+        "Bepop Drone": 0.0007,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 125,
+      "start_sample": 8192000,
+      "end_sample": 8323072,
+      "start_time_s": 8192000.0,
+      "end_time_s": 8323072.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9994,
+      "energy_score": 6.4029,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9994,
+        "Bepop Drone": 0.0006,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 126,
+      "start_sample": 8257536,
+      "end_sample": 8388608,
+      "start_time_s": 8257536.0,
+      "end_time_s": 8388608.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9989,
+      "energy_score": 6.2358,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9989,
+        "Bepop Drone": 0.0011,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 127,
+      "start_sample": 8323072,
+      "end_sample": 8454144,
+      "start_time_s": 8323072.0,
+      "end_time_s": 8454144.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9437,
+      "energy_score": 3.1008,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0011,
+        "AR Drone": 0.9437,
+        "Bepop Drone": 0.0523,
+        "Phantom Drone": 0.0029
+      }
+    },
+    {
+      "segment_id": 128,
+      "start_sample": 8388608,
+      "end_sample": 8519680,
+      "start_time_s": 8388608.0,
+      "end_time_s": 8519680.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.8429,
+      "energy_score": 2.4259,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.002,
+        "AR Drone": 0.8429,
+        "Bepop Drone": 0.1463,
+        "Phantom Drone": 0.0087
+      }
+    },
+    {
+      "segment_id": 129,
+      "start_sample": 8454144,
+      "end_sample": 8585216,
+      "start_time_s": 8454144.0,
+      "end_time_s": 8585216.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9964,
+      "energy_score": 5.7894,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9964,
+        "Bepop Drone": 0.0035,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 130,
+      "start_sample": 8519680,
+      "end_sample": 8650752,
+      "start_time_s": 8519680.0,
+      "end_time_s": 8650752.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9976,
+      "energy_score": 5.8929,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9976,
+        "Bepop Drone": 0.0024,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 131,
+      "start_sample": 8585216,
+      "end_sample": 8716288,
+      "start_time_s": 8585216.0,
+      "end_time_s": 8716288.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9996,
+      "energy_score": 6.6684,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9996,
+        "Bepop Drone": 0.0003,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 132,
+      "start_sample": 8650752,
+      "end_sample": 8781824,
+      "start_time_s": 8650752.0,
+      "end_time_s": 8781824.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9987,
+      "energy_score": 5.9981,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9987,
+        "Bepop Drone": 0.0012,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 133,
+      "start_sample": 8716288,
+      "end_sample": 8847360,
+      "start_time_s": 8716288.0,
+      "end_time_s": 8847360.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9968,
+      "energy_score": 5.3814,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9968,
+        "Bepop Drone": 0.0031,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 134,
+      "start_sample": 8781824,
+      "end_sample": 8912896,
+      "start_time_s": 8781824.0,
+      "end_time_s": 8912896.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.987,
+      "energy_score": 3.7347,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.001,
+        "AR Drone": 0.987,
+        "Bepop Drone": 0.0098,
+        "Phantom Drone": 0.0022
+      }
+    },
+    {
+      "segment_id": 135,
+      "start_sample": 8847360,
+      "end_sample": 8978432,
+      "start_time_s": 8847360.0,
+      "end_time_s": 8978432.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9756,
+      "energy_score": 3.3538,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.001,
+        "AR Drone": 0.9756,
+        "Bepop Drone": 0.0203,
+        "Phantom Drone": 0.0032
+      }
+    },
+    {
+      "segment_id": 136,
+      "start_sample": 8912896,
+      "end_sample": 9043968,
+      "start_time_s": 8912896.0,
+      "end_time_s": 9043968.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9915,
+      "energy_score": 5.1763,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9915,
+        "Bepop Drone": 0.0084,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 137,
+      "start_sample": 8978432,
+      "end_sample": 9109504,
+      "start_time_s": 8978432.0,
+      "end_time_s": 9109504.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9894,
+      "energy_score": 4.7687,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9894,
+        "Bepop Drone": 0.0104,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 138,
+      "start_sample": 9043968,
+      "end_sample": 9175040,
+      "start_time_s": 9043968.0,
+      "end_time_s": 9175040.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.991,
+      "energy_score": 4.8377,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.991,
+        "Bepop Drone": 0.0088,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 139,
+      "start_sample": 9109504,
+      "end_sample": 9240576,
+      "start_time_s": 9109504.0,
+      "end_time_s": 9240576.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.997,
+      "energy_score": 5.7194,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.997,
+        "Bepop Drone": 0.0029,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 140,
+      "start_sample": 9175040,
+      "end_sample": 9306112,
+      "start_time_s": 9175040.0,
+      "end_time_s": 9306112.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.7408,
+      "energy_score": 1.9961,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0039,
+        "AR Drone": 0.7408,
+        "Bepop Drone": 0.237,
+        "Phantom Drone": 0.0183
+      }
+    },
+    {
+      "segment_id": 141,
+      "start_sample": 9240576,
+      "end_sample": 9371648,
+      "start_time_s": 9240576.0,
+      "end_time_s": 9371648.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9282,
+      "energy_score": 2.7791,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0021,
+        "AR Drone": 0.9282,
+        "Bepop Drone": 0.0642,
+        "Phantom Drone": 0.0055
+      }
+    },
+    {
+      "segment_id": 142,
+      "start_sample": 9306112,
+      "end_sample": 9437184,
+      "start_time_s": 9306112.0,
+      "end_time_s": 9437184.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9964,
+      "energy_score": 5.5255,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9964,
+        "Bepop Drone": 0.0035,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 143,
+      "start_sample": 9371648,
+      "end_sample": 9502720,
+      "start_time_s": 9371648.0,
+      "end_time_s": 9502720.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9863,
+      "energy_score": 4.821,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9863,
+        "Bepop Drone": 0.0136,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 144,
+      "start_sample": 9437184,
+      "end_sample": 9568256,
+      "start_time_s": 9437184.0,
+      "end_time_s": 9568256.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9817,
+      "energy_score": 4.7221,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9817,
+        "Bepop Drone": 0.0182,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 145,
+      "start_sample": 9502720,
+      "end_sample": 9633792,
+      "start_time_s": 9502720.0,
+      "end_time_s": 9633792.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9982,
+      "energy_score": 6.0089,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9982,
+        "Bepop Drone": 0.0018,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 146,
+      "start_sample": 9568256,
+      "end_sample": 9699328,
+      "start_time_s": 9568256.0,
+      "end_time_s": 9699328.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9461,
+      "energy_score": 2.7075,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0028,
+        "AR Drone": 0.9461,
+        "Bepop Drone": 0.0422,
+        "Phantom Drone": 0.0089
+      }
+    },
+    {
+      "segment_id": 147,
+      "start_sample": 9633792,
+      "end_sample": 9764864,
+      "start_time_s": 9633792.0,
+      "end_time_s": 9764864.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.8992,
+      "energy_score": 2.2097,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0057,
+        "AR Drone": 0.8992,
+        "Bepop Drone": 0.0732,
+        "Phantom Drone": 0.0219
+      }
+    },
+    {
+      "segment_id": 148,
+      "start_sample": 9699328,
+      "end_sample": 9830400,
+      "start_time_s": 9699328.0,
+      "end_time_s": 9830400.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9994,
+      "energy_score": 6.2866,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9994,
+        "Bepop Drone": 0.0006,
+        "Phantom Drone": 0.0
+      }
+    },
+    {
+      "segment_id": 149,
+      "start_sample": 9764864,
+      "end_sample": 9895936,
+      "start_time_s": 9764864.0,
+      "end_time_s": 9895936.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9972,
+      "energy_score": 5.2909,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0,
+        "AR Drone": 0.9972,
+        "Bepop Drone": 0.0026,
+        "Phantom Drone": 0.0001
+      }
+    },
+    {
+      "segment_id": 150,
+      "start_sample": 9830400,
+      "end_sample": 9961472,
+      "start_time_s": 9830400.0,
+      "end_time_s": 9961472.0,
+      "predicted_class": 1,
+      "predicted_label": "AR Drone",
+      "confidence": 0.9929,
+      "energy_score": 4.7324,
+      "is_anomalous": false,
+      "all_probabilities": {
+        "Background": 0.0001,
+        "AR Drone": 0.9929,
+        "Bepop Drone": 0.0068,
+        "Phantom Drone": 0.0002
+      }
+    }
+  ]
+}

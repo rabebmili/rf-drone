@@ -1,0 +1,19 @@
+{
+  "accuracy": 0.954225352112676,
+  "balanced_accuracy": 0.9404226812539643,
+  "macro_f1": 0.941410490508817,
+  "weighted_f1": 0.9539260802716641,
+  "macro_precision": 0.9452164437214949,
+  "macro_recall": 0.9404226812539643,
+  "cohen_kappa": 0.9523023991718808,
+  "mcc": 0.9523500854888255,
+  "roc_auc_ovr": 0.999306974534953,
+  "ece": 0.03925630035744586,
+  "classification_report": "                    precision    recall  f1-score   support\n\n   DAUTEL EVO nano       1.00      1.00      1.00        22\n    DEVENTION DEVO       1.00      1.00      1.00        19\n        DJI AVATA2       1.00      1.00      1.00        79\n     DJI FPV COMBO       1.00      1.00      1.00       100\n    DJI MAVIC3 PRO       1.00      1.00      1.00        67\n         DJI MINI3       0.98      0.99      0.98        94\n     DJI MINI4 PRO       1.00      0.96      0.98        45\n      FLYSKY EL 18       1.00      1.00      1.00        24\n     FLYSKY FS I6X       1.00      1.00      1.00        23\n      FLYSKY NV 14       1.00      1.00      1.00        19\n         FRSKY-X14       1.00      1.00      1.00        15\n        FRSKY-X20R       1.00      1.00      1.00        15\n    FRSKY-X9DP2019       0.95      1.00      0.97        19\n       FUTABA-T10J       0.73      0.70      0.72        27\n      FUTABA-T14SG       0.98      0.98      0.98        41\n      FUTABA-T16IZ       0.74      0.82      0.78        34\n      FUTABA-T18SZ       0.82      0.87      0.84        31\n      Herelink-Hx4       1.00      1.00      1.00        15\n     JR PROPO XG14       1.00      1.00      1.00        22\n      JR PROPO XG7       1.00      1.00      1.00        13\n        JUMPER-T14       0.81      0.87      0.84        15\n     JUMPER-TProV2       0.92      0.86      0.89        14\n RadioMaster BOXER       1.00      1.00      1.00        14\n RadioMaster TX16S       1.00      0.92      0.96        12\n Radiolink AT10 II       0.73      0.84      0.78        19\nRadiolink AT9S Pro       0.79      0.69      0.73        16\n         SIYI FT24       0.87      0.62      0.72        21\n         SIYI MK15       0.94      1.00      0.97        45\n         SIYI MK32       0.98      0.96      0.97        47\n      SKYDROID-H12       1.00      1.00      1.00        22\n      SKYDROID-T10       1.00      1.00      1.00        33\n         WFLY ET10       0.96      0.82      0.88        28\n        WFLY ET16S       0.83      1.00      0.91        20\n     WFLY WFT09SII       0.96      1.00      0.98        24\n       YunZhuo-H12       1.00      0.95      0.97        19\n       YunZhuo-H16       1.00      1.00      1.00        37\n       YunZhuo-H30       1.00      0.96      0.98        26\n\n          accuracy                           0.95      1136\n         macro avg       0.95      0.94      0.94      1136\n      weighted avg       0.96      0.95      0.95      1136\n",
+  "model": "smallrf",
+  "dataset": "rfuav",
+  "task": "multiclass",
+  "epochs": 20,
+  "best_val_f1": 0.941410490508817,
+  "param_count": 159493
+}

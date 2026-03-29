@@ -1,0 +1,107 @@
+{
+  "report_metadata": {
+    "generated_at": "2026-03-14T23:28:01.535788",
+    "model": "resnet",
+    "task": "multiclass",
+    "source_folder": "data/raw/DroneRF",
+    "recursive": true,
+    "total_files_analyzed": 4,
+    "total_segments": 604,
+    "framework": "RF Drone Forensics Pipeline"
+  },
+  "global_summary": {
+    "total_segments": 604,
+    "total_drone_segments": 604,
+    "total_anomalous_segments": 2,
+    "drone_detection_rate": 100.0,
+    "average_confidence": 0.9831,
+    "min_confidence": 0.625,
+    "max_confidence": 0.9998,
+    "class_distribution": {
+      "AR Drone": 604
+    }
+  },
+  "anomalous_files": [
+    {
+      "file": "AR drone/10111H_1",
+      "anomalies": 2,
+      "avg_confidence": 0.9578
+    }
+  ],
+  "lowest_confidence_files": [
+    {
+      "file": "AR drone/10111H_1",
+      "avg_confidence": 0.9578,
+      "drone_pct": 100.0
+    },
+    {
+      "file": "AR drone/10111H_11",
+      "avg_confidence": 0.9854,
+      "drone_pct": 100.0
+    },
+    {
+      "file": "AR drone/10111H_0",
+      "avg_confidence": 0.992,
+      "drone_pct": 100.0
+    },
+    {
+      "file": "AR drone/10111H_10",
+      "avg_confidence": 0.9974,
+      "drone_pct": 100.0
+    }
+  ],
+  "per_file_results": [
+    {
+      "file_path": "data\\raw\\DroneRF\\AR drone\\10111H_0.csv",
+      "file_name": "AR drone/10111H_0",
+      "folder": "AR drone",
+      "total_segments": 151,
+      "drone_count": 151,
+      "drone_pct": 100.0,
+      "anomalous_count": 0,
+      "avg_confidence": 0.992,
+      "class_distribution": {
+        "AR Drone": 151
+      }
+    },
+    {
+      "file_path": "data\\raw\\DroneRF\\AR drone\\10111H_1.csv",
+      "file_name": "AR drone/10111H_1",
+      "folder": "AR drone",
+      "total_segments": 151,
+      "drone_count": 151,
+      "drone_pct": 100.0,
+      "anomalous_count": 2,
+      "avg_confidence": 0.9578,
+      "class_distribution": {
+        "AR Drone": 151
+      }
+    },
+    {
+      "file_path": "data\\raw\\DroneRF\\AR drone\\10111H_10.csv",
+      "file_name": "AR drone/10111H_10",
+      "folder": "AR drone",
+      "total_segments": 151,
+      "drone_count": 151,
+      "drone_pct": 100.0,
+      "anomalous_count": 0,
+      "avg_confidence": 0.9974,
+      "class_distribution": {
+        "AR Drone": 151
+      }
+    },
+    {
+      "file_path": "data\\raw\\DroneRF\\AR drone\\10111H_11.csv",
+      "file_name": "AR drone/10111H_11",
+      "folder": "AR drone",
+      "total_segments": 151,
+      "drone_count": 151,
+      "drone_pct": 100.0,
+      "anomalous_count": 0,
+      "avg_confidence": 0.9854,
+      "class_distribution": {
+        "AR Drone": 151
+      }
+    }
+  ]
+}

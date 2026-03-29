@@ -1,0 +1,18 @@
+{
+  "accuracy": 0.8846578366445916,
+  "balanced_accuracy": 0.8846578366445916,
+  "macro_f1": 0.8843797714568062,
+  "weighted_f1": 0.8843797714568061,
+  "macro_precision": 0.8941439197900146,
+  "macro_recall": 0.8846578366445916,
+  "cohen_kappa": 0.8462104488594555,
+  "mcc": 0.8491497049285889,
+  "roc_auc_ovr": 0.9889766855579758,
+  "ece": 0.09991301849451555,
+  "classification_report": "               precision    recall  f1-score   support\n\n   Background       1.00      0.79      0.88       453\n     AR Drone       0.81      0.94      0.87       453\n  Bepop Drone       0.89      0.85      0.87       453\nPhantom Drone       0.87      0.96      0.91       453\n\n     accuracy                           0.88      1812\n    macro avg       0.89      0.88      0.88      1812\n weighted avg       0.89      0.88      0.88      1812\n",
+  "model": "transformer",
+  "task": "multiclass",
+  "epochs": 30,
+  "best_val_f1": 0.9906246051784982,
+  "param_count": 375492
+}

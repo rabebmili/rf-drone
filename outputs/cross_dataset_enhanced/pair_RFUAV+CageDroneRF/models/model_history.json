@@ -1,0 +1,182 @@
+[
+  {
+    "epoch": 1,
+    "train_loss": 0.28006481716297843,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 0.9498567335243553,
+    "CageDroneRF_f1": 0.8797233094552347,
+    "avg_f1": 0.9398616547276173
+  },
+  {
+    "epoch": 2,
+    "train_loss": 0.24384122740141445,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 0.9297994269340975,
+    "CageDroneRF_f1": 0.8279880302763598,
+    "avg_f1": 0.9139940151381799
+  },
+  {
+    "epoch": 3,
+    "train_loss": 0.2348481307039217,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 0.9785100286532952,
+    "CageDroneRF_f1": 0.9461760305979241,
+    "avg_f1": 0.973088015298962
+  },
+  {
+    "epoch": 4,
+    "train_loss": 0.22739859413371857,
+    "RFUAV_acc": 0.9991197183098591,
+    "RFUAV_f1": 0.4997798326728313,
+    "CageDroneRF_acc": 0.9828080229226361,
+    "CageDroneRF_f1": 0.9613660264570765,
+    "avg_f1": 0.7305729295649539
+  },
+  {
+    "epoch": 5,
+    "train_loss": 0.22165845088410005,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 0.9799426934097422,
+    "CageDroneRF_f1": 0.9500419214330995,
+    "avg_f1": 0.9750209607165498
+  },
+  {
+    "epoch": 6,
+    "train_loss": 0.2202819519543017,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 0.9699140401146131,
+    "CageDroneRF_f1": 0.9220298412191814,
+    "avg_f1": 0.9610149206095907
+  },
+  {
+    "epoch": 7,
+    "train_loss": 0.21633580653535164,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 0.9899713467048711,
+    "CageDroneRF_f1": 0.9759446618910469,
+    "avg_f1": 0.9879723309455235
+  },
+  {
+    "epoch": 8,
+    "train_loss": 0.21426701467630643,
+    "RFUAV_acc": 0.9973591549295775,
+    "RFUAV_f1": 0.499338915821948,
+    "CageDroneRF_acc": 0.9785100286532952,
+    "CageDroneRF_f1": 0.9528333761301745,
+    "avg_f1": 0.7260861459760612
+  },
+  {
+    "epoch": 9,
+    "train_loss": 0.21270383193977932,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 0.994269340974212,
+    "CageDroneRF_f1": 0.9864665736001241,
+    "avg_f1": 0.9932332868000621
+  },
+  {
+    "epoch": 10,
+    "train_loss": 0.21052632505548297,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 0.997134670487106,
+    "CageDroneRF_f1": 0.9933690530475756,
+    "avg_f1": 0.9966845265237878
+  },
+  {
+    "epoch": 11,
+    "train_loss": 0.209651625503956,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 0.997134670487106,
+    "CageDroneRF_f1": 0.9933019863736685,
+    "avg_f1": 0.9966509931868343
+  },
+  {
+    "epoch": 12,
+    "train_loss": 0.2066972552734814,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 0.998567335243553,
+    "CageDroneRF_f1": 0.9966678601265067,
+    "avg_f1": 0.9983339300632533
+  },
+  {
+    "epoch": 13,
+    "train_loss": 0.20575329688163088,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 0.997134670487106,
+    "CageDroneRF_f1": 0.9934345429576538,
+    "avg_f1": 0.9967172714788268
+  },
+  {
+    "epoch": 14,
+    "train_loss": 0.20447971923872466,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 0.998567335243553,
+    "CageDroneRF_f1": 0.9966678601265067,
+    "avg_f1": 0.9983339300632533
+  },
+  {
+    "epoch": 15,
+    "train_loss": 0.2033566878627696,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 0.998567335243553,
+    "CageDroneRF_f1": 0.9966678601265067,
+    "avg_f1": 0.9983339300632533
+  },
+  {
+    "epoch": 16,
+    "train_loss": 0.20342939570756674,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 0.998567335243553,
+    "CageDroneRF_f1": 0.9966678601265067,
+    "avg_f1": 0.9983339300632533
+  },
+  {
+    "epoch": 17,
+    "train_loss": 0.20257293281948968,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 0.998567335243553,
+    "CageDroneRF_f1": 0.9966678601265067,
+    "avg_f1": 0.9983339300632533
+  },
+  {
+    "epoch": 18,
+    "train_loss": 0.20227332949837407,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 0.998567335243553,
+    "CageDroneRF_f1": 0.9966678601265067,
+    "avg_f1": 0.9983339300632533
+  },
+  {
+    "epoch": 19,
+    "train_loss": 0.20208457918421885,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 0.998567335243553,
+    "CageDroneRF_f1": 0.9966678601265067,
+    "avg_f1": 0.9983339300632533
+  },
+  {
+    "epoch": 20,
+    "train_loss": 0.2021832258933129,
+    "RFUAV_acc": 1.0,
+    "RFUAV_f1": 1.0,
+    "CageDroneRF_acc": 0.998567335243553,
+    "CageDroneRF_f1": 0.9966678601265067,
+    "avg_f1": 0.9983339300632533
+  }
+]

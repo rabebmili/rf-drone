@@ -1,0 +1,19 @@
+{
+  "accuracy": 0.994277539341917,
+  "balanced_accuracy": 0.995540691192865,
+  "macro_f1": 0.9955615312050136,
+  "weighted_f1": 0.9943094040720308,
+  "macro_precision": 0.9958112874779542,
+  "macro_recall": 0.995540691192865,
+  "cohen_kappa": 0.9940424443876247,
+  "mcc": 0.9940593892075631,
+  "roc_auc_ovr": 0.9999866024392223,
+  "ece": 0.003170690311382771,
+  "classification_report": "                      precision    recall  f1-score   support\n\n         Autel_EXOII       1.00      1.00      1.00        39\n         Autel_Xstar       1.00      1.00      1.00        23\n             DJI_FPV       1.00      0.96      0.98        23\n        DJI_Inspire1       1.00      1.00      1.00        23\n        DJI_Inspire2       1.00      1.00      1.00        23\n       DJI_Mavic2Pro       1.00      0.95      0.97        39\n          DJI_Mavic3       1.00      1.00      1.00        24\n        DJI_MavicAir       1.00      1.00      1.00        23\n      DJI_MavicMini4       1.00      1.00      1.00        12\nDJI_MavicMini4-armed       1.00      1.00      1.00        24\n        DJI_MavicPro       1.00      1.00      1.00        24\n           DJI_Mini3       1.00      1.00      1.00        23\n     DJI_Mini3-armed       0.93      1.00      0.96        39\n     DJI_Phantom3Adv       1.00      1.00      1.00        39\n        DJI_Phantom4       1.00      1.00      1.00        24\n           DJI_Tello       1.00      1.00      1.00        24\n    HolyStone_HS110G       1.00      1.00      1.00        23\n    HolyStone_HS720E       1.00      1.00      1.00        24\n       Hubsan_X4_Air       1.00      1.00      1.00        23\n  Laptop_Wi-Fi_video       1.00      1.00      1.00        24\n        Parrot_Anafi       1.00      1.00      1.00        23\n   Quadcopter_KY601S       1.00      1.00      1.00        23\n   RadioMaster_TX16S       0.96      1.00      0.98        23\n         Ruko_F11GIM       1.00      1.00      1.00        23\n            Skydio_2       1.00      1.00      1.00        24\n      Yuneec_Q500-HD       1.00      1.00      1.00        24\n          background       1.00      0.97      0.99        39\n\n            accuracy                           0.99       699\n           macro avg       1.00      1.00      1.00       699\n        weighted avg       0.99      0.99      0.99       699\n",
+  "model": "resnet",
+  "dataset": "cagedronerf",
+  "task": "multiclass",
+  "epochs": 20,
+  "best_val_f1": 1.0,
+  "param_count": 699515
+}

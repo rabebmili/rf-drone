@@ -1,0 +1,37 @@
+[
+  {
+    "epoch": 1,
+    "train_loss": 0.20245375023941556,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 2,
+    "train_loss": 0.20161919168909428,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 3,
+    "train_loss": 0.20093922479150425,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 4,
+    "train_loss": 0.2006853489009637,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 5,
+    "train_loss": 0.2005148815764722,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  }
+]

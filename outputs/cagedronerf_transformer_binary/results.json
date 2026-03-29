@@ -1,0 +1,19 @@
+{
+  "accuracy": 0.9885550786838341,
+  "balanced_accuracy": 0.9734815433058918,
+  "macro_f1": 0.9734815433058918,
+  "weighted_f1": 0.9885550786838341,
+  "macro_precision": 0.9734815433058918,
+  "macro_recall": 0.9734815433058918,
+  "cohen_kappa": 0.9469630866117834,
+  "mcc": 0.9469630866117834,
+  "roc_auc": 0.9992412458742744,
+  "ece": 0.008092413303337015,
+  "classification_report": "                      precision    recall  f1-score   support\n\nBackground/Non-drone       0.95      0.95      0.95        86\n               Drone       0.99      0.99      0.99       613\n\n            accuracy                           0.99       699\n           macro avg       0.97      0.97      0.97       699\n        weighted avg       0.99      0.99      0.99       699\n",
+  "model": "transformer",
+  "dataset": "cagedronerf",
+  "task": "binary",
+  "epochs": 20,
+  "best_val_f1": 0.9801071591427268,
+  "param_count": 375234
+}
