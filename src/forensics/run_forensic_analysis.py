@@ -1,25 +1,16 @@
-"""Run forensic analysis on a single RF signal file."""
+"""Analyse forensique d'un fichier signal RF unique."""
 
 import argparse
 from pathlib import Path
 
 import torch
 
-from src.models.cnn_spectrogram import SmallRFNet
-from src.models.resnet_spectrogram import RFResNet
-from src.models.transformer_spectrogram import RFTransformer
+from src.models import MODEL_REGISTRY, get_model
 from src.forensics.timeline import (
     analyze_signal_file,
     generate_forensic_report,
     plot_forensic_timeline,
 )
-
-
-MODEL_REGISTRY = {
-    "smallrf": SmallRFNet,
-    "resnet": RFResNet,
-    "transformer": RFTransformer,
-}
 
 
 def main():
@@ -43,8 +34,7 @@ def main():
     if args.weights is None:
         args.weights = f"outputs/{args.model}_{args.task}/models/best_model.pt"
 
-    ModelClass = MODEL_REGISTRY[args.model]
-    model = ModelClass(num_classes=num_classes).to(device)
+    model = get_model(args.model, num_classes=num_classes).to(device)
     model.load_state_dict(torch.load(args.weights, weights_only=True, map_location=device))
     model.eval()
 

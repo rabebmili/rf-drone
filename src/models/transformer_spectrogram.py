@@ -1,4 +1,4 @@
-"""Hybrid CNN-Transformer for spectrogram classification."""
+"""Hybride CNN-Transformer pour la classification de spectrogrammes."""
 
 import torch
 import torch.nn as nn
@@ -27,14 +27,14 @@ class TransformerBlock(nn.Module):
 
 
 class RFTransformer(nn.Module):
-    """Hybrid CNN-Transformer for single-channel RF spectrogram classification."""
+    """Hybride CNN-Transformer pour la classification de spectrogrammes RF monocanal."""
 
     def __init__(self, num_classes=2, embed_dim=128, num_heads=4,
                  num_layers=2, dropout=0.1):
         super().__init__()
         self.embed_dim = embed_dim
 
-        # CNN stem to reduce spatial dimensions
+        # Tronc CNN pour réduire les dimensions spatiales
         self.stem = nn.Sequential(
             nn.Conv2d(1, 32, kernel_size=3, stride=2, padding=1),
             nn.BatchNorm2d(32),
@@ -64,7 +64,7 @@ class RFTransformer(nn.Module):
         )
 
     def _encode(self, x):
-        """Shared forward pass through stem + transformer, returns CLS embedding."""
+        # Passe avant partagée (tronc + transformer), retourne l'embedding CLS
         B = x.shape[0]
 
         x = self.stem(x)
@@ -84,5 +84,5 @@ class RFTransformer(nn.Module):
         return self.head(cls_out)
 
     def get_embedding(self, x):
-        """Return CLS token embedding before the classification head."""
+        # Retourne l'embedding du token CLS avant la tête de classification
         return self._encode(x)

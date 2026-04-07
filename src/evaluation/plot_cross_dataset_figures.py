@@ -1,4 +1,4 @@
-"""Generate thesis-ready cross-dataset evaluation figures."""
+"""Figures de thèse pour l'évaluation inter-datasets."""
 
 import json
 from pathlib import Path
@@ -10,7 +10,7 @@ matplotlib.rcParams.update({"font.size": 12})
 
 
 def load_metrics(base_dir):
-    """Load all metrics from cross_dataset_enhanced output directory."""
+    # Charger toutes les métriques depuis le répertoire de sortie inter-datasets
     base = Path(base_dir)
     results = {}
 
@@ -20,7 +20,7 @@ def load_metrics(base_dir):
         for mf in sorted(exp_dir.rglob("*_metrics.json")):
             with open(mf) as f:
                 m = json.load(f)
-            # Nettoyer les NaN
+            # Supprimer les NaN
             for k, v in m.items():
                 if isinstance(v, float) and np.isnan(v):
                     m[k] = None
@@ -30,7 +30,7 @@ def load_metrics(base_dir):
 
 
 def plot_cross_dataset_heatmap(output_dir):
-    """Heatmap: train on X, test on Y (single-source). RFUAV excluded as test target."""
+    # Heatmap : entraîner sur X, tester sur Y (source unique). RFUAV exclu comme cible
     train_datasets = ["DroneRF", "CageDroneRF", "RFUAV"]
     test_datasets = ["DroneRF", "CageDroneRF"]  # RFUAV excluded: no background
     base = Path("outputs/cross_dataset_enhanced")
@@ -85,7 +85,7 @@ def plot_cross_dataset_heatmap(output_dir):
 
 
 def plot_leave_one_out(output_dir):
-    """Bar chart: leave-one-dataset-out results. RFUAV excluded (no background)."""
+    # Diagramme en barres : résultats leave-one-dataset-out. RFUAV exclu
     datasets = ["DroneRF", "CageDroneRF"]  # RFUAV excluded: no background
     base = Path("outputs/cross_dataset_enhanced")
 
@@ -134,7 +134,7 @@ def plot_leave_one_out(output_dir):
 
 
 def plot_ablation_comparison(output_dir):
-    """Grouped bar chart: single vs pairwise vs all-3 plain vs all-3 balanced."""
+    # Diagramme groupé : unique vs paires vs 3 simples vs 3 équilibrés
     base = Path("outputs/cross_dataset_enhanced")
     datasets = ["DroneRF", "CageDroneRF"]  # RFUAV excluded: no background
     all_datasets = ["DroneRF", "CageDroneRF", "RFUAV"]  # for training combos
@@ -215,7 +215,7 @@ def plot_ablation_comparison(output_dir):
 
 
 def plot_finetune_comparison(output_dir):
-    """Compare: train from scratch vs pretrain+fine-tune. RFUAV excluded."""
+    # Comparer : entraînement depuis zéro vs pré-entraînement+affinage. RFUAV exclu
     base = Path("outputs/cross_dataset_enhanced")
     datasets = ["DroneRF", "CageDroneRF"]  # RFUAV excluded: no background
 
@@ -276,7 +276,7 @@ def plot_finetune_comparison(output_dir):
 
 
 def plot_per_dataset_model_comparison(output_dir):
-    """Bar chart comparing 3 models on each dataset (same-dataset results)."""
+    # Diagramme comparant 3 modèles sur chaque dataset (résultats même-dataset)
     models = ["smallrf", "resnet", "transformer"]
     model_labels = ["SmallRFNet", "RFResNet", "RFTransformer"]
     datasets_tasks = [
@@ -335,7 +335,7 @@ def plot_per_dataset_model_comparison(output_dir):
 
 
 def plot_domain_shift_summary(output_dir):
-    """Summary: same-dataset vs cross-dataset performance drop. RFUAV excluded."""
+    # Résumé : baisse de performance même-dataset vs inter-datasets. RFUAV exclu
     base = Path("outputs/cross_dataset_enhanced")
     datasets = ["DroneRF", "CageDroneRF"]  # RFUAV excluded: no background
 

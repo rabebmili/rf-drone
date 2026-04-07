@@ -1,4 +1,4 @@
-"""CageDroneRF dataset loader for pre-generated spectrogram PNG images."""
+"""Chargeur du jeu de données CageDroneRF pour spectrogrammes PNG pré-générés."""
 
 from pathlib import Path
 from collections import Counter
@@ -46,11 +46,11 @@ NON_DRONE_CLASSES = {"background", "Laptop_Wi-Fi_video", "RadioMaster_TX16S"}
 
 
 class CageDroneRFDataset(Dataset):
-    """Loads CageDroneRF PNG spectrograms as single-channel normalized tensors."""
+    """Charge les spectrogrammes PNG CageDroneRF en tenseurs mono-canal normalisés."""
 
     def __init__(self, root_dir, target_size=(257, 511),
                  label_mode="binary", indices=None, augment=False):
-        """Initialize dataset from a directory of class subfolders containing spectrogram images."""
+        # Initialise le dataset à partir de sous-dossiers de classes contenant des images
         self.root = Path(root_dir)
         self.target_size = target_size
         self.label_mode = label_mode
@@ -88,7 +88,7 @@ class CageDroneRFDataset(Dataset):
         else:
             self.samples = self._all_samples
 
-        # Preload all images into RAM
+        # Précharger toutes les images en RAM
         self._cache = []
         for img_path, label in self.samples:
             img = Image.open(img_path).convert("L")
@@ -110,7 +110,7 @@ class CageDroneRFDataset(Dataset):
         return x, y
 
     def _apply_augmentation(self, x):
-        """Apply SpecAugment-style augmentation (time/frequency masking + noise)."""
+        # Applique une augmentation SpecAugment (masquage temps/fréquence + bruit)
         _, H, W = x.shape
 
         # Masquage fréquentiel (masquer des bandes horizontales aléatoires)
@@ -145,7 +145,7 @@ class CageDroneRFDataset(Dataset):
         return self.classes.copy()
 
     def get_class_weights(self):
-        """Compute inverse-frequency class weights for weighted loss."""
+        # Calcule les poids de classes par fréquence inverse pour la perte pondérée
         labels = [self._cache[i][1].item() for i in range(len(self._cache))]
         counts = Counter(labels)
         total = len(labels)
@@ -160,7 +160,7 @@ def create_cagedronerf_loaders(root_dir="data/raw/CageDroneRF/balanced",
                                 label_mode="binary", batch_size=16,
                                 target_size=(257, 511), augment_train=False,
                                 test_ratio=0.5):
-    """Create train/val/test datasets by splitting the CageDroneRF balanced set."""
+    # Crée les datasets train/val/test par division du jeu CageDroneRF équilibré
     root = Path(root_dir)
     train_images = root / "train" / "images"
     val_images = root / "val" / "images"

@@ -1,4 +1,4 @@
-"""Master experiment runner for all models, datasets, and evaluation phases."""
+"""Script principal d'exécution de toutes les expériences et phases d'évaluation."""
 
 import argparse
 import json
@@ -10,21 +10,14 @@ import torch
 from torch.utils.data import DataLoader
 
 from src.datasets.dronerf_precomputed_dataset import DroneRFPrecomputedDataset
-from src.models.cnn_spectrogram import SmallRFNet
-from src.models.resnet_spectrogram import RFResNet
-from src.models.transformer_spectrogram import RFTransformer
+from src.models import get_model
 from src.evaluation.metrics import full_evaluation
 from src.evaluation.robustness import run_robustness_evaluation
 from src.evaluation.explainability import generate_gradcam_examples
 
 
 def load_model(model_name, num_classes, weights_path, device):
-    registry = {
-        "smallrf": SmallRFNet,
-        "resnet": RFResNet,
-        "transformer": RFTransformer,
-    }
-    model = registry[model_name](num_classes=num_classes).to(device)
+    model = get_model(model_name, num_classes=num_classes).to(device)
     if Path(weights_path).exists():
         model.load_state_dict(torch.load(weights_path, weights_only=True, map_location=device))
     else:
@@ -33,7 +26,7 @@ def load_model(model_name, num_classes, weights_path, device):
 
 
 def run_comparison(csv_path, task, device, output_base="outputs"):
-    """Evaluate all trained models and produce a comparison table."""
+    # Évalue tous les modèles entraînés et produit un tableau comparatif
     label_col = "label_binary" if task == "binary" else "label_multiclass"
     num_classes = 2 if task == "binary" else 4
     class_names = (
@@ -85,7 +78,7 @@ def run_comparison(csv_path, task, device, output_base="outputs"):
 
 
 def run_cagedronerf_training(task, device):
-    """Train all models on the CageDroneRF dataset."""
+    # Entraîne tous les modèles sur le jeu de données CageDroneRF
     cagedronerf_root = Path("data/raw/CageDroneRF/balanced")
     if not cagedronerf_root.exists():
         print("CageDroneRF not found, skipping.")
@@ -103,7 +96,7 @@ def run_cagedronerf_training(task, device):
 
 
 def run_cross_dataset(model_name, epochs=20):
-    """Run cross-dataset evaluation with all available datasets."""
+    # Exécute l'évaluation cross-dataset sur tous les jeux de données
 
     cmd = [
         sys.executable, "-m", "src.evaluation.cross_dataset_enhanced",

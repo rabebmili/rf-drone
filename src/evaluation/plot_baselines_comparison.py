@@ -1,4 +1,4 @@
-"""Generate thesis-ready comparison figures: Deep Learning vs SVM vs Random Forest."""
+"""Figures de thèse : comparaison Deep Learning vs SVM vs Random Forest."""
 
 import json
 from pathlib import Path
@@ -17,7 +17,7 @@ def load_json(path):
 
 
 def plot_binary_comparison(output_dir):
-    """Bar chart: DL vs SVM vs RF for binary classification."""
+    # Diagramme en barres : DL vs SVM vs RF pour la classification binaire
 
     datasets = ["DroneRF", "CageDroneRF"]
     methods = ["SVM", "Random Forest", "RFResNet"]
@@ -44,7 +44,7 @@ def plot_binary_comparison(output_dir):
                 "macro_f1": r["test"]["macro_f1"],
             }
 
-    # DL binaire (RFResNet — meilleur modèle binaire)
+    # DL binaire (RFResNet)
     for ds_key, ds_label, path in [
         ("dronerf", "DroneRF", "outputs/resnet_binary/results.json"),
         ("cagedronerf", "CageDroneRF", "outputs/cagedronerf_resnet_binary/results.json"),
@@ -56,7 +56,6 @@ def plot_binary_comparison(output_dir):
                 "macro_f1": r.get("macro_f1", 0),
             }
 
-    # Tracer
     fig, axes = plt.subplots(1, 2, figsize=(14, 6))
 
     for ax_idx, metric in enumerate(["accuracy", "macro_f1"]):
@@ -100,7 +99,7 @@ def plot_binary_comparison(output_dir):
 
 
 def plot_multiclass_comparison(output_dir):
-    """Bar chart: DL vs SVM vs RF for multiclass classification."""
+    # Diagramme en barres : DL vs SVM vs RF pour la classification multiclasse
 
     datasets = ["DroneRF\n(4 classes)", "CageDroneRF\n(27 classes)", "RFUAV\n(37 classes)"]
     ds_keys = ["dronerf", "cagedronerf", "rfuav"]
@@ -127,7 +126,7 @@ def plot_multiclass_comparison(output_dir):
                 "macro_f1": r["test"]["macro_f1"],
             }
 
-    # DL multiclasse (RFResNet)
+    # DL multiclasse
     dl_paths = [
         "outputs/resnet_multiclass/results.json",
         "outputs/cagedronerf_resnet_multiclass/results.json",
@@ -184,7 +183,7 @@ def plot_multiclass_comparison(output_dir):
 
 
 def plot_dl_advantage(output_dir):
-    """Show DL F1 gain over best baseline per dataset x task."""
+    # Montrer le gain F1 du DL par rapport à la meilleure baseline par dataset et tâche
 
     configs = [
         ("DroneRF\nbinary", "dronerf", "binary", "outputs/resnet_binary/results.json"),
@@ -199,7 +198,7 @@ def plot_dl_advantage(output_dir):
     dl_f1 = []
 
     for label, ds_key, task, dl_path in configs:
-        # Meilleur F1 de la baseline
+        # Meilleur F1 baseline
         svm_r = load_json(f"outputs/baselines_{ds_key}_{task}/svm_results.json")
         rf_r = load_json(f"outputs/baselines_{ds_key}_{task}/random_forest_results.json")
         best_bl = 0
@@ -208,7 +207,7 @@ def plot_dl_advantage(output_dir):
         if rf_r:
             best_bl = max(best_bl, rf_r["test"]["macro_f1"])
 
-        # F1 du DL
+        # F1 du deep learning
         dl_r = load_json(dl_path)
         dl_val = dl_r.get("macro_f1", 0) if dl_r else 0
 
@@ -237,7 +236,7 @@ def plot_dl_advantage(output_dir):
         ax.text(bar.get_x() + bar.get_width() / 2, h + 0.003,
                 f"{h:.3f}", ha="center", fontsize=9, fontweight="bold")
 
-    # Annoter les gains
+    # Annoter les gains en F1
     for i, gain in enumerate(gains):
         color = "#2E7D32" if gain > 0 else "#C62828"
         sign = "+" if gain > 0 else ""

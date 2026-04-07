@@ -3,7 +3,7 @@ from scipy.signal import stft
 
 
 def compute_log_spectrogram(signal, fs=1.0, nperseg=512, noverlap=256, eps=1e-10):
-    """Compute normalized log-magnitude spectrogram from a 1D signal."""
+    # Calcule le spectrogramme log-magnitude normalisé à partir d'un signal 1D
     f, t, Zxx = stft(
         signal,
         fs=fs,

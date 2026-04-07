@@ -1,4 +1,4 @@
-"""Enhanced cross-dataset evaluation: leave-one-out, ablation, and fine-tuning experiments."""
+"""Évaluation inter-datasets améliorée : leave-one-out, ablation et affinage."""
 
 import argparse
 import json
@@ -19,21 +19,12 @@ from sklearn.metrics import (
 from src.datasets.dronerf_precomputed_dataset import DroneRFPrecomputedDataset
 from src.datasets.rfuav_dataset import create_rfuav_splits
 from src.datasets.cagedronerf_dataset import create_cagedronerf_loaders
-from src.models.cnn_spectrogram import SmallRFNet
-from src.models.resnet_spectrogram import RFResNet
-from src.models.transformer_spectrogram import RFTransformer
+from src.models import MODEL_REGISTRY, get_model
 from src.evaluation.metrics import collect_predictions, compute_classification_metrics
 
 
-MODEL_REGISTRY = {
-    "smallrf": SmallRFNet,
-    "resnet": RFResNet,
-    "transformer": RFTransformer,
-}
-
-
 def make_balanced_sampler(dataset):
-    """Create a WeightedRandomSampler that balances classes."""
+    # Créer un WeightedRandomSampler qui équilibre les classes
     labels = []
     for i in range(len(dataset)):
         _, y = dataset[i]
@@ -45,7 +36,7 @@ def make_balanced_sampler(dataset):
 
 
 def make_balanced_concat_sampler(datasets_dict):
-    """Create a balanced sampler for ConcatDataset with equal dataset weights."""
+    # Créer un échantillonneur équilibré pour ConcatDataset avec poids égaux par dataset
     all_labels = []
     dataset_ids = []
     offset = 0
@@ -76,13 +67,13 @@ def make_balanced_concat_sampler(datasets_dict):
             weights.append(w)
             idx += 1
 
-    total_samples = max(ds_sizes.values()) * num_datasets  # sample enough
+    total_samples = max(ds_sizes.values()) * num_datasets  # échantillonner suffisamment
     return WeightedRandomSampler(weights, num_samples=total_samples, replacement=True)
 
 
 def train_model(model, train_loader, val_loaders, device, epochs=20, lr=5e-4,
                 save_dir=None, model_name="model"):
-    """Training loop with per-dataset validation and model selection by average macro-F1."""
+    # Boucle d'entraînement avec validation par dataset et sélection par F1 macro moyen
     criterion = nn.CrossEntropyLoss(label_smoothing=0.1)
     optimizer = optim.AdamW(model.parameters(), lr=lr, weight_decay=1e-4)
     scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=1e-6)
@@ -105,7 +96,7 @@ def train_model(model, train_loader, val_loaders, device, epochs=20, lr=5e-4,
             total += x.size(0)
         scheduler.step()
 
-        # Validation par dataset
+        # Validation par dataset séparément
         model.eval()
         epoch_metrics = {"epoch": epoch + 1, "train_loss": epoch_loss / total}
         f1_scores = []
@@ -149,7 +140,7 @@ def train_model(model, train_loader, val_loaders, device, epochs=20, lr=5e-4,
 
 def full_evaluate(model, loader, device, dataset_name, class_names,
                   output_dir=None, experiment_name=""):
-    """Full evaluation with metrics, confusion matrix, and saved artifacts."""
+    # Évaluation complète avec métriques, matrice de confusion et artefacts sauvegardés
     y_true, y_pred, y_prob = collect_predictions(model, loader, device)
     y_true = np.array(y_true)
     y_pred = np.array(y_pred)
@@ -214,7 +205,7 @@ def full_evaluate(model, loader, device, dataset_name, class_names,
 
 
 def load_datasets(args):
-    """Load all available datasets, return a dict. RFUAV has no background class."""
+    # Charger tous les datasets disponibles. RFUAV n'a pas de classe background
     datasets = {}
 
     # DroneRF (possede une repartition train/val/test appropriee)
@@ -250,7 +241,7 @@ def load_datasets(args):
 
 
 def run_leave_one_out(datasets, ModelClass, device, epochs, output_dir):
-    """Leave-one-dataset-out: train on 2, test on the held-out 3rd."""
+    # Leave-one-dataset-out : entraîner sur 2, tester sur le 3e exclu
     all_names = list(datasets.keys())
     results = {}
 
@@ -312,7 +303,7 @@ def run_leave_one_out(datasets, ModelClass, device, epochs, output_dir):
 
 
 def run_ablation(datasets, ModelClass, device, epochs, output_dir):
-    """Ablation: single-source, pairwise, plain all-3, balanced all-3."""
+    # Ablation : source unique, par paires, 3 simples, 3 équilibrés
     import itertools
     all_names = list(datasets.keys())
     class_names = ["Background", "Drone"]
@@ -392,7 +383,7 @@ def run_ablation(datasets, ModelClass, device, epochs, output_dir):
 
 
 def run_target_finetune(datasets, ModelClass, device, epochs, output_dir):
-    """Pretrain on combined set, then fine-tune on each target dataset."""
+    # Pré-entraîner sur l'ensemble combiné, puis affiner sur chaque dataset cible
     all_names = list(datasets.keys())
     class_names = ["Background", "Drone"]
     results = {}
@@ -450,7 +441,7 @@ def run_target_finetune(datasets, ModelClass, device, epochs, output_dir):
 
 
 def print_summary(all_results, output_dir, model_name):
-    """Print and save the full summary table."""
+    # Afficher et sauvegarder le tableau récapitulatif complet
     print(f"\n{'='*80}")
     print(f"  RESUME COMPLET INTER-DATASETS — {model_name}")
     print(f"{'='*80}")
@@ -518,11 +509,15 @@ def main():
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    ModelClass = MODEL_REGISTRY[args.model]
+    # Résoudre la classe du modèle depuis le registre
+    import importlib
+    _mod_path, _cls_name = MODEL_REGISTRY[args.model]
+    _mod = importlib.import_module(_mod_path)
+    ModelClass = getattr(_mod, _cls_name)
     datasets = load_datasets(args)
 
     if len(datasets) < 2:
-        print("ERROR: Need at least 2 datasets.")
+        print("ERREUR : Au moins 2 datasets nécessaires.")
         return
 
     all_results = {}

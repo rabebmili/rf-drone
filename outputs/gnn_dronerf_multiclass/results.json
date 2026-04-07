@@ -1,0 +1,17 @@
+{
+  "accuracy": 0.906796875,
+  "macro_f1": 0.9066195459804902,
+  "mcc": 0.8779826227836527,
+  "best_val_f1": 1.0,
+  "best_epoch": 4,
+  "model": "gnn",
+  "backbone": "resnet",
+  "dataset": "dronerf",
+  "task": "multiclass",
+  "epochs": 30,
+  "param_count": 199556,
+  "emb_dim": 128,
+  "subgraph_size": 64,
+  "threshold": 0.5,
+  "k": 5
+}

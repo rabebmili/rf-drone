@@ -2,7 +2,7 @@ import numpy as np
 
 
 def segment_boundaries(signal_length, window_size=131072, hop_size=65536):
-    """Return (start, end) boundaries for sliding window segments."""
+    # Retourne les bornes (début, fin) des segments par fenêtre glissante
     boundaries = []
     for start in range(0, signal_length - window_size + 1, hop_size):
         boundaries.append((start, start + window_size))
@@ -10,7 +10,7 @@ def segment_boundaries(signal_length, window_size=131072, hop_size=65536):
 
 
 def segment_signal(signal, window_size=131072, hop_size=65536):
-    """Split a 1D signal into sliding window segments."""
+    # Découpe un signal 1D en segments par fenêtre glissante
     boundaries = segment_boundaries(len(signal), window_size, hop_size)
     return [signal[start:end] for start, end in boundaries]
 

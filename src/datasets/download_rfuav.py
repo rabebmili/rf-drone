@@ -1,4 +1,4 @@
-"""Download RFUAV spectrogram images from Hugging Face (requires huggingface_hub)."""
+"""Téléchargement des spectrogrammes RFUAV depuis Hugging Face."""
 
 import argparse
 import os

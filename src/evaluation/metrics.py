@@ -1,4 +1,4 @@
-"""Classification metrics, ROC/PR curves, confusion matrix, and calibration (ECE)."""
+"""Métriques de classification, courbes ROC/PR, matrice de confusion et calibration (ECE)."""
 
 import numpy as np
 import torch
@@ -18,7 +18,7 @@ CLASS_NAMES_MULTI = ["Background", "AR Drone", "Bepop Drone", "Phantom Drone"]
 
 
 def collect_predictions(model, loader, device, return_probs=True):
-    """Run model on a DataLoader, return predictions, labels, and probabilities."""
+    # Exécuter le modèle sur un DataLoader, retourner prédictions, étiquettes et probabilités
     model.eval()
     all_labels = []
     all_preds = []
@@ -44,7 +44,7 @@ def collect_predictions(model, loader, device, return_probs=True):
 
 
 def compute_classification_metrics(y_true, y_pred, y_prob=None, class_names=None):
-    """Compute comprehensive classification metrics."""
+    # Calculer les métriques de classification complètes
     # Utiliser toutes les étiquettes présentes dans y_true et y_pred
     all_labels = sorted(set(np.unique(y_true)) | set(np.unique(y_pred)))
     num_classes = len(all_labels)
@@ -83,7 +83,7 @@ def compute_classification_metrics(y_true, y_pred, y_prob=None, class_names=None
 
 
 def compute_ece(y_true, y_pred, y_prob, n_bins=15):
-    """Expected Calibration Error (ECE)."""
+    # Erreur de calibration attendue (ECE)
     confidences = np.max(y_prob, axis=1)
     accuracies = (y_pred == y_true).astype(float)
 
@@ -103,7 +103,7 @@ def compute_ece(y_true, y_pred, y_prob, n_bins=15):
 
 def plot_confusion_matrix(y_true, y_pred, class_names=None, output_path=None,
                           title="Confusion Matrix", normalize=None):
-    """Plot and optionally save confusion matrix. Adapts layout for many classes."""
+    # Tracer et sauvegarder la matrice de confusion, adaptée au nombre de classes
     unique_labels = sorted(set(np.unique(y_true)) | set(np.unique(y_pred)))
     num_classes = len(unique_labels)
     if class_names is None:
@@ -146,7 +146,7 @@ def plot_confusion_matrix(y_true, y_pred, class_names=None, output_path=None,
 
 
 def plot_roc_curves(y_true, y_prob, class_names=None, output_path=None):
-    """Plot ROC curves (binary or one-vs-rest). Summarizes for >10 classes."""
+    # Tracer les courbes ROC (binaire ou un-contre-reste), résumé si >10 classes
     num_classes = y_prob.shape[1]
     if class_names is None:
         class_names = CLASS_NAMES_BINARY if num_classes <= 2 else CLASS_NAMES_MULTI
@@ -216,7 +216,7 @@ def plot_roc_curves(y_true, y_prob, class_names=None, output_path=None):
 
 
 def plot_precision_recall_curves(y_true, y_prob, class_names=None, output_path=None):
-    """Plot precision-recall curves. Summarizes for >10 classes."""
+    # Tracer les courbes précision-rappel, résumé si >10 classes
     num_classes = y_prob.shape[1]
     if class_names is None:
         class_names = CLASS_NAMES_BINARY if num_classes <= 2 else CLASS_NAMES_MULTI
@@ -278,7 +278,7 @@ def plot_precision_recall_curves(y_true, y_prob, class_names=None, output_path=N
 
 
 def plot_calibration_diagram(y_true, y_prob, n_bins=10, output_path=None):
-    """Plot reliability diagram for calibration analysis."""
+    # Tracer le diagramme de fiabilité pour l'analyse de calibration
     confidences = np.max(y_prob, axis=1)
     y_pred = np.argmax(y_prob, axis=1)
     accuracies = (y_pred == y_true).astype(float)
@@ -312,7 +312,7 @@ def plot_calibration_diagram(y_true, y_prob, n_bins=10, output_path=None):
 
 
 def print_metrics_summary(metrics, model_name="Model"):
-    """Print formatted classification metrics summary."""
+    # Afficher le résumé formaté des métriques de classification
     print(f"\n{'='*60}")
     print(f"  RÉSULTATS D'ÉVALUATION : {model_name}")
     print(f"{'='*60}")
@@ -336,7 +336,7 @@ def print_metrics_summary(metrics, model_name="Model"):
 
 def full_evaluation(model, loader, device, class_names=None, output_dir=None,
                     model_name="Model"):
-    """Run full evaluation: metrics + all plots."""
+    # Évaluation complète : métriques + tous les graphiques
     y_true, y_pred, y_prob = collect_predictions(model, loader, device)
     metrics = compute_classification_metrics(y_true, y_pred, y_prob, class_names)
     print_metrics_summary(metrics, model_name)

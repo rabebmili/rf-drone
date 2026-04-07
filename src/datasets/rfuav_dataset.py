@@ -1,4 +1,4 @@
-"""RFUAV dataset loader for pre-generated spectrogram JPG images (37 drone models)."""
+"""Chargeur du jeu de données RFUAV pour spectrogrammes JPG pré-générés (37 modèles de drones)."""
 
 from pathlib import Path
 
@@ -10,11 +10,11 @@ from sklearn.model_selection import train_test_split
 
 
 class RFUAVDataset(Dataset):
-    """Loads RFUAV JPG spectrograms as single-channel normalized tensors."""
+    """Charge les spectrogrammes JPG RFUAV en tenseurs mono-canal normalisés."""
 
     def __init__(self, root_dir, target_size=(257, 511),
                  label_mode="binary", indices=None):
-        """Initialize dataset from a directory of drone class subfolders."""
+        # Initialise le dataset à partir de sous-dossiers de classes de drones
         self.root = Path(root_dir)
         self.target_size = target_size
         self.label_mode = label_mode
@@ -25,7 +25,7 @@ class RFUAVDataset(Dataset):
                 f"Download: python -m src.datasets.download_rfuav"
             )
 
-        # Découvrir les classes de drones (sous-dossiers)
+        # Découvrir les classes (sous-dossiers)
         self.classes = sorted([
             d.name for d in self.root.iterdir()
             if d.is_dir() and not d.name.startswith(".")
@@ -33,11 +33,11 @@ class RFUAVDataset(Dataset):
         self.class_to_idx = {cls: idx for idx, cls in enumerate(self.classes)}
         self.num_classes = len(self.classes) if label_mode == "multiclass" else 2
 
-        # Collecter tous les chemins d'images + étiquettes (JPG ou PNG)
+        # Collecter les chemins d'images et étiquettes
         self._all_samples = []
         for cls_name in self.classes:
             cls_dir = self.root / cls_name
-            # Chercher les images dans le dossier de classe ou le sous-dossier imgs/
+            # Chercher les images dans le dossier de classe ou imgs/
             img_dir = cls_dir / "imgs" if (cls_dir / "imgs").exists() else cls_dir
             for ext in ["*.jpg", "*.jpeg", "*.png"]:
                 for img_path in sorted(img_dir.glob(ext)):
@@ -47,13 +47,13 @@ class RFUAVDataset(Dataset):
                         label = self.class_to_idx[cls_name]
                     self._all_samples.append((str(img_path), label))
 
-        # Appliquer le filtre d'indices (pour les splits entraînement/val)
+        # Appliquer le filtre d'indices
         if indices is not None:
             self.samples = [self._all_samples[i] for i in indices]
         else:
             self.samples = self._all_samples
 
-        # Preload all images into RAM
+        # Précharger toutes les images en RAM
         self._cache = []
         for img_path, label in self.samples:
             img = Image.open(img_path).convert("L")
@@ -79,14 +79,14 @@ class RFUAVDataset(Dataset):
 
 
 def create_rfuav_splits(root_dir, val_ratio=0.2, random_state=42, **kwargs):
-    """Create stratified train/val split from a single RFUAV folder."""
+    # Crée un split train/val stratifié à partir d'un dossier RFUAV
 
-    # Charger le dataset complet pour obtenir le nombre d'échantillons et les étiquettes
+    # Charger le dataset complet pour les étiquettes
     full = RFUAVDataset(root_dir, **kwargs)
     n = full.get_total_samples()
     all_labels = [full._all_samples[i][1] for i in range(n)]
 
-    # Split stratifié par indices (préserve les proportions de classes)
+    # Split stratifié par indices
     train_idx, val_idx = train_test_split(
         list(range(n)),
         test_size=val_ratio,
@@ -94,7 +94,7 @@ def create_rfuav_splits(root_dir, val_ratio=0.2, random_state=42, **kwargs):
         stratify=all_labels
     )
 
-    # Créer les datasets filtrés à partir des indices du split
+    # Créer les datasets filtrés par indices
     train_ds = RFUAVDataset(root_dir, indices=train_idx, **kwargs)
     val_ds = RFUAVDataset(root_dir, indices=val_idx, **kwargs)
 

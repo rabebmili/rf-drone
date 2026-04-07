@@ -1,4 +1,4 @@
-"""Traditional ML baselines (SVM + Random Forest) on handcrafted spectrogram features."""
+"""Baselines ML traditionnels (SVM + Random Forest) sur features de spectrogrammes."""
 
 import argparse
 import json
@@ -18,10 +18,10 @@ import joblib
 from src.evaluation.feature_extraction import extract_features_from_dataset
 
 
-# ── Dataset loaders ─────────────────────────────────────────────
+# ── Chargeurs de jeux de données ─────────────────────────────────
 
 def load_dronerf(task):
-    """Load precomputed DroneRF dataset."""
+    # Charge le jeu de données DroneRF pré-calculé
     from src.datasets.dronerf_precomputed_dataset import DroneRFPrecomputedDataset
     csv_path = "data/metadata/dronerf_precomputed.csv"
     label_col = "label_binary" if task == "binary" else "label_multiclass"
@@ -39,7 +39,7 @@ def load_dronerf(task):
 
 
 def load_cagedronerf(task):
-    """Load CageDroneRF dataset."""
+    # Charge le jeu de données CageDroneRF
     from src.datasets.cagedronerf_dataset import create_cagedronerf_loaders
     train_ds, val_ds, test_ds = create_cagedronerf_loaders(
         "data/raw/CageDroneRF/balanced", label_mode=task,
@@ -55,11 +55,11 @@ def load_cagedronerf(task):
 
 
 def load_rfuav(task):
-    """Load RFUAV dataset (multiclass only, no background class)."""
+    # Charge le jeu de données RFUAV (multiclasse uniquement, sans classe fond)
     from src.datasets.rfuav_dataset import create_rfuav_splits
     root = "data/raw/RFUAV/ImageSet-AllDrones-MatlabPipeline/train"
 
-    # RFUAV has no test set — use val as test
+    # RFUAV n'a pas de test set — val utilisé comme test
     train_ds, val_ds = create_rfuav_splits(root, val_ratio=0.2, label_mode=task)
     test_ds = val_ds
 
@@ -74,21 +74,21 @@ DATASET_LOADERS = {
     "rfuav": load_rfuav,
 }
 
-# Valid dataset x task combinations
+# Combinaisons valides dataset x tâche
 VALID_COMBOS = [
     ("dronerf", "binary"),
     ("dronerf", "multiclass"),
     ("cagedronerf", "binary"),
     ("cagedronerf", "multiclass"),
-    ("rfuav", "multiclass"),  # no binary — RFUAV has no background class
+    ("rfuav", "multiclass"),  # pas de binaire — RFUAV n'a pas de classe fond
 ]
 
 
-# ── Training and evaluation ─────────────────────────────────────
+# ── Entraînement et évaluation ───────────────────────────────────
 
 def train_and_evaluate_baseline(clf, clf_name, X_train, y_train, X_val, y_val,
                                 X_test, y_test, scaler, output_dir, class_names):
-    """Train an sklearn classifier and evaluate on val/test sets."""
+    # Entraîne un classifieur sklearn et évalue sur val/test
     t0 = time.time()
     clf.fit(X_train, y_train)
     train_time = time.time() - t0
@@ -146,7 +146,7 @@ def train_and_evaluate_baseline(clf, clf_name, X_train, y_train, X_val, y_val,
 
 
 def run_single(dataset_name, task, output_dir=None):
-    """Run baselines for a single dataset x task combination."""
+    # Exécute les baselines pour une combinaison dataset x tâche
     if (dataset_name, task) not in VALID_COMBOS:
         print(f"  Skipped: {dataset_name} x {task} is not a valid combination")
         return
@@ -170,7 +170,7 @@ def run_single(dataset_name, task, output_dir=None):
 
     all_results = {}
 
-    # SVM with RBF kernel
+    # SVM avec noyau RBF
     svm_clf = SVC(kernel="rbf", C=10, gamma="scale", probability=True, random_state=42)
     all_results["SVM"] = train_and_evaluate_baseline(
         svm_clf, "SVM", X_train, y_train, X_val, y_val,

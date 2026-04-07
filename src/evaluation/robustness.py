@@ -1,4 +1,4 @@
-"""Robustness evaluation under varying SNR levels with Gaussian noise injection."""
+"""Évaluation de robustesse sous différents niveaux de SNR par injection de bruit gaussien."""
 
 import numpy as np
 import torch
@@ -10,7 +10,7 @@ from src.evaluation.metrics import collect_predictions, compute_classification_m
 
 
 class NoisyDatasetWrapper(Dataset):
-    """Wraps a spectrogram dataset and adds Gaussian noise at a given SNR."""
+    """Enveloppe un dataset de spectrogrammes et ajoute du bruit gaussien à un SNR donné."""
 
     def __init__(self, base_dataset, snr_db):
         self.base = base_dataset
@@ -23,7 +23,7 @@ class NoisyDatasetWrapper(Dataset):
         x, y = self.base[idx]
 
         if self.snr_db is not None:
-            # x est un tenseur [1, H, W]
+            # x : tenseur [1, H, W]
             signal_power = torch.mean(x ** 2)
             snr_linear = 10 ** (self.snr_db / 10)
             noise_power = signal_power / snr_linear
@@ -35,7 +35,7 @@ class NoisyDatasetWrapper(Dataset):
 
 def evaluate_robustness(model, test_dataset, device, snr_levels,
                         batch_size=16, class_names=None):
-    """Evaluate model at each SNR level, return {snr_key: metrics_dict}."""
+    # Évaluer le modèle à chaque niveau de SNR, retourner {clé_snr: métriques}
     results = {}
 
     # Évaluation sans bruit
@@ -55,7 +55,7 @@ def evaluate_robustness(model, test_dataset, device, snr_levels,
 
 
 def plot_robustness_curves(results, snr_levels, output_path=None, model_name="Model"):
-    """Plot accuracy and F1 vs SNR."""
+    # Tracer exactitude et F1 en fonction du SNR
     accs = [results["clean"]["accuracy"]]
     f1s = [results["clean"]["macro_f1"]]
     x_labels = ["Clean"]
@@ -90,7 +90,7 @@ def plot_robustness_curves(results, snr_levels, output_path=None, model_name="Mo
 def run_robustness_evaluation(model, test_dataset, device, output_dir,
                                model_name="Model", class_names=None,
                                snr_levels=None):
-    """Full robustness evaluation with plots."""
+    # Évaluation complète de robustesse avec graphiques
     if snr_levels is None:
         snr_levels = [30, 20, 10, 5, 0, -5, -10]
 

@@ -1,4 +1,4 @@
-"""Forensic timeline generation: segment-by-segment classification with confidence and anomaly flags."""
+"""Génération de timeline forensique : classification segment par segment avec confiance et anomalies."""
 
 import json
 import numpy as np
@@ -16,11 +16,7 @@ def analyze_signal_file(model, file_path, device, class_names=None,
                         window_size=131072, hop_size=65536,
                         fs=1.0, nperseg=512, noverlap=256,
                         anomaly_threshold=0.7):
-    """Analyze a signal file and produce a forensic timeline (list of per-segment dicts).
-
-    Args:
-        anomaly_threshold: max softmax probability below which a segment is flagged as anomalous.
-    """
+    # Analyse un fichier signal et produit une timeline forensique (liste de dicts par segment)
     if class_names is None:
         class_names = ["Background", "Drone"]
 
@@ -75,7 +71,7 @@ def analyze_signal_file(model, file_path, device, class_names=None,
 
 
 def generate_forensic_report(timeline, file_path, output_path, class_names=None):
-    """Generate a structured JSON forensic report from a timeline and save to output_path."""
+    # Génère un rapport forensique JSON structuré à partir de la timeline
     if class_names is None:
         class_names = ["Background", "Drone"]
 
@@ -118,7 +114,7 @@ def generate_forensic_report(timeline, file_path, output_path, class_names=None)
 
 
 def plot_forensic_timeline(timeline, output_path=None, title="Forensic Timeline"):
-    """Plot the forensic timeline as a multi-panel strip chart."""
+    # Trace la timeline forensique sous forme de graphique multi-panneaux
     segments = list(range(len(timeline)))
     confidences = [e["confidence"] for e in timeline]
     classes = [e["predicted_class"] for e in timeline]

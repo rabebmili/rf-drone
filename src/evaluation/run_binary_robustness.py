@@ -1,4 +1,4 @@
-"""Binary robustness evaluation on DroneRF and CageDroneRF with per-dataset RFResNet models."""
+"""Évaluation de robustesse binaire sur DroneRF et CageDroneRF avec modèles RFResNet par dataset."""
 
 import json
 from pathlib import Path

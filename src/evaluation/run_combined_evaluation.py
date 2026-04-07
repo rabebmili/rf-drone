@@ -1,4 +1,4 @@
-"""Run robustness, explainability, baselines, and open-set on the combined binary model."""
+"""Robustesse, explicabilité, baselines et open-set sur le modèle binaire combiné."""
 
 import argparse
 import json
@@ -17,7 +17,7 @@ from src.evaluation.explainability import generate_gradcam_examples
 
 
 def load_combined_binary_data(dronerf_csv, rfuav_root, cagedronerf_root):
-    """Load test data from all 3 datasets for binary evaluation."""
+    # Charger les données de test des 3 datasets pour l'évaluation binaire
     datasets = {}
 
     if Path(dronerf_csv).exists():
@@ -36,7 +36,7 @@ def load_combined_binary_data(dronerf_csv, rfuav_root, cagedronerf_root):
 
 
 def run_robustness_combined(model, datasets, device, output_dir):
-    """Run robustness evaluation on the combined model, per dataset."""
+    # Évaluation de robustesse du modèle combiné, par dataset
     print(f"\n{'='*60}")
     print("  ÉVALUATION DE ROBUSTESSE — Modèle binaire combiné")
     print(f"{'='*60}")
@@ -54,7 +54,7 @@ def run_robustness_combined(model, datasets, device, output_dir):
 
 
 def run_explainability_combined(model, datasets, device, output_dir):
-    """Run Grad-CAM on the combined model, per dataset."""
+    # Exécuter Grad-CAM sur le modèle combiné, par dataset
     print(f"\n{'='*60}")
     print("  EXPLICABILITÉ (Grad-CAM) — Modèle binaire combiné")
     print(f"{'='*60}")
@@ -72,11 +72,11 @@ def run_explainability_combined(model, datasets, device, output_dir):
                 n_per_class=5
             )
         except Exception as e:
-            print(f"ERROR: Grad-CAM failed for {ds_name}: {e}")
+            print(f"ERREUR : Grad-CAM échoué pour {ds_name}: {e}")
 
 
 def run_baselines_combined(datasets, output_dir):
-    """Train SVM + RF on combined features from all datasets."""
+    # Entraîner SVM + RF sur les caractéristiques combinées de tous les datasets
     print(f"\n{'='*60}")
     print("  BASELINES (SVM + RF) — Données binaires combinées")
     print(f"{'='*60}")
@@ -128,7 +128,7 @@ def run_baselines_combined(datasets, output_dir):
         ("SVM", SVC(kernel="rbf", C=10, gamma="scale", probability=True, random_state=42)),
         ("Random_Forest", RandomForestClassifier(n_estimators=200, max_depth=20, random_state=42, n_jobs=-1)),
     ]:
-        print(f"\n  Training {clf_name}...")
+        print(f"\n  Entraînement {clf_name}...")
         clf.fit(X_train, y_train)
 
         # Sauvegarder le modèle
@@ -160,7 +160,7 @@ def run_baselines_combined(datasets, output_dir):
 
 
 def run_openset_cagedronerf(device, output_dir):
-    """Run open-set evaluation on the CageDroneRF multiclass model."""
+    # Évaluation open-set sur le modèle multiclasse CageDroneRF
     print(f"\n{'='*60}")
     print("  ÉVALUATION OPEN-SET — CageDroneRF Multiclasse")
     print(f"{'='*60}")
@@ -169,7 +169,7 @@ def run_openset_cagedronerf(device, output_dir):
 
     cagedronerf_root = "data/raw/CageDroneRF/balanced"
     if not Path(cagedronerf_root).exists():
-        print("ERROR: CageDroneRF not found, skipping open-set.")
+        print("ERREUR : CageDroneRF non trouvé, open-set ignoré.")
         return
 
     # Charger CageDroneRF multiclasse
@@ -183,7 +183,7 @@ def run_openset_cagedronerf(device, output_dir):
     # Charger le meilleur modèle ResNet multiclasse CageDroneRF
     weights_path = "outputs/cagedronerf_resnet_multiclass/models/best_model.pt"
     if not Path(weights_path).exists():
-        print(f"ERROR: No multiclass model at {weights_path}, skipping.")
+        print(f"ERREUR : Modèle multiclasse absent à {weights_path}, ignoré.")
         return
 
     model = RFResNet(num_classes=num_classes).to(device)
@@ -212,7 +212,7 @@ def run_openset_cagedronerf(device, output_dir):
             )
             all_results[cls_name] = results
         except Exception as e:
-            print(f"ERROR: Open-set failed for {cls_name}: {e}")
+            print(f"ERREUR : Open-set échoué pour {cls_name}: {e}")
 
     # Sauvegarder le résumé
     out.mkdir(parents=True, exist_ok=True)
@@ -241,8 +241,8 @@ def main():
 
     # Charger le modèle binaire combiné (ResNet entraîné sur les 3 datasets)
     if not Path(args.combined_model).exists():
-        print(f"ERROR: Combined model not found: {args.combined_model}")
-        print("Run cross-dataset evaluation first: python -m src.evaluation.cross_dataset_enhanced --model resnet --epochs 20")
+        print(f"ERREUR : Modèle combiné non trouvé : {args.combined_model}")
+        print("Exécuter d'abord l'évaluation inter-datasets : python -m src.evaluation.cross_dataset_enhanced --model resnet --epochs 20")
         return
 
     model = RFResNet(num_classes=2).to(device)
@@ -269,7 +269,7 @@ def main():
     if not args.skip_openset:
         run_openset_cagedronerf(device, args.output_dir)
 
-    print(f"\nAll evaluations complete. Results saved to: {args.output_dir}/")
+    print(f"\nToutes les évaluations terminées. Résultats dans : {args.output_dir}/")
 
 
 if __name__ == "__main__":

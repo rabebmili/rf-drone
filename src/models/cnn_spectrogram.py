@@ -37,7 +37,7 @@ class SmallRFNet(nn.Module):
         return x
 
     def get_embedding(self, x):
-        """Return flattened feature embedding before the classification head."""
+        # Retourne l'embedding aplati avant la tête de classification
         x = self.features(x)
         x = torch.flatten(x, 1)
         return x

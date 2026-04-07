@@ -1,15 +1,17 @@
-"""Open-set recognition and OOD detection (MSP, Energy, Mahalanobis)."""
+"""Détection open-set et OOD (MSP, Energy, Mahalanobis, OpenMax)."""
 
 import numpy as np
 import torch
 from torch.utils.data import DataLoader, Subset
 from sklearn.metrics import roc_auc_score, precision_recall_curve, average_precision_score
+from scipy.stats import exponweib
+from scipy.spatial.distance import cdist
 import matplotlib.pyplot as plt
 from pathlib import Path
 
 
 def compute_msp_scores(model, loader, device):
-    """Maximum Softmax Probability scores. Lower = more likely OOD."""
+    # Scores de probabilité softmax maximale. Plus bas = plus probablement OOD
     model.eval()
     scores = []
     labels = []
@@ -27,7 +29,7 @@ def compute_msp_scores(model, loader, device):
 
 
 def compute_energy_scores(model, loader, device, temperature=1.0):
-    """Energy-based OOD score. Higher = more in-distribution (sign-flipped for MSP consistency)."""
+    # Score OOD basé sur l'énergie. Plus élevé = plus en distribution (signe inversé)
     model.eval()
     scores = []
     labels = []
@@ -44,7 +46,7 @@ def compute_energy_scores(model, loader, device, temperature=1.0):
 
 
 def compute_mahalanobis_scores(model, loader, device, class_means, shared_cov_inv):
-    """Mahalanobis distance in embedding space. Higher = more in-distribution (sign-flipped)."""
+    # Distance de Mahalanobis dans l'espace d'embeddings. Plus élevé = plus en distribution
     model.eval()
     scores = []
     labels = []
@@ -69,7 +71,7 @@ def compute_mahalanobis_scores(model, loader, device, class_means, shared_cov_in
 
 
 def fit_mahalanobis(model, train_loader, device, num_classes):
-    """Compute per-class means and shared covariance from training embeddings."""
+    # Calculer les moyennes par classe et la covariance partagée depuis les embeddings d'entraînement
     model.eval()
     embeddings_by_class = {c: [] for c in range(num_classes)}
 
@@ -96,8 +98,115 @@ def fit_mahalanobis(model, train_loader, device, num_classes):
     return class_means, shared_cov_inv
 
 
+def fit_openmax(model, train_loader, device, num_classes, tail_size=20):
+    # Ajuster OpenMax : calculer les MAV par classe + modèles Weibull via EVT
+    model.eval()
+    activations_by_class = {c: [] for c in range(num_classes)}
+    logits_by_class = {c: [] for c in range(num_classes)}
+
+    with torch.no_grad():
+        for x, y in train_loader:
+            x = x.to(device)
+            logits = model(x)
+            preds = torch.argmax(logits, dim=1)
+            embeddings = model.get_embedding(x).cpu().numpy()
+            logits_np = logits.cpu().numpy()
+
+            for emb, logit, pred, label in zip(embeddings, logits_np, preds.numpy(), y.numpy()):
+                # Utiliser uniquement les échantillons correctement classifiés
+                if pred == label:
+                    activations_by_class[label].append(emb)
+                    logits_by_class[label].append(logit)
+
+    # Calculer les MAV et ajuster les distributions de Weibull
+    mavs = []
+    weibull_params = []
+
+    for c in range(num_classes):
+        if not activations_by_class[c]:
+            mavs.append(np.zeros(1))
+            weibull_params.append((1.0, 0.0, 1.0))
+            continue
+
+        embs = np.array(activations_by_class[c])
+        mav = embs.mean(axis=0)
+        mavs.append(mav)
+
+        # Calculer les distances de chaque échantillon à son MAV de classe
+        distances = np.linalg.norm(embs - mav, axis=1)
+
+        # Utiliser uniquement la queue (plus grandes distances) pour l'ajustement Weibull
+        sorted_distances = np.sort(distances)
+        tail = sorted_distances[-min(tail_size, len(sorted_distances)):]
+
+        # Ajuster la distribution de Weibull aux distances de queue
+        try:
+            params = exponweib.fit(tail, floc=0)
+            weibull_params.append(params)
+        except Exception:
+            weibull_params.append((1.0, 0.0, 1.0, max(tail) if len(tail) > 0 else 1.0))
+
+    return mavs, weibull_params
+
+
+def compute_openmax_scores(model, loader, device, mavs, weibull_params,
+                           num_classes=None, alpha=3):
+    # Calculer les probabilités OpenMax incluant la classe 'inconnu'
+    if num_classes is None:
+        num_classes = len(mavs)
+
+    model.eval()
+    scores = []
+    labels = []
+
+    with torch.no_grad():
+        for x, y in loader:
+            x = x.to(device)
+            logits = model(x).cpu().numpy()
+            embeddings = model.get_embedding(x).cpu().numpy()
+
+            for emb, logit in zip(embeddings, logits):
+                # Distances à chaque MAV de classe
+                distances = np.array([
+                    np.linalg.norm(emb - mavs[c]) for c in range(num_classes)
+                ])
+
+                # Trier les classes par distance (plus proche en premier)
+                ranked_classes = np.argsort(distances)
+
+                # Réviser les activations des top-alpha classes via CDF de Weibull
+                revised_logits = logit.copy()
+                unknown_score = 0.0
+
+                for rank, c in enumerate(ranked_classes[:alpha]):
+                    dist = distances[c]
+                    try:
+                        w_cdf = exponweib.cdf(dist, *weibull_params[c])
+                    except Exception:
+                        w_cdf = 0.0
+
+                    # Réduire l'activation de la classe connue, accumuler pour l'inconnu
+                    reduction = logit[c] * w_cdf
+                    revised_logits[c] -= reduction
+                    unknown_score += reduction
+
+                # Ajouter le score inconnu comme classe supplémentaire
+                revised_with_unknown = np.append(revised_logits, unknown_score)
+
+                # Softmax
+                exp_logits = np.exp(revised_with_unknown - revised_with_unknown.max())
+                openmax_probs = exp_logits / exp_logits.sum()
+
+                # Score : 1 - P(inconnu). Plus élevé = plus en distribution
+                scores.append(1.0 - openmax_probs[-1])
+
+            labels.extend(y.numpy())
+
+    return np.array(scores), np.array(labels)
+
+
 def evaluate_ood_detection(in_scores, ood_scores, method_name="MSP"):
-    """Compute OOD detection metrics: AUROC, AUPR, FPR@95TPR."""
+    # Calculer les métriques de détection OOD : AUROC, AUPR, TFP@95TVP
     labels = np.concatenate([np.ones(len(in_scores)), np.zeros(len(ood_scores))])
     scores = np.concatenate([in_scores, ood_scores])
 
@@ -115,7 +224,7 @@ def evaluate_ood_detection(in_scores, ood_scores, method_name="MSP"):
 
 
 def create_openset_split(dataset, holdout_class):
-    """Split dataset into known (in-distribution) and unknown (OOD) subsets."""
+    # Diviser le dataset en sous-ensembles connus (en distribution) et inconnus (OOD)
     known_idx = []
     unknown_idx = []
 
@@ -132,7 +241,7 @@ def create_openset_split(dataset, holdout_class):
 def run_openset_evaluation(model, test_dataset, device, holdout_class,
                             train_loader=None, num_known_classes=None,
                             output_dir=None):
-    """Run full open-set evaluation with MSP, Energy, and optionally Mahalanobis."""
+    # Évaluation open-set complète avec MSP, Energy, et optionnellement Mahalanobis
     known_idx, unknown_idx = create_openset_split(test_dataset, holdout_class)
 
     known_ds = Subset(test_dataset, known_idx)
@@ -160,6 +269,26 @@ def run_openset_evaluation(model, test_dataset, device, holdout_class,
         ood_maha, _ = compute_mahalanobis_scores(model, unknown_loader, device, class_means, cov_inv)
         results["Mahalanobis"] = evaluate_ood_detection(in_maha, ood_maha, "Mahalanobis")
 
+    # OpenMax (reconnaissance open-set basée sur EVT)
+    if hasattr(model, "get_embedding") and train_loader is not None and num_known_classes is not None:
+        try:
+            mavs, weibull_params = fit_openmax(model, train_loader, device, num_known_classes)
+            in_openmax, _ = compute_openmax_scores(
+                model, known_loader, device, mavs, weibull_params, num_known_classes
+            )
+            ood_openmax, _ = compute_openmax_scores(
+                model, unknown_loader, device, mavs, weibull_params, num_known_classes
+            )
+            results["OpenMax"] = evaluate_ood_detection(in_openmax, ood_openmax, "OpenMax")
+
+            if output_dir:
+                _plot_ood_distributions(
+                    in_openmax, ood_openmax, "OpenMax Score",
+                    output_dir, "openmax_distribution.png"
+                )
+        except Exception as e:
+            print(f"  OpenMax échoué : {e}")
+
     # Tracer les distributions de scores
     if output_dir:
         _plot_ood_distributions(in_msp, ood_msp, "MSP Score", output_dir, "msp_distribution.png")
@@ -169,7 +298,7 @@ def run_openset_evaluation(model, test_dataset, device, holdout_class,
 
 
 def _plot_ood_distributions(in_scores, ood_scores, score_name, output_dir, filename):
-    """Plot in-distribution vs OOD score histograms."""
+    # Tracer les histogrammes des scores en distribution vs OOD
     fig, ax = plt.subplots(figsize=(8, 4))
     ax.hist(in_scores, bins=50, alpha=0.6, label="In-distribution (known)", density=True)
     ax.hist(ood_scores, bins=50, alpha=0.6, label="OOD (unknown)", density=True)

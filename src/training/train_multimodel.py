@@ -1,4 +1,4 @@
-"""Unified training script for all models x datasets x tasks."""
+"""Script d'entraînement unifié pour tous les modèles, jeux de données et tâches."""
 
 import argparse
 import json
@@ -13,21 +13,12 @@ from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
 from sklearn.metrics import f1_score
 
-from src.models.cnn_spectrogram import SmallRFNet
-from src.models.resnet_spectrogram import RFResNet
-from src.models.transformer_spectrogram import RFTransformer
+from src.models import MODEL_REGISTRY, RAW_SIGNAL_MODELS, get_model
 from src.evaluation.metrics import full_evaluation, collect_predictions
 
 
-MODEL_REGISTRY = {
-    "smallrf": SmallRFNet,
-    "resnet": RFResNet,
-    "transformer": RFTransformer,
-}
-
-
 def compute_class_weights(dataset):
-    """Compute inverse-frequency class weights from a dataset."""
+    # Calcule les poids de classe par fréquence inverse
     labels = []
     for i in range(len(dataset)):
         _, y = dataset[i]
@@ -41,9 +32,30 @@ def compute_class_weights(dataset):
     return weights
 
 
-def load_dataset(dataset_name, task, data_path=None):
-    """Load train/val/test splits for the specified dataset."""
+def load_dataset(dataset_name, task, data_path=None, model_name=None):
+    # Charge les splits train/val/test pour le jeu de données spécifié
     if dataset_name == "dronerf":
+        # Dataset brut pour les modèles 1D
+        if model_name and model_name in RAW_SIGNAL_MODELS:
+            from src.datasets.dronerf_raw_dataset import DroneRFRawDataset
+
+            csv_path = data_path or "data/metadata/dronerf_segments_split.csv"
+
+            if task == "binary":
+                label_col = "label_binary"
+                num_classes = 2
+                class_names = ["Background", "Drone"]
+            else:
+                label_col = "label_multiclass"
+                num_classes = 4
+                class_names = ["Background", "AR Drone", "Bepop Drone", "Phantom Drone"]
+
+            train_ds = DroneRFRawDataset(csv_path, split="train", label_col=label_col)
+            val_ds = DroneRFRawDataset(csv_path, split="val", label_col=label_col)
+            test_ds = DroneRFRawDataset(csv_path, split="test", label_col=label_col)
+
+            return train_ds, val_ds, test_ds, num_classes, class_names
+
         from src.datasets.dronerf_precomputed_dataset import DroneRFPrecomputedDataset
 
         csv_path = data_path or "data/metadata/dronerf_precomputed.csv"
@@ -195,22 +207,21 @@ def main():
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    # Load data
+    # Chargement des données
     train_ds, val_ds, test_ds, num_classes, class_names = load_dataset(
-        args.dataset, args.task, args.data_path
+        args.dataset, args.task, args.data_path, model_name=args.model
     )
 
     train_loader = DataLoader(train_ds, batch_size=args.batch_size, shuffle=True, num_workers=0)
     val_loader = DataLoader(val_ds, batch_size=args.batch_size, shuffle=False, num_workers=0)
     test_loader = DataLoader(test_ds, batch_size=args.batch_size, shuffle=False, num_workers=0)
 
-    # Model
-    ModelClass = MODEL_REGISTRY[args.model]
-    model = ModelClass(num_classes=num_classes).to(device)
+    # Modèle
+    model = get_model(args.model, num_classes=num_classes).to(device)
 
     param_count = sum(p.numel() for p in model.parameters() if p.requires_grad)
 
-    # Class-weighted loss if imbalanced
+    # Perte pondérée par classe si déséquilibre
     if not args.no_weighted_loss:
         class_weights = compute_class_weights(train_ds).to(device)
         weight_ratio = class_weights.max() / class_weights.min()
@@ -224,7 +235,7 @@ def main():
     optimizer = optim.Adam(model.parameters(), lr=args.lr)
     scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=args.epochs)
 
-    # Training loop
+    # Boucle d'entraînement
     history = {"train_loss": [], "val_loss": [], "train_acc": [], "val_acc": [], "val_f1": []}
     best_val_f1 = 0.0
     out_dir = Path(args.output_dir)
@@ -235,7 +246,7 @@ def main():
         val_loss, val_acc = validate(model, val_loader, criterion, device)
         scheduler.step()
 
-        # Validation F1
+        # F1 de validation
         y_true, y_pred, _ = collect_predictions(model, val_loader, device, return_probs=False)
         val_f1 = f1_score(y_true, y_pred, average="macro")
 
@@ -250,7 +261,7 @@ def main():
               f"Train Loss: {train_loss:.4f} Acc: {train_acc:.4f} | "
               f"Val Loss: {val_loss:.4f} Acc: {val_acc:.4f} F1: {val_f1:.4f}")
 
-        # Save best model
+        # Sauvegarde du meilleur modèle
         if val_f1 > best_val_f1:
             best_val_f1 = val_f1
             model_dir = out_dir / "models"
@@ -259,7 +270,7 @@ def main():
             torch.save(model.state_dict(), best_path)
             print(f"  -> Best model saved (F1={val_f1:.4f})")
 
-    # Load best model for final test evaluation
+    # Chargement du meilleur modèle pour évaluation finale
     model.load_state_dict(torch.load(out_dir / "models" / "best_model.pt", weights_only=True))
 
     figures_dir = out_dir / "figures"
@@ -270,10 +281,10 @@ def main():
         model_name=f"{args.model} {args.dataset} ({args.task})"
     )
 
-    # Save training curves
+    # Sauvegarde des courbes d'entraînement
     plot_curves(history, str(figures_dir / "training_curves.png"))
 
-    # Save final results
+    # Sauvegarde des résultats finaux
     results_path = out_dir / "results.json"
     serializable = {k: v for k, v in metrics.items() if k != "classification_report"}
     serializable["classification_report"] = metrics["classification_report"]
@@ -284,7 +295,7 @@ def main():
     serializable["best_val_f1"] = best_val_f1
     serializable["param_count"] = param_count
 
-    # Convert numpy types
+    # Conversion des types numpy
     for k, v in serializable.items():
         if hasattr(v, "item"):
             serializable[k] = v.item()

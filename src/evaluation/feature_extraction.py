@@ -1,11 +1,11 @@
-"""Handcrafted feature extraction from spectrograms for traditional ML baselines."""
+"""Extraction de caractéristiques manuelles depuis les spectrogrammes pour les baselines ML."""
 
 import numpy as np
 from scipy.stats import kurtosis, skew
 
 
 def extract_spectrogram_features(spec):
-    """Extract feature vector from a 2D log-magnitude spectrogram."""
+    # Extraire le vecteur de caractéristiques d'un spectrogramme log-magnitude 2D
     features = []
 
     # Statistiques globales
@@ -87,7 +87,7 @@ def extract_spectrogram_features(spec):
 
 
 def extract_features_from_dataset(dataset, max_samples=None):
-    """Extract features from a PyTorch spectrogram dataset, return (X, y) arrays."""
+    # Extraire les caractéristiques d'un dataset PyTorch de spectrogrammes, retourner (X, y)
     n = len(dataset) if max_samples is None else min(max_samples, len(dataset))
     X_list = []
     y_list = []

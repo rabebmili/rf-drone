@@ -1,4 +1,4 @@
-"""Lightweight ResNet for single-channel spectrogram classification."""
+"""ResNet léger pour la classification de spectrogrammes monocanal."""
 
 import torch
 import torch.nn as nn
@@ -29,7 +29,7 @@ class ResidualBlock(nn.Module):
 
 
 class RFResNet(nn.Module):
-    """Lightweight ResNet for single-channel spectrogram inputs."""
+    """ResNet léger pour spectrogrammes monocanal."""
 
     def __init__(self, num_classes=2):
         super().__init__()
@@ -71,7 +71,7 @@ class RFResNet(nn.Module):
         return x
 
     def get_embedding(self, x):
-        """Return penultimate-layer embedding for open-set / anomaly detection."""
+        # Retourne l'embedding avant-dernière couche pour la détection open-set / anomalies
         x = self.conv1(x)
         x = self.layer1(x)
         x = self.layer2(x)

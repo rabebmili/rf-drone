@@ -1,0 +1,16 @@
+{
+  "backbone": "ast",
+  "dataset": "dronerf",
+  "task": "multiclass",
+  "embedding_dim": 128,
+  "margin": 1.0,
+  "epochs": 20,
+  "best_val_loss": 0.07158041931277606,
+  "num_classes": 4,
+  "class_names": [
+    "Background",
+    "AR Drone",
+    "Bepop Drone",
+    "Phantom Drone"
+  ]
+}

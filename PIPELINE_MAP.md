@@ -1,95 +1,129 @@
-# Pipeline Map — RF Drone Forensics
+# Pipeline Map
 
-Complete mapping of every script to its role and outputs.
-
----
-
-## Data Preparation (run once, in order)
-
-| Script | Role | Outputs |
-|--------|------|---------|
-| `src/datasets/build_dronerf_metadata.py` | Scans raw CSVs, infers labels | `data/metadata/dronerf_metadata.csv` |
-| `src/datasets/build_dronerf_segments.py` | Sliding-window segment index | `data/metadata/dronerf_segments.csv` |
-| `src/datasets/split_segments_by_file.py` | File-level train/val/test split | `data/metadata/dronerf_segments_split.csv` |
-| `src/preprocessing/precompute_spectrograms.py` | STFT all segments to .npy | `data/processed/dronerf_spectrograms/*.npy` + `data/metadata/dronerf_precomputed.csv` |
-| `src/datasets/download_rfuav.py` | Downloads RFUAV from HuggingFace | `data/raw/RFUAV/` |
+Detailed script-to-output mapping for all 9 pipeline phases.
 
 ---
 
-## Libraries (no direct output, called by others)
+## 1. Data Preparation
+| Script | Input | Output |
+|--------|-------|--------|
+| `src/datasets/build_dronerf_metadata.py` | `data/raw/DroneRF/` folder hierarchy | `data/metadata/dronerf_metadata.csv` |
+| `src/datasets/build_dronerf_segments.py` | `data/metadata/dronerf_metadata.csv` | `data/metadata/dronerf_segments.csv` |
+| `src/datasets/split_segments_by_file.py` | `data/metadata/dronerf_segments.csv` | `data/metadata/dronerf_segments_split.csv` |
+| `src/preprocessing/precompute_spectrograms.py` | `data/metadata/dronerf_segments_split.csv` + raw CSVs | `data/processed/dronerf_spectrograms/*.npy` |
+| `src/datasets/download_rfuav.py` | HuggingFace remote | `data/raw/RFUAV/*.jpg` (5,679 images, 37 classes) |
 
-| Script | What it provides | Used by |
-|--------|-----------------|---------|
-| `src/datasets/load_signal.py` | `load_dronerf_csv()` — reads raw CSV | build_dronerf_segments, precompute_spectrograms, timeline |
-| `src/datasets/dronerf_precomputed_dataset.py` | `DroneRFPrecomputedDataset` class | train_multimodel, run_all_experiments, all evaluation runners |
-| `src/datasets/cagedronerf_dataset.py` | `create_cagedronerf_loaders()` | train_multimodel, all evaluation runners, cross_dataset_enhanced |
-| `src/datasets/rfuav_dataset.py` | `create_rfuav_loaders()` | train_multimodel, run_multiclass_eval, run_combined_evaluation, cross_dataset_enhanced |
-| `src/preprocessing/segmentation.py` | `segment_signal()` | build_dronerf_segments, timeline |
-| `src/preprocessing/stft_utils.py` | `compute_log_spectrogram()` | precompute_spectrograms, timeline |
-| `src/models/cnn_spectrogram.py` | `SmallRFNet` architecture | train_multimodel, run_all_experiments, forensics, cross_dataset_enhanced |
-| `src/models/resnet_spectrogram.py` | `RFResNet` architecture | all training/evaluation/forensic scripts |
-| `src/models/transformer_spectrogram.py` | `RFTransformer` architecture | train_multimodel, run_all_experiments, forensics, cross_dataset_enhanced |
-| `src/evaluation/metrics.py` | `full_evaluation()` — CM, ROC, PR, calibration | train_multimodel, run_all_experiments, cross_dataset_enhanced |
-| `src/evaluation/feature_extraction.py` | Handcrafted spectrogram features | train_baselines, run_combined_evaluation |
-| `src/evaluation/robustness.py` | `run_robustness_evaluation()` | run_all_experiments, run_binary_robustness, run_multiclass_eval, run_combined_evaluation |
-| `src/evaluation/openset.py` | MSP/Energy/Mahalanobis OOD detection | run_all_experiments, run_multiclass_eval, run_combined_evaluation |
-| `src/evaluation/explainability.py` | Grad-CAM heatmaps | run_all_experiments, run_combined_evaluation |
-| `src/forensics/timeline.py` | `analyze_signal_file()`, report/plot generation | run_forensic_analysis, run_forensic_batch |
+## 2. Libraries (Models, Datasets, Utilities)
 
----
+| File | Exports | Used by |
+|------|---------|---------|
+| `src/models/__init__.py` | `MODEL_REGISTRY`, `get_model()` | all training/evaluation scripts |
+| `src/models/cnn_spectrogram.py` | `SmallRFNet` | train_multimodel |
+| `src/models/resnet_spectrogram.py` | `RFResNet` | train_multimodel |
+| `src/models/transformer_spectrogram.py` | `RFTransformer` | train_multimodel |
+| `src/models/efficientnet_spectrogram.py` | `RFEfficientNet` | train_multimodel |
+| `src/models/ast_spectrogram.py` | `RFAST` | train_multimodel |
+| `src/models/conformer_spectrogram.py` | `RFConformer` | train_multimodel |
+| `src/models/cnn_1d.py` | `RFCNN1D` | train_multimodel |
+| `src/models/siamese_network.py` | `SiameseNetwork` | train_siamese, build_gallery, train_gnn |
+| `src/models/vae.py` | `RFVAE` | train_vae, integrated_pipeline |
+| `src/models/gnn.py` | `RFDroneGNN`, `build_similarity_graph()` | train_gnn, integrated_pipeline |
+| `src/models/ensemble.py` | `EnsembleCNNTransformer` | eval_ensemble |
+| `src/datasets/dronerf_precomputed_dataset.py` | `DroneRFPrecomputedDataset` | train_multimodel |
+| `src/datasets/dronerf_raw_dataset.py` | `DroneRFRawDataset` | train_multimodel (cnn1d) |
+| `src/datasets/cagedronerf_dataset.py` | `CageDroneRFDataset` | train_multimodel |
+| `src/datasets/rfuav_dataset.py` | `RFUAVDataset` | train_multimodel |
+| `src/datasets/siamese_dataset.py` | `TripletDataset` | train_siamese |
+| `src/datasets/signal_graph_dataset.py` | `SignalGraphDataset` | train_gnn |
+| `src/preprocessing/segmentation.py` | `segment_signal()` | precompute, forensics |
+| `src/preprocessing/stft_utils.py` | `compute_log_spectrogram()` | precompute, forensics |
+| `src/evaluation/metrics.py` | accuracy, F1, ROC-AUC, ECE, confusion matrix, PR curves | all evaluation scripts |
+| `src/evaluation/feature_extraction.py` | handcrafted spectrogram features | train_baselines |
+| `src/evaluation/robustness.py` | SNR noise injection | run_binary_robustness, run_multiclass_eval |
+| `src/evaluation/openset.py` | MSP, Energy, Mahalanobis, OpenMax (EVT/Weibull) | run_multiclass_eval, integrated_pipeline |
+| `src/evaluation/explainability.py` | Grad-CAM, Attention Rollout, GradCAM1D | run_combined_evaluation, integrated_pipeline |
+| `src/forensics/timeline.py` | segment-by-segment classification + anomaly detection | run_forensic_analysis, run_forensic_batch |
+| `src/forensics/integrated_pipeline.py` | `ForensicPipeline` class | run_integrated_analysis |
 
-## Training (produces models + figures)
+## 3. Training (Classification)
 
-| Script | Output dir | Outputs |
-|--------|-----------|---------|
-| `src/training/train_multimodel.py` | `outputs/{dataset}_{model}_{task}/` | `figures/training_curves.png`, `figures/confusion_matrix.png`, `figures/confusion_matrix_normalized.png`, `figures/roc_curves.png`, `figures/pr_curves.png`, `figures/calibration_diagram.png`, `models/best_model.pt`, `results.json` |
-| `src/training/train_baselines.py` | `outputs/baselines_{dataset}_{task}/` | `svm_model.joblib`, `rf_model.joblib`, `*_scaler.joblib`, `svm_results.json`, `random_forest_results.json` |
-| `src/training/run_all_experiments.py` | Orchestrates all above | Calls train_multimodel + robustness + openset + explainability sequentially |
+| Script | Output directory | Key outputs |
+|--------|-----------------|-------------|
+| `src/training/train_multimodel.py` | `outputs/{dataset}_{model}_{task}/` | `models/best_model.pt`, `figures/training_curves.png`, `figures/confusion_matrix.png`, `results.json` |
+| `src/training/train_baselines.py` | `outputs/baselines_{dataset}_{task}/` | `models/svm.pkl`, `models/rf.pkl`, `results.json` |
 
----
+## 4. Training (Siamese / VAE / GNN)
 
-## Evaluation (produces analysis figures)
+| Script | Output directory | Key outputs |
+|--------|-----------------|-------------|
+| `src/training/train_siamese.py` | `outputs/siamese_{dataset}_{backbone}_{task}/` | `models/best_siamese.pt`, `results.json` |
+| `src/training/train_vae.py` | `outputs/vae_{dataset}/` | `models/best_vae.pt`, `figures/vae_training_curves.png`, `figures/vae_reconstructions.png`, `results.json` |
+| `src/training/train_gnn.py` | `outputs/gnn_{dataset}_{task}/` | `models/best_gnn.pt`, `figures/gnn_training_curves.png`, `results.json` |
 
-| Script | Output dir | Figures generated |
-|--------|-----------|-------------------|
-| `src/evaluation/run_binary_robustness.py` | `outputs/robustness_single_dataset_binary/` | `{DroneRF,CageDroneRF}/robustness_vs_snr.png` — per-dataset binary model robustness |
-| `src/evaluation/run_multiclass_eval.py` | `outputs/multiclass_evaluation/` | `robustness_multiclass/{dataset}/robustness_vs_snr.png` + `openset_multiclass/{dataset}/holdout_{class}/energy_distribution.png`, `msp_distribution.png` |
-| `src/evaluation/run_combined_evaluation.py` | `outputs/evaluation_combined_model/` | `robustness/{dataset}/robustness_vs_snr.png` + `explainability/{dataset}/gradcam_*.png` + `openset/holdout_{class}/energy_distribution.png`, `msp_distribution.png` |
-| `src/evaluation/cross_dataset_enhanced.py` | `outputs/cross_dataset_enhanced/` | `{experiment}/*_confusion_matrix.png` + `*_metrics.json` + `models/*_best.pt` |
-| `src/evaluation/plot_baselines_comparison.py` | `outputs/thesis_figures/` | `baselines_binary_comparison.png`, `baselines_multiclass_comparison.png`, `baselines_dl_advantage.png` |
-| `src/evaluation/plot_cross_dataset_figures.py` | `outputs/thesis_figures/` | `cross_dataset_heatmap.png`, `leave_one_out_bar.png`, `finetune_comparison.png`, `domain_shift_summary.png`, `ablation_comparison.png`, `model_comparison_all_datasets.png` |
+## 5. Training (Master Runner)
 
----
+| Script | Runs |
+|--------|------|
+| `src/training/run_all_experiments.py` | All models x datasets x tasks, baselines, robustness, open-set, explainability |
 
-## Forensics (produces investigation reports)
+## 6. Evaluation (Robustness + Open-Set)
 
-| Script | Output dir | Outputs |
-|--------|-----------|---------|
-| `src/forensics/run_forensic_analysis.py` | `outputs/forensic_reports/{file_stem}/` | `forensic_report.json` + `forensic_timeline.png` |
-| `src/forensics/run_forensic_batch.py` | `outputs/forensic_batch/{model}_{task}/` | Per-file: `*_report.json` + `*_timeline.png`. Global: `global_forensic_report.json` + `global_class_distribution.png` + `global_confidence_distribution.png` + `global_per_file_confidence.png` + `global_detection_rate_by_folder.png` |
+| Script | Output directory | Key outputs |
+|--------|-----------------|-------------|
+| `src/evaluation/run_binary_robustness.py` | `outputs/{dataset}_{model}_binary/` | robustness curves, SNR results |
+| `src/evaluation/run_multiclass_eval.py` | `outputs/{dataset}_{model}_multiclass/` | robustness + open-set (MSP, Energy, Mahalanobis, OpenMax) |
+| `src/evaluation/run_combined_evaluation.py` | `outputs/combined_evaluation/` | robustness + explainability + baselines across all 3 datasets |
+| `src/evaluation/eval_ensemble.py` | `outputs/ensemble_evaluation/` | `ensemble_results.json` |
+
+## 7. Evaluation (Cross-Dataset + Figures)
+
+| Script | Output directory | Key outputs |
+|--------|-----------------|-------------|
+| `src/evaluation/cross_dataset_enhanced.py` | `outputs/cross_dataset/` | leave-one-out, pairwise, pretrain+fine-tune results |
+| `src/evaluation/plot_baselines_comparison.py` | `outputs/figures/` | thesis figures: DL vs baselines |
+| `src/evaluation/plot_cross_dataset_figures.py` | `outputs/figures/` | thesis figures: cross-dataset generalization |
+
+## 8. Forensic Analysis (Basic)
+
+| Script | Output directory | Key outputs |
+|--------|-----------------|-------------|
+| `src/forensics/run_forensic_analysis.py` | `outputs/forensic_analysis/` | `forensic_report.json`, `timeline.png` |
+| `src/forensics/run_forensic_batch.py` | `outputs/forensic_batch/` | per-file reports + `batch_summary.json` |
+
+## 9. Forensic Analysis (Integrated Pipeline)
+
+| Script | Output directory | Key outputs |
+|--------|-----------------|-------------|
+| `src/forensics/build_gallery.py` | `outputs/` | `gallery_{dataset}_{task}.npz` |
+| `src/forensics/run_integrated_analysis.py` | `outputs/forensic_integrated/` | `integrated_forensic_report.json`, `integrated_timeline.png` |
 
 ---
 
 ## Pipeline Flow
 
 ```
-[Data Prep]
-  build_dronerf_metadata --> build_dronerf_segments --> split_segments_by_file --> precompute_spectrograms
-  download_rfuav
-
-[Training]
-  train_multimodel ----> outputs/{dataset}_{model}_{task}/  (models + 6 figures)
-  train_baselines  ----> outputs/baselines_{dataset}_{task}/ (joblib + json)
-
-[Evaluation]
-  run_binary_robustness      ----> outputs/robustness_single_dataset_binary/
-  run_multiclass_eval        ----> outputs/multiclass_evaluation/
-  run_combined_evaluation    ----> outputs/evaluation_combined_model/
-  cross_dataset_enhanced     ----> outputs/cross_dataset_enhanced/
-  plot_baselines_comparison  ----> outputs/thesis_figures/
-  plot_cross_dataset_figures ----> outputs/thesis_figures/
-
-[Forensics]
-  run_forensic_analysis ----> outputs/forensic_reports/
-  run_forensic_batch    ----> outputs/forensic_batch/
+1. Data Prep          build_metadata -> build_segments -> split -> precompute_spectrograms
+                                                                   download_rfuav (RFUAV)
+        |
+        v
+2. Training           train_multimodel  (7 models x 3 datasets x binary/multiclass)
+                      train_baselines   (SVM + RF)
+                      train_siamese     (triplet loss, similarity attribution)
+                      train_vae         (reconstruction + KL, anomaly detection)
+                      train_gnn         (GAT on similarity graph)
+        |
+        v
+3. Evaluation         run_binary_robustness      (SNR robustness per dataset)
+                      run_multiclass_eval        (robustness + open-set + OpenMax)
+                      run_combined_evaluation    (robustness + explainability + baselines)
+                      eval_ensemble              (CNN + Transformer fusion)
+                      cross_dataset_enhanced     (leave-one-out, pairwise, fine-tune)
+                      plot_baselines_comparison  (thesis figures)
+                      plot_cross_dataset_figures (thesis figures)
+        |
+        v
+4. Forensics          build_gallery              (Siamese embeddings for attribution)
+                      run_forensic_analysis      (single file, basic)
+                      run_forensic_batch         (batch, basic)
+                      run_integrated_analysis    (classification + open-set + VAE + Siamese + GNN + Grad-CAM)
 ```

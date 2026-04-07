@@ -1,4 +1,4 @@
-"""Batch forensic analysis on multiple RF signal files with global summary."""
+"""Analyse forensique par lots sur plusieurs fichiers signal RF avec résumé global."""
 
 import argparse
 import json
@@ -9,9 +9,7 @@ import numpy as np
 import torch
 import matplotlib.pyplot as plt
 
-from src.models.cnn_spectrogram import SmallRFNet
-from src.models.resnet_spectrogram import RFResNet
-from src.models.transformer_spectrogram import RFTransformer
+from src.models import MODEL_REGISTRY, get_model
 from src.forensics.timeline import (
     analyze_signal_file,
     generate_forensic_report,
@@ -19,15 +17,8 @@ from src.forensics.timeline import (
 )
 
 
-MODEL_REGISTRY = {
-    "smallrf": SmallRFNet,
-    "resnet": RFResNet,
-    "transformer": RFTransformer,
-}
-
-
 def collect_csv_files(folder, recursive=False):
-    """Collect all signal CSV files from a folder."""
+    # Collecte tous les fichiers CSV de signaux d'un dossier
     folder = Path(folder)
     if recursive:
         files = sorted(folder.rglob("*.csv"))
@@ -37,10 +28,10 @@ def collect_csv_files(folder, recursive=False):
 
 
 def plot_global_summary(all_file_results, output_dir, class_names):
-    """Generate global summary plots across all analyzed files."""
+    # Génère les graphiques de résumé global sur tous les fichiers analysés
     out = Path(output_dir)
 
-    # ── 1. Class distribution across all files ──
+    # ── 1. Distribution des classes sur tous les fichiers ──
     global_class_counts = {}
     for result in all_file_results:
         for cls, count in result["class_distribution"].items():
@@ -68,7 +59,7 @@ def plot_global_summary(all_file_results, output_dir, class_names):
     plt.savefig(out / "global_class_distribution.png", dpi=200, bbox_inches="tight")
     plt.close()
 
-    # ── 2. Confidence distribution across all files ──
+    # ── 2. Distribution de confiance sur tous les fichiers ──
     all_confidences = []
     for result in all_file_results:
         all_confidences.extend(result["confidences"])
@@ -88,7 +79,7 @@ def plot_global_summary(all_file_results, output_dir, class_names):
     plt.savefig(out / "global_confidence_distribution.png", dpi=200, bbox_inches="tight")
     plt.close()
 
-    # ── 3. Per-file summary heatmap ──
+    # ── 3. Résumé par fichier ──
     fig, ax = plt.subplots(figsize=(14, max(4, len(all_file_results) * 0.35 + 1)))
     file_names = [r["file_name"] for r in all_file_results]
     avg_confs = [r["avg_confidence"] for r in all_file_results]
@@ -118,7 +109,7 @@ def plot_global_summary(all_file_results, output_dir, class_names):
     plt.savefig(out / "global_per_file_confidence.png", dpi=200, bbox_inches="tight")
     plt.close()
 
-    # ── 4. Drone detection rate per folder (if recursive) ──
+    # ── 4. Taux de détection drone par dossier (si récursif) ──
     folder_stats = {}
     for r in all_file_results:
         folder = r.get("folder", "unknown")
@@ -174,12 +165,11 @@ def main():
         else ["Background", "AR Drone", "Bepop Drone", "Phantom Drone"]
     )
 
-    # Load model
+    # Charger le modèle
     if args.weights is None:
         args.weights = f"outputs/{args.model}_{args.task}/models/best_model.pt"
 
-    ModelClass = MODEL_REGISTRY[args.model]
-    model = ModelClass(num_classes=num_classes).to(device)
+    model = get_model(args.model, num_classes=num_classes).to(device)
     model.load_state_dict(
         torch.load(args.weights, weights_only=True, map_location=device))
     model.eval()
@@ -193,13 +183,13 @@ def main():
         print(f"ERROR: No CSV files found in {args.folder}")
         return
 
-    # Output directory
+    # Répertoire de sortie
     if args.output_dir is None:
         args.output_dir = f"outputs/forensic_batch/{args.model}_{args.task}"
     out_dir = Path(args.output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    # Analyze each file
+    # Analyser chaque fichier
     all_file_results = []
     all_timelines = {}
 
@@ -217,7 +207,7 @@ def main():
             print(f"ERROR: {csv_file.name}: {e}")
             continue
 
-        # Per-file stats
+        # Statistiques par fichier
         class_dist = {}
         confidences = []
         anomalous_count = 0
@@ -250,7 +240,7 @@ def main():
         all_file_results.append(file_result)
         all_timelines[str(csv_file)] = timeline
 
-        # Save individual timeline plot
+        # Sauvegarder le graphique de timeline individuel
         file_out = out_dir / "per_file" / folder_name
         file_out.mkdir(parents=True, exist_ok=True)
         plot_forensic_timeline(
@@ -259,7 +249,7 @@ def main():
             title=f"{folder_name}/{file_stem}",
         )
 
-        # Save individual report
+        # Sauvegarder le rapport individuel
         generate_forensic_report(
             timeline, str(csv_file),
             output_path=str(file_out / f"{file_stem}_report.json"),
@@ -271,7 +261,7 @@ def main():
         return
     plot_global_summary(all_file_results, out_dir, class_names)
 
-    # ── Global summary JSON ──
+    # ── Résumé global JSON ──
     total_segments = sum(r["total_segments"] for r in all_file_results)
     total_drone = sum(r["drone_count"] for r in all_file_results)
     total_anomalous = sum(r["anomalous_count"] for r in all_file_results)
@@ -284,16 +274,16 @@ def main():
         for cls, cnt in r["class_distribution"].items():
             global_class_dist[cls] = global_class_dist.get(cls, 0) + cnt
 
-    # Files with most anomalies
+    # Fichiers avec le plus d'anomalies
     anomalous_files = sorted(
         [r for r in all_file_results if r["anomalous_count"] > 0],
         key=lambda r: r["anomalous_count"], reverse=True
     )
 
-    # Files with lowest confidence
+    # Fichiers avec la confiance la plus faible
     low_conf_files = sorted(all_file_results, key=lambda r: r["avg_confidence"])[:10]
 
-    # Remove per-file confidences list from JSON (too large)
+    # Retirer la liste de confiances par fichier du JSON (trop volumineux)
     results_for_json = []
     for r in all_file_results:
         r_copy = {k: v for k, v in r.items() if k != "confidences"}

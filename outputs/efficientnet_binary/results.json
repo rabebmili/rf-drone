@@ -1,0 +1,19 @@
+{
+  "accuracy": 0.9475717439293598,
+  "balanced_accuracy": 0.8951434878587197,
+  "macro_f1": 0.9245444459688876,
+  "weighted_f1": 0.9453863360310133,
+  "macro_precision": 0.9673314993122422,
+  "macro_recall": 0.8951434878587197,
+  "cohen_kappa": 0.8496835443037974,
+  "mcc": 0.8594486572785699,
+  "roc_auc": 0.9985957406026702,
+  "ece": 0.042746160598780156,
+  "classification_report": "              precision    recall  f1-score   support\n\n  Background       1.00      0.79      0.88       453\n       Drone       0.93      1.00      0.97      1359\n\n    accuracy                           0.95      1812\n   macro avg       0.97      0.90      0.92      1812\nweighted avg       0.95      0.95      0.95      1812\n",
+  "model": "efficientnet",
+  "dataset": "dronerf",
+  "task": "binary",
+  "epochs": 20,
+  "best_val_f1": 1.0,
+  "param_count": 4009534
+}

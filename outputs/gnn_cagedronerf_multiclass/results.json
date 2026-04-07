@@ -1,0 +1,17 @@
+{
+  "accuracy": 0.995703125,
+  "macro_f1": 0.9955070938421949,
+  "mcc": 0.9955309500712446,
+  "best_val_f1": 0.9993728582978187,
+  "best_epoch": 10,
+  "model": "gnn",
+  "backbone": "resnet",
+  "dataset": "cagedronerf",
+  "task": "multiclass",
+  "epochs": 30,
+  "param_count": 202523,
+  "emb_dim": 128,
+  "subgraph_size": 64,
+  "threshold": 0.5,
+  "k": 5
+}

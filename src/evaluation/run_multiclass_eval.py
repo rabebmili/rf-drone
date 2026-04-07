@@ -1,4 +1,4 @@
-"""Multiclass robustness and open-set evaluation on all datasets."""
+"""Évaluation de robustesse multiclasse et open-set sur tous les datasets."""
 
 import argparse
 import json
@@ -15,7 +15,7 @@ from src.evaluation.robustness import run_robustness_evaluation
 from src.evaluation.openset import run_openset_evaluation
 
 
-# ── Configurations des datasets ──────────────────────────────────
+# ── Configuration des datasets ──────────────────────────────────
 
 DATASET_CONFIGS = {
     "DroneRF": {
@@ -50,7 +50,7 @@ DATASET_CONFIGS = {
 
 
 def load_dataset(name):
-    """Load train and test datasets for a given dataset name."""
+    # Charger les datasets d'entraînement et de test pour un dataset donné
     if name == "DroneRF":
         csv_path = "data/metadata/dronerf_precomputed.csv"
         if not Path(csv_path).exists():
@@ -71,13 +71,13 @@ def load_dataset(name):
         if not Path(root).exists():
             return None, None
         train_ds, val_ds = create_rfuav_splits(root, val_ratio=0.2, label_mode="multiclass")
-        return train_ds, val_ds  # val as test
+        return train_ds, val_ds  # val comme test
 
     return None, None
 
 
 def run_robustness_multiclass(device, output_dir):
-    """Run robustness evaluation on multiclass models for all datasets."""
+    # Évaluation de robustesse des modèles multiclasses pour tous les datasets
     print(f"\n{'='*60}")
     print("  ÉVALUATION DE ROBUSTESSE — Modèles multiclasses")
     print(f"{'='*60}")
@@ -138,7 +138,7 @@ def run_robustness_multiclass(device, output_dir):
 
 
 def run_openset_multiclass(device, output_dir):
-    """Run open-set evaluation on multiclass models for all datasets."""
+    # Évaluation open-set des modèles multiclasses pour tous les datasets
     print(f"\n{'='*60}")
     print("  ÉVALUATION OPEN-SET — Modèles multiclasses (tous les datasets)")
     print(f"{'='*60}")
@@ -176,7 +176,7 @@ def run_openset_multiclass(device, output_dir):
                 elif cls_name in class_names:
                     holdout_classes[cls_name] = class_names.index(cls_name)
                 else:
-                    print(f"WARNING: class {cls_name} not found in {ds_name}")
+                    print(f"ATTENTION : classe {cls_name} non trouvée dans {ds_name}")
         else:
             # RFUAV : choisir des classes diverses automatiquement
             # Sélectionner la première, le milieu et la dernière classe + des spécifiques si elles existent
@@ -201,7 +201,7 @@ def run_openset_multiclass(device, output_dir):
                 )
                 ds_results[cls_name] = results
             except Exception as e:
-                print(f"ERROR: Open-set failed for {cls_name}: {e}")
+                print(f"ERREUR : Open-set échoué pour {cls_name}: {e}")
 
         all_results[ds_name] = ds_results
 
@@ -238,7 +238,7 @@ def main():
     if not args.skip_openset:
         run_openset_multiclass(device, args.output_dir)
 
-    print(f"\nAll multiclass evaluations complete. Results saved to: {args.output_dir}/")
+    print(f"\nToutes les évaluations multiclasses terminées. Résultats dans : {args.output_dir}/")
 
 
 if __name__ == "__main__":
