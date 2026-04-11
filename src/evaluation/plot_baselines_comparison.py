@@ -16,54 +16,101 @@ def load_json(path):
     return None
 
 
-def plot_binary_comparison(output_dir):
-    # Diagramme en barres : DL vs SVM vs RF pour la classification binaire
+# -- Model registry: names, result paths, colors --
 
-    datasets = ["DroneRF", "CageDroneRF"]
-    methods = ["SVM", "Random Forest", "RFResNet"]
-    colors = ["#FF7043", "#42A5F5", "#66BB6A"]
+DL_MODELS = [
+    "SmallRFNet", "RFResNet", "RFTransformer", "RFEfficientNet",
+    "RFAST", "RFConformer", "RFCNN1D",
+]
 
-    # Collecter les résultats
+DL_KEYS = {
+    "SmallRFNet": "smallrf",
+    "RFResNet": "resnet",
+    "RFTransformer": "transformer",
+    "RFEfficientNet": "efficientnet",
+    "RFAST": "ast",
+    "RFConformer": "conformer",
+    "RFCNN1D": "cnn1d",
+}
+
+BASELINE_METHODS = ["SVM", "Random Forest"]
+ALL_METHODS_BINARY = BASELINE_METHODS + [m for m in DL_MODELS if m != "RFCNN1D"]  # CNN1D only for DroneRF
+ALL_METHODS_MULTI = BASELINE_METHODS + DL_MODELS
+
+COLORS = {
+    "SVM": "#FF7043",
+    "Random Forest": "#42A5F5",
+    "SmallRFNet": "#AB47BC",
+    "RFResNet": "#66BB6A",
+    "RFTransformer": "#FFA726",
+    "RFEfficientNet": "#26C6DA",
+    "RFAST": "#EC407A",
+    "RFConformer": "#8D6E63",
+    "RFCNN1D": "#78909C",
+}
+
+
+def _dl_result_path(ds_key, model_key, task):
+    """Return path to DL result JSON."""
+    return f"outputs/{ds_key}_{model_key}_{task}/results.json"
+
+
+def _load_baselines(ds_key, task):
+    """Load SVM and RF results for a dataset/task."""
     data = {}
-
-    # SVM binaire
-    for ds_key, ds_label in [("dronerf", "DroneRF"), ("cagedronerf", "CageDroneRF")]:
-        r = load_json(f"outputs/baselines_{ds_key}_binary/svm_results.json")
+    for method, fname in [("SVM", "svm_results.json"), ("Random Forest", "random_forest_results.json")]:
+        r = load_json(f"outputs/baselines_{ds_key}_{task}/{fname}")
         if r:
-            data.setdefault(ds_label, {})["SVM"] = {
+            data[method] = {
                 "accuracy": r["test"]["accuracy"],
                 "macro_f1": r["test"]["macro_f1"],
             }
+    return data
 
-    # RF binaire
-    for ds_key, ds_label in [("dronerf", "DroneRF"), ("cagedronerf", "CageDroneRF")]:
-        r = load_json(f"outputs/baselines_{ds_key}_binary/random_forest_results.json")
-        if r:
-            data.setdefault(ds_label, {})["Random Forest"] = {
-                "accuracy": r["test"]["accuracy"],
-                "macro_f1": r["test"]["macro_f1"],
-            }
 
-    # DL binaire (RFResNet)
-    for ds_key, ds_label, path in [
-        ("dronerf", "DroneRF", "outputs/resnet_binary/results.json"),
-        ("cagedronerf", "CageDroneRF", "outputs/cagedronerf_resnet_binary/results.json"),
-    ]:
-        r = load_json(path)
+def _load_dl(ds_key, task, models=None):
+    """Load DL model results for a dataset/task."""
+    if models is None:
+        models = DL_MODELS
+    data = {}
+    for model_name in models:
+        model_key = DL_KEYS[model_name]
+        r = load_json(_dl_result_path(ds_key, model_key, task))
         if r:
-            data.setdefault(ds_label, {})["RFResNet"] = {
+            data[model_name] = {
                 "accuracy": r.get("accuracy", 0),
                 "macro_f1": r.get("macro_f1", 0),
             }
+    return data
 
-    fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+
+def plot_binary_comparison(output_dir):
+    """Bar chart: all DL models vs SVM vs RF for binary classification."""
+
+    datasets = ["DroneRF", "CageDroneRF"]
+    ds_keys = ["dronerf", "cagedronerf"]
+
+    # DroneRF binary includes CNN1D, CageDroneRF does not
+    dronerf_methods = BASELINE_METHODS + DL_MODELS
+    cage_methods = [m for m in dronerf_methods if m != "RFCNN1D"]
+    all_methods = dronerf_methods  # superset
+
+    data = {}
+    for ds_key, ds_label in zip(ds_keys, datasets):
+        data[ds_label] = {}
+        data[ds_label].update(_load_baselines(ds_key, "binary"))
+        available_models = DL_MODELS if ds_key == "dronerf" else [m for m in DL_MODELS if m != "RFCNN1D"]
+        data[ds_label].update(_load_dl(ds_key, "binary", available_models))
+
+    fig, axes = plt.subplots(1, 2, figsize=(18, 7))
 
     for ax_idx, metric in enumerate(["accuracy", "macro_f1"]):
         ax = axes[ax_idx]
         x = np.arange(len(datasets))
-        width = 0.25
+        n = len(all_methods)
+        width = 0.8 / n
 
-        for i, method in enumerate(methods):
+        for i, method in enumerate(all_methods):
             vals = []
             for ds in datasets:
                 if ds in data and method in data[ds]:
@@ -71,23 +118,25 @@ def plot_binary_comparison(output_dir):
                 else:
                     vals.append(0)
 
-            bars = ax.bar(x + i * width, vals, width, label=method,
-                         color=colors[i], edgecolor="black", alpha=0.85)
+            bars = ax.bar(x + i * width - 0.4 + width / 2, vals, width,
+                         label=method, color=COLORS[method], edgecolor="black",
+                         alpha=0.85)
 
             for bar in bars:
                 h = bar.get_height()
                 if h > 0:
-                    ax.text(bar.get_x() + bar.get_width() / 2, h + 0.003,
-                            f"{h:.3f}", ha="center", fontsize=9, fontweight="bold")
+                    ax.text(bar.get_x() + bar.get_width() / 2, h + 0.002,
+                            f"{h:.3f}", ha="center", fontsize=7, fontweight="bold",
+                            rotation=90, va="bottom")
 
         metric_label = "Accuracy" if metric == "accuracy" else "Macro-F1"
         ax.set_xlabel("Dataset", fontsize=13)
         ax.set_ylabel(metric_label, fontsize=13)
         ax.set_title(f"Classification binaire — {metric_label}", fontsize=14, fontweight="bold")
-        ax.set_xticks(x + width)
+        ax.set_xticks(x)
         ax.set_xticklabels(datasets, fontsize=12)
-        ax.set_ylim(0.85, 1.02)
-        ax.legend(fontsize=10)
+        ax.set_ylim(0.82, 1.05)
+        ax.legend(fontsize=8, ncol=3, loc="lower right")
         ax.grid(axis="y", alpha=0.3)
 
     plt.tight_layout()
@@ -99,56 +148,30 @@ def plot_binary_comparison(output_dir):
 
 
 def plot_multiclass_comparison(output_dir):
-    # Diagramme en barres : DL vs SVM vs RF pour la classification multiclasse
+    """Bar chart: all DL models vs SVM vs RF for multiclass classification."""
 
     datasets = ["DroneRF\n(4 classes)", "CageDroneRF\n(27 classes)", "RFUAV\n(37 classes)"]
     ds_keys = ["dronerf", "cagedronerf", "rfuav"]
-    methods = ["SVM", "Random Forest", "RFResNet"]
-    colors = ["#FF7043", "#42A5F5", "#66BB6A"]
 
-    data = {ds: {} for ds in datasets}
-
-    # SVM multiclasse
+    # CNN1D only available for DroneRF
+    data = {}
     for ds_key, ds_label in zip(ds_keys, datasets):
-        r = load_json(f"outputs/baselines_{ds_key}_multiclass/svm_results.json")
-        if r:
-            data[ds_label]["SVM"] = {
-                "accuracy": r["test"]["accuracy"],
-                "macro_f1": r["test"]["macro_f1"],
-            }
+        data[ds_label] = {}
+        data[ds_label].update(_load_baselines(ds_key, "multiclass"))
+        available_models = DL_MODELS if ds_key == "dronerf" else [m for m in DL_MODELS if m != "RFCNN1D"]
+        data[ds_label].update(_load_dl(ds_key, "multiclass", available_models))
 
-    # RF multiclasse
-    for ds_key, ds_label in zip(ds_keys, datasets):
-        r = load_json(f"outputs/baselines_{ds_key}_multiclass/random_forest_results.json")
-        if r:
-            data[ds_label]["Random Forest"] = {
-                "accuracy": r["test"]["accuracy"],
-                "macro_f1": r["test"]["macro_f1"],
-            }
+    all_methods = BASELINE_METHODS + DL_MODELS
 
-    # DL multiclasse
-    dl_paths = [
-        "outputs/resnet_multiclass/results.json",
-        "outputs/cagedronerf_resnet_multiclass/results.json",
-        "outputs/rfuav_resnet_multiclass/results.json",
-    ]
-    for ds_label, path in zip(datasets, dl_paths):
-        r = load_json(path)
-        if r:
-            data[ds_label]["RFResNet"] = {
-                "accuracy": r.get("accuracy", 0),
-                "macro_f1": r.get("macro_f1", 0),
-            }
-
-    # Tracer
-    fig, axes = plt.subplots(1, 2, figsize=(16, 6))
+    fig, axes = plt.subplots(1, 2, figsize=(20, 7))
 
     for ax_idx, metric in enumerate(["accuracy", "macro_f1"]):
         ax = axes[ax_idx]
         x = np.arange(len(datasets))
-        width = 0.25
+        n = len(all_methods)
+        width = 0.8 / n
 
-        for i, method in enumerate(methods):
+        for i, method in enumerate(all_methods):
             vals = []
             for ds in datasets:
                 if ds in data and method in data[ds]:
@@ -156,23 +179,25 @@ def plot_multiclass_comparison(output_dir):
                 else:
                     vals.append(0)
 
-            bars = ax.bar(x + i * width, vals, width, label=method,
-                         color=colors[i], edgecolor="black", alpha=0.85)
+            bars = ax.bar(x + i * width - 0.4 + width / 2, vals, width,
+                         label=method, color=COLORS[method], edgecolor="black",
+                         alpha=0.85)
 
             for bar in bars:
                 h = bar.get_height()
                 if h > 0:
-                    ax.text(bar.get_x() + bar.get_width() / 2, h + 0.005,
-                            f"{h:.3f}", ha="center", fontsize=8, fontweight="bold")
+                    ax.text(bar.get_x() + bar.get_width() / 2, h + 0.003,
+                            f"{h:.3f}", ha="center", fontsize=6, fontweight="bold",
+                            rotation=90, va="bottom")
 
         metric_label = "Accuracy" if metric == "accuracy" else "Macro-F1"
         ax.set_xlabel("Dataset", fontsize=13)
         ax.set_ylabel(metric_label, fontsize=13)
         ax.set_title(f"Classification multiclasse — {metric_label}", fontsize=14, fontweight="bold")
-        ax.set_xticks(x + width)
+        ax.set_xticks(x)
         ax.set_xticklabels(datasets, fontsize=11)
-        ax.set_ylim(0.65, 1.05)
-        ax.legend(fontsize=10)
+        ax.set_ylim(0.65, 1.08)
+        ax.legend(fontsize=8, ncol=3, loc="lower right")
         ax.grid(axis="y", alpha=0.3)
 
     plt.tight_layout()
@@ -183,22 +208,24 @@ def plot_multiclass_comparison(output_dir):
 
 
 def plot_dl_advantage(output_dir):
-    # Montrer le gain F1 du DL par rapport à la meilleure baseline par dataset et tâche
+    """Show F1 gain of best DL model vs best baseline per dataset and task."""
 
+    # For each config: find best DL model dynamically
     configs = [
-        ("DroneRF\nbinary", "dronerf", "binary", "outputs/resnet_binary/results.json"),
-        ("CageDroneRF\nbinary", "cagedronerf", "binary", "outputs/cagedronerf_resnet_binary/results.json"),
-        ("DroneRF\nmulticlass", "dronerf", "multiclass", "outputs/resnet_multiclass/results.json"),
-        ("CageDroneRF\nmulticlass", "cagedronerf", "multiclass", "outputs/cagedronerf_resnet_multiclass/results.json"),
-        ("RFUAV\nmulticlass", "rfuav", "multiclass", "outputs/rfuav_resnet_multiclass/results.json"),
+        ("DroneRF\nbinary", "dronerf", "binary"),
+        ("CageDroneRF\nbinary", "cagedronerf", "binary"),
+        ("DroneRF\nmulticlass", "dronerf", "multiclass"),
+        ("CageDroneRF\nmulticlass", "cagedronerf", "multiclass"),
+        ("RFUAV\nmulticlass", "rfuav", "multiclass"),
     ]
 
     labels = []
     baseline_f1 = []
     dl_f1 = []
+    best_dl_names = []
 
-    for label, ds_key, task, dl_path in configs:
-        # Meilleur F1 baseline
+    for label, ds_key, task in configs:
+        # Best baseline F1
         svm_r = load_json(f"outputs/baselines_{ds_key}_{task}/svm_results.json")
         rf_r = load_json(f"outputs/baselines_{ds_key}_{task}/random_forest_results.json")
         best_bl = 0
@@ -207,36 +234,46 @@ def plot_dl_advantage(output_dir):
         if rf_r:
             best_bl = max(best_bl, rf_r["test"]["macro_f1"])
 
-        # F1 du deep learning
-        dl_r = load_json(dl_path)
-        dl_val = dl_r.get("macro_f1", 0) if dl_r else 0
+        # Best DL model F1
+        available_models = DL_MODELS if ds_key == "dronerf" else [m for m in DL_MODELS if m != "RFCNN1D"]
+        best_dl_f1 = 0
+        best_name = ""
+        for model_name in available_models:
+            model_key = DL_KEYS[model_name]
+            r = load_json(_dl_result_path(ds_key, model_key, task))
+            if r:
+                f1 = r.get("macro_f1", 0)
+                if f1 > best_dl_f1:
+                    best_dl_f1 = f1
+                    best_name = model_name
 
-        if best_bl > 0 and dl_val > 0:
+        if best_bl > 0 and best_dl_f1 > 0:
             labels.append(label)
             baseline_f1.append(best_bl)
-            dl_f1.append(dl_val)
+            dl_f1.append(best_dl_f1)
+            best_dl_names.append(best_name)
 
     gains = [dl - bl for dl, bl in zip(dl_f1, baseline_f1)]
 
-    fig, ax = plt.subplots(figsize=(12, 6))
+    fig, ax = plt.subplots(figsize=(14, 7))
     x = np.arange(len(labels))
     width = 0.35
 
     bars1 = ax.bar(x - width / 2, baseline_f1, width, label="Meilleure baseline (SVM/RF)",
                    color="#FF7043", edgecolor="black", alpha=0.85)
-    bars2 = ax.bar(x + width / 2, dl_f1, width, label="RFResNet (Deep Learning)",
+    bars2 = ax.bar(x + width / 2, dl_f1, width, label="Meilleur DL",
                    color="#66BB6A", edgecolor="black", alpha=0.85)
 
     for bar in bars1:
         h = bar.get_height()
         ax.text(bar.get_x() + bar.get_width() / 2, h + 0.003,
                 f"{h:.3f}", ha="center", fontsize=9, fontweight="bold")
-    for bar in bars2:
+    for i, bar in enumerate(bars2):
         h = bar.get_height()
         ax.text(bar.get_x() + bar.get_width() / 2, h + 0.003,
-                f"{h:.3f}", ha="center", fontsize=9, fontweight="bold")
+                f"{h:.3f}\n({best_dl_names[i]})", ha="center", fontsize=8, fontweight="bold")
 
-    # Annoter les gains en F1
+    # Annotate F1 gains
     for i, gain in enumerate(gains):
         color = "#2E7D32" if gain > 0 else "#C62828"
         sign = "+" if gain > 0 else ""
@@ -248,7 +285,7 @@ def plot_dl_advantage(output_dir):
 
     ax.set_xlabel("Dataset × Tâche", fontsize=13)
     ax.set_ylabel("Macro-F1", fontsize=13)
-    ax.set_title("Gain du Deep Learning par rapport aux baselines", fontsize=14, fontweight="bold")
+    ax.set_title("Gain du meilleur modèle Deep Learning par rapport aux baselines", fontsize=14, fontweight="bold")
     ax.set_xticks(x)
     ax.set_xticklabels(labels, fontsize=10)
     ax.set_ylim(0.7, 1.08)

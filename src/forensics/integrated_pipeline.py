@@ -1,4 +1,4 @@
-"""Pipeline forensique intégré combinant classification, open-set, VAE, Siamese et Grad-CAM."""
+"""Pipeline forensique intégré combinant classification, open-set, VAE, Siamese, GNN et Grad-CAM."""
 
 import json
 import numpy as np
@@ -32,6 +32,8 @@ class ForensicPipeline:
         self.openmax_params = None
         self.gallery = None
         self.gnn = None
+        self.explainer = None
+        self.explainer_type = None
 
         self._load_classifier()
         self._load_vae()
@@ -39,6 +41,7 @@ class ForensicPipeline:
         self._load_openmax()
         self._load_gallery()
         self._load_gnn()
+        self._load_explainability()
 
     def _load_classifier(self):
         # Charge le modèle classificateur principal
@@ -129,6 +132,55 @@ class ForensicPipeline:
         )
         self.gnn.eval()
         print(f"GNN loaded: {weights}")
+
+    def _load_explainability(self):
+        # Charge GradCAM ou AttentionRollout selon le type de classificateur
+        if self.classifier is None:
+            return
+        model_name = self.config.get("classifier_model", "resnet")
+        if model_name == "cnn1d":
+            return  # forensic pipeline works on spectrograms; skip raw-1D explainer
+        try:
+            from src.evaluation.explainability import (
+                GradCAM, AttentionRollout, get_target_layer,
+            )
+            if model_name in ("ast", "transformer"):
+                self.explainer = AttentionRollout(self.classifier, model_name=model_name)
+                self.explainer_type = "attention_rollout"
+            else:
+                target_layer = get_target_layer(self.classifier, model_name)
+                self.explainer = GradCAM(self.classifier, target_layer)
+                self.explainer_type = "gradcam"
+            print(f"Explainability: {self.explainer_type} ({model_name})")
+        except Exception as e:
+            print(f"WARNING: Explainability setup failed ({e}) — skipping")
+
+    def _explain_segment(self, x, segment_id, predicted_class, output_dir):
+        # Génère la carte Grad-CAM / attention pour un segment et sauvegarde le PNG.
+        # Retourne le chemin du fichier sauvegardé, ou None en cas d'échec.
+        try:
+            from src.evaluation.explainability import plot_gradcam
+            heatmap, _, conf = self.explainer.generate(x.clone(), target_class=predicted_class)
+
+            class_label = (
+                self.class_names[predicted_class]
+                if predicted_class < len(self.class_names)
+                else f"class_{predicted_class}"
+            )
+            fname = f"segment_{segment_id:04d}_{class_label.replace(' ', '_')}.png"
+            save_path = Path(output_dir) / "explainability" / fname
+            save_path.parent.mkdir(parents=True, exist_ok=True)
+
+            spec_np = x.squeeze().cpu().detach().numpy()
+            plot_gradcam(
+                spec_np, heatmap, predicted_class, conf,
+                class_names=self.class_names,
+                output_path=str(save_path),
+                title=f"Segment {segment_id} — {self.explainer_type}",
+            )
+            return str(save_path)
+        except Exception as e:
+            return None
 
     def analyze_segment(self, spectrogram_tensor):
         # Analyse complète d'un segment spectrogramme [1, 1, H, W]
@@ -236,11 +288,14 @@ class ForensicPipeline:
 
         return result
 
-    def analyze_file(self, file_path, window_size=131072, hop_size=65536,
+    def analyze_file(self, file_path, output_dir=None, window_size=131072, hop_size=65536,
                      fs=1.0, nperseg=512, noverlap=256):
-        # Analyse forensique complète d'un fichier signal, retourne la timeline par segment
+        # Analyse forensique complète d'un fichier signal, retourne la timeline par segment.
+        # output_dir : si fourni, les heatmaps d'explicabilité sont sauvegardées ici.
         signal = load_dronerf_csv(file_path)
         segments = segment_signal(signal, window_size=window_size, hop_size=hop_size)
+
+        explain_mode = self.config.get("explain_segments", "anomalous")
 
         timeline = []
         segment_embeddings = []  # pour la construction du graphe GNN
@@ -271,9 +326,33 @@ class ForensicPipeline:
                 "end_time_s": end_sample / fs if fs > 0 else end_sample,
                 **analysis,
             }
+
+            # 6. Explainability — génération sélective de la carte Grad-CAM / attention
+            if self.explainer is not None and output_dir and explain_mode != "none":
+                cls_result = analysis.get("classification", {})
+                pred_class = cls_result.get("predicted_class", 0)
+                should_explain = False
+
+                if explain_mode == "all":
+                    should_explain = True
+                elif explain_mode == "drone":
+                    should_explain = pred_class != 0
+                else:  # "anomalous" (default)
+                    is_anomalous = cls_result.get("is_anomalous", False)
+                    is_unknown = analysis.get("openset", {}).get("is_unknown", False)
+                    should_explain = is_anomalous or is_unknown
+
+                if should_explain:
+                    heatmap_path = self._explain_segment(x, i, pred_class, output_dir)
+                    if heatmap_path:
+                        entry["explainability"] = {
+                            "method": self.explainer_type,
+                            "heatmap_path": heatmap_path,
+                        }
+
             timeline.append(entry)
 
-        # 6. GNN : analyse multi-segments par graphe
+        # 7. GNN : analyse multi-segments par graphe
         if self.gnn is not None and len(segment_embeddings) > 1:
             timeline = self._apply_gnn(timeline, segment_embeddings)
 
@@ -361,6 +440,30 @@ class ForensicPipeline:
                 attr_class = e["attribution"]["most_similar_class"]
                 attribution_counts[attr_class] = attribution_counts.get(attr_class, 0) + 1
 
+        # Résumé GNN
+        gnn_entries = [e["gnn"] for e in timeline if "gnn" in e]
+        gnn_confidences = [e["confidence"] for e in gnn_entries]
+        gnn_class_dist = {}
+        for gnn_e in gnn_entries:
+            label = gnn_e["predicted_label"]
+            gnn_class_dist[label] = gnn_class_dist.get(label, 0) + 1
+        gnn_drone_count = sum(1 for e in gnn_entries if e["predicted_class"] != 0)
+
+        # Résumé explicabilité
+        explained_entries = [e for e in timeline if "explainability" in e]
+        explainability_summary = {
+            "method": self.explainer_type,
+            "segments_explained": len(explained_entries),
+            "explain_mode": self.config.get("explain_segments", "anomalous"),
+            "heatmap_paths": [
+                e["explainability"]["heatmap_path"] for e in explained_entries
+            ],
+        } if explained_entries else {
+            "method": self.explainer_type,
+            "segments_explained": 0,
+            "explain_mode": self.config.get("explain_segments", "anomalous"),
+        }
+
         # Construire le rapport
         report = {
             "report_metadata": {
@@ -373,6 +476,8 @@ class ForensicPipeline:
                     "openmax": self.openmax_params is not None,
                     "vae": self.vae is not None,
                     "siamese": self.siamese is not None and self.gallery is not None,
+                    "gnn": self.gnn is not None,
+                    "explainability": self.explainer is not None,
                 },
                 "config": {
                     k: str(v) for k, v in self.config.items()
@@ -397,6 +502,13 @@ class ForensicPipeline:
                 "most_attributed_class": max(attribution_counts, key=attribution_counts.get) if attribution_counts else None,
                 "attribution_distribution": attribution_counts,
             },
+            "gnn_summary": {
+                "segments_analyzed": len(gnn_entries),
+                "class_distribution": gnn_class_dist,
+                "drone_segments": gnn_drone_count,
+                "average_confidence": round(float(np.mean(gnn_confidences)), 4) if gnn_confidences else None,
+            },
+            "explainability_summary": explainability_summary,
             "timeline": timeline,
         }
 
@@ -426,6 +538,8 @@ class ForensicPipeline:
             panels.append("anomaly")
         if any("attribution" in e for e in timeline):
             panels.append("attribution")
+        if any("gnn" in e for e in timeline):
+            panels.append("gnn")
 
         if not panels:
             return
@@ -483,6 +597,15 @@ class ForensicPipeline:
                     for c in unique_classes
                 ]
                 ax.legend(handles=legend_patches, loc="upper right", fontsize=8)
+
+            elif panel_type == "gnn":
+                classes = [e.get("gnn", {}).get("predicted_class", 0) for e in timeline]
+                confidences = [e.get("gnn", {}).get("confidence", 0) for e in timeline]
+                colors = ["red" if c > 0 else "blue" for c in classes]
+                ax.bar(segments, confidences, color=colors, alpha=0.7)
+                ax.set_ylabel("Confidence")
+                ax.set_title("GNN Graph-Refined Classification (red=drone, blue=background)")
+                ax.axhline(y=self.anomaly_threshold, color="orange", linestyle="--", alpha=0.5)
 
         axes[-1].set_xlabel("Segment Index")
         fig.suptitle(f"Integrated Forensic Timeline — {Path(title).stem if title else ''}",

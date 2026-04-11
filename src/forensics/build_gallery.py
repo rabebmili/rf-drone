@@ -7,6 +7,7 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader
 
+from src.models import MODEL_REGISTRY, RAW_SIGNAL_MODELS
 from src.models.siamese_network import SiameseNetwork
 from src.training.train_multimodel import load_dataset
 
@@ -49,7 +50,8 @@ def main():
     parser.add_argument("--siamese_weights", required=True,
                         help="Path to trained Siamese model weights")
     parser.add_argument("--backbone", default="resnet",
-                        help="Backbone model used in Siamese network")
+                        choices=[k for k in MODEL_REGISTRY if k not in RAW_SIGNAL_MODELS],
+                        help="Backbone model used in Siamese network (spectrogram-based only)")
     parser.add_argument("--output", default=None,
                         help="Output .npz file path")
     args = parser.parse_args()

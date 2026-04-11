@@ -115,6 +115,9 @@ python -m src.evaluation.cross_dataset_enhanced --model resnet --epochs 20
 # Ensemble evaluation (CNN + Transformer fusion)
 python -m src.evaluation.eval_ensemble
 
+# Full open-set pipeline (OpenMax + distribution plots + AUROC summary + thesis figures)
+python -m src.evaluation.run_openset_pipeline
+
 # Generate thesis figures
 python -m src.evaluation.plot_baselines_comparison
 python -m src.evaluation.plot_cross_dataset_figures
@@ -130,13 +133,21 @@ python -m src.forensics.run_forensic_analysis --file path/to/signal.csv --model 
 # Batch (entire dataset)
 python -m src.forensics.run_forensic_batch --folder "data/raw/DroneRF" --recursive --model resnet --task multiclass
 
+# Build prerequisites for integrated pipeline
+python -m src.forensics.build_gallery --dataset dronerf --task multiclass \
+    --siamese_weights outputs/siamese_dronerf_resnet_multiclass/models/best_siamese.pt
+python -m src.forensics.build_openmax_params --dataset dronerf --model ast --task multiclass
+
 # Integrated forensic analysis (classification + open-set + VAE anomaly + Siamese attribution + GNN + Grad-CAM)
 python -m src.forensics.run_integrated_analysis \
-    --file data/raw/DroneRF/AR\ drone/10100H_0.csv \
+    --file "data/raw/DroneRF/AR drone/10100H_0.csv" \
     --classifier_model ast --task multiclass \
     --vae_weights outputs/vae_dronerf/models/best_vae.pt \
     --siamese_weights outputs/siamese_dronerf_resnet_multiclass/models/best_siamese.pt \
-    --gallery outputs/gallery_dronerf_multiclass.npz
+    --gallery outputs/gallery_dronerf_multiclass.npz \
+    --gnn_weights outputs/gnn_dronerf_multiclass/models/best_gnn.pt \
+    --openmax_params outputs/openmax_params_dronerf_ast_multiclass.pkl \
+    --explain_segments anomalous
 ```
 
 ---
@@ -183,25 +194,31 @@ rf-drone-forensics/
 │   │   ├── train_gnn.py                   # GNN (graph attention network)
 │   │   └── run_all_experiments.py         # Master experiment runner
 │   ├── evaluation/
-│   │   ├── metrics.py                     # Accuracy, F1, ROC-AUC, ECE, plots
-│   │   ├── feature_extraction.py          # Handcrafted features for baselines
-│   │   ├── robustness.py                  # SNR noise injection
-│   │   ├── openset.py                     # MSP, Energy, Mahalanobis, OpenMax (EVT/Weibull)
-│   │   ├── explainability.py              # Grad-CAM, Attention Rollout, GradCAM1D
-│   │   ├── cross_dataset_enhanced.py      # Leave-one-out, pairwise, fine-tune
-│   │   ├── eval_ensemble.py               # Ensemble evaluation (CNN + Transformer fusion)
-│   │   ├── run_combined_evaluation.py     # Combined model evaluation
-│   │   ├── run_multiclass_eval.py         # Multiclass robustness + open-set
-│   │   ├── run_binary_robustness.py       # Per-dataset binary robustness
-│   │   ├── plot_baselines_comparison.py   # Thesis figures: DL vs baselines
-│   │   └── plot_cross_dataset_figures.py  # Thesis figures: cross-dataset
+│   │   ├── metrics.py                         # Accuracy, F1, ROC-AUC, ECE, plots
+│   │   ├── feature_extraction.py              # Handcrafted features for baselines
+│   │   ├── robustness.py                      # SNR noise injection
+│   │   ├── openset.py                         # MSP, Energy, Mahalanobis, OpenMax (EVT/Weibull)
+│   │   ├── explainability.py                  # Grad-CAM, Attention Rollout, GradCAM1D
+│   │   ├── cross_dataset_enhanced.py          # Leave-one-out, pairwise, fine-tune
+│   │   ├── eval_ensemble.py                   # Ensemble evaluation (CNN + Transformer fusion)
+│   │   ├── run_combined_evaluation.py         # Combined model evaluation
+│   │   ├── run_multiclass_eval.py             # Multiclass robustness + open-set
+│   │   ├── run_binary_robustness.py           # Per-dataset binary robustness
+│   │   ├── run_openmax_only.py                # OpenMax for all models × datasets × holdouts
+│   │   ├── generate_openmax_plots.py          # OpenMax distribution plots (thesis cases)
+│   │   ├── summarize_openset_with_openmax.py  # AUROC summary tables to stdout
+│   │   ├── run_openset_pipeline.py            # Orchestrates full open-set pipeline (4 steps)
+│   │   ├── plot_openset_thesis_figures.py     # Thesis figures: score distributions, AUROC
+│   │   ├── plot_baselines_comparison.py       # Thesis figures: DL vs baselines
+│   │   └── plot_cross_dataset_figures.py      # Thesis figures: cross-dataset
 │   └── forensics/
 │       ├── timeline.py                    # Per-segment classification + anomaly
 │       ├── run_forensic_analysis.py       # Single file forensic report
 │       ├── run_forensic_batch.py          # Batch forensic analysis
 │       ├── integrated_pipeline.py         # ForensicPipeline (classification + open-set + VAE + Siamese + GNN + Grad-CAM)
 │       ├── run_integrated_analysis.py     # CLI for integrated forensic analysis
-│       └── build_gallery.py              # Build Siamese embedding gallery
+│       ├── build_gallery.py               # Build Siamese embedding gallery
+│       └── build_openmax_params.py        # Fit EVT/Weibull → .pkl for integrated pipeline
 ├── data/                    # Not in Git -- downloaded/generated locally
 ├── outputs/                 # Not in Git -- generated by training/evaluation
 ├── requirements.txt

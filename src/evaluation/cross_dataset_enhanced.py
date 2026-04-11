@@ -19,7 +19,7 @@ from sklearn.metrics import (
 from src.datasets.dronerf_precomputed_dataset import DroneRFPrecomputedDataset
 from src.datasets.rfuav_dataset import create_rfuav_splits
 from src.datasets.cagedronerf_dataset import create_cagedronerf_loaders
-from src.models import MODEL_REGISTRY, get_model
+from src.models import MODEL_REGISTRY, RAW_SIGNAL_MODELS, get_model
 from src.evaluation.metrics import collect_predictions, compute_classification_metrics
 
 
@@ -493,7 +493,8 @@ def print_summary(all_results, output_dir, model_name):
 
 def main():
     parser = argparse.ArgumentParser(description="Enhanced cross-dataset evaluation")
-    parser.add_argument("--model", default="resnet", choices=list(MODEL_REGISTRY.keys()))
+    parser.add_argument("--model", default="resnet",
+                        choices=[k for k in MODEL_REGISTRY if k not in RAW_SIGNAL_MODELS])
     parser.add_argument("--dronerf_csv", default="data/metadata/dronerf_precomputed.csv")
     parser.add_argument("--rfuav_root", default="data/raw/RFUAV/ImageSet-AllDrones-MatlabPipeline/train")
     parser.add_argument("--cagedronerf_root", default="data/raw/CageDroneRF/balanced")

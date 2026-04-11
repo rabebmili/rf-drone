@@ -10,14 +10,25 @@ from torch.utils.data import DataLoader, ConcatDataset
 from src.datasets.dronerf_precomputed_dataset import DroneRFPrecomputedDataset
 from src.datasets.rfuav_dataset import create_rfuav_splits
 from src.datasets.cagedronerf_dataset import create_cagedronerf_loaders
-from src.models.resnet_spectrogram import RFResNet
-from src.models.cnn_spectrogram import SmallRFNet
+from src.models import get_model
 from src.evaluation.robustness import run_robustness_evaluation
 from src.evaluation.explainability import generate_gradcam_examples
 
 
+# All spectrogram-based models (combined model is always spectrogram-based)
+SPECTROGRAM_MODELS = ["smallrf", "resnet", "transformer", "efficientnet", "ast", "conformer"]
+
+MODEL_DISPLAY_NAMES = {
+    "smallrf": "SmallRFNet",
+    "resnet": "RFResNet",
+    "transformer": "RFTransformer",
+    "efficientnet": "RFEfficientNet",
+    "ast": "RFAST",
+    "conformer": "RFConformer",
+}
+
+
 def load_combined_binary_data(dronerf_csv, rfuav_root, cagedronerf_root):
-    # Charger les données de test des 3 datasets pour l'évaluation binaire
     datasets = {}
 
     if Path(dronerf_csv).exists():
@@ -35,10 +46,9 @@ def load_combined_binary_data(dronerf_csv, rfuav_root, cagedronerf_root):
     return datasets
 
 
-def run_robustness_combined(model, datasets, device, output_dir):
-    # Évaluation de robustesse du modèle combiné, par dataset
+def run_robustness_combined(model, datasets, device, output_dir, model_name="resnet"):
     print(f"\n{'='*60}")
-    print("  ÉVALUATION DE ROBUSTESSE — Modèle binaire combiné")
+    print(f"  ÉVALUATION DE ROBUSTESSE — Modèle binaire combiné ({model_name})")
     print(f"{'='*60}")
 
     class_names = ["Background", "Drone"]
@@ -48,15 +58,14 @@ def run_robustness_combined(model, datasets, device, output_dir):
         run_robustness_evaluation(
             model, ds, device,
             output_dir=str(out / ds_name),
-            model_name=f"Combined_ResNet on {ds_name}",
+            model_name=f"Combined_{MODEL_DISPLAY_NAMES.get(model_name, model_name)} on {ds_name}",
             class_names=class_names
         )
 
 
-def run_explainability_combined(model, datasets, device, output_dir):
-    # Exécuter Grad-CAM sur le modèle combiné, par dataset
+def run_explainability_combined(model, datasets, device, output_dir, model_name="resnet"):
     print(f"\n{'='*60}")
-    print("  EXPLICABILITÉ (Grad-CAM) — Modèle binaire combiné")
+    print(f"  EXPLICABILITÉ (Grad-CAM) — Modèle binaire combiné ({model_name})")
     print(f"{'='*60}")
 
     class_names = ["Background", "Drone"]
@@ -66,7 +75,7 @@ def run_explainability_combined(model, datasets, device, output_dir):
         try:
             generate_gradcam_examples(
                 model, ds, device,
-                model_name="resnet",
+                model_name=model_name,
                 class_names=class_names,
                 output_dir=str(out / ds_name),
                 n_per_class=5
@@ -76,7 +85,6 @@ def run_explainability_combined(model, datasets, device, output_dir):
 
 
 def run_baselines_combined(datasets, output_dir):
-    # Entraîner SVM + RF sur les caractéristiques combinées de tous les datasets
     print(f"\n{'='*60}")
     print("  BASELINES (SVM + RF) — Données binaires combinées")
     print(f"{'='*60}")
@@ -89,7 +97,6 @@ def run_baselines_combined(datasets, output_dir):
     import numpy as np
     import joblib
 
-    # On a aussi besoin des données d'entraînement pour les baselines
     dronerf_csv = "data/metadata/dronerf_precomputed.csv"
     rfuav_root = "data/raw/RFUAV/ImageSet-AllDrones-MatlabPipeline/train"
     cagedronerf_root = "data/raw/CageDroneRF/balanced"
@@ -113,7 +120,6 @@ def run_baselines_combined(datasets, output_dir):
         train_datasets.append(cdrf_train)
         test_datasets["CageDroneRF"] = cdrf_test
 
-    # Combiner les données d'entraînement
     combined_train = ConcatDataset(train_datasets)
     X_train, y_train = extract_features_from_dataset(combined_train)
 
@@ -131,11 +137,9 @@ def run_baselines_combined(datasets, output_dir):
         print(f"\n  Entraînement {clf_name}...")
         clf.fit(X_train, y_train)
 
-        # Sauvegarder le modèle
         joblib.dump(clf, out / f"combined_{clf_name.lower()}_model.joblib")
         joblib.dump(scaler, out / f"combined_{clf_name.lower()}_scaler.joblib")
 
-        # Tester sur chaque dataset séparément
         all_results = {}
         for ds_name, ds in test_datasets.items():
             X_test, y_test = extract_features_from_dataset(ds)
@@ -159,10 +163,10 @@ def run_baselines_combined(datasets, output_dir):
             json.dump(all_results, f, indent=2)
 
 
-def run_openset_cagedronerf(device, output_dir):
-    # Évaluation open-set sur le modèle multiclasse CageDroneRF
+def run_openset_cagedronerf(device, output_dir, model_key="resnet"):
+    """Évaluation open-set sur le modèle multiclasse CageDroneRF."""
     print(f"\n{'='*60}")
-    print("  ÉVALUATION OPEN-SET — CageDroneRF Multiclasse")
+    print(f"  ÉVALUATION OPEN-SET — CageDroneRF Multiclasse ({model_key})")
     print(f"{'='*60}")
 
     from src.evaluation.openset import run_openset_evaluation
@@ -172,7 +176,6 @@ def run_openset_cagedronerf(device, output_dir):
         print("ERREUR : CageDroneRF non trouvé, open-set ignoré.")
         return
 
-    # Charger CageDroneRF multiclasse
     cdrf_train, _, cdrf_test = create_cagedronerf_loaders(
         cagedronerf_root, label_mode="multiclass"
     )
@@ -180,19 +183,18 @@ def run_openset_cagedronerf(device, output_dir):
     num_classes = cdrf_train.num_classes
     class_names = cdrf_train.get_class_names()
 
-    # Charger le meilleur modèle ResNet multiclasse CageDroneRF
-    weights_path = "outputs/cagedronerf_resnet_multiclass/models/best_model.pt"
+    weights_path = f"outputs/cagedronerf_{model_key}_multiclass/models/best_model.pt"
     if not Path(weights_path).exists():
         print(f"ERREUR : Modèle multiclasse absent à {weights_path}, ignoré.")
         return
 
-    model = RFResNet(num_classes=num_classes).to(device)
+    display_name = MODEL_DISPLAY_NAMES.get(model_key, model_key)
+    model = get_model(model_key, num_classes=num_classes).to(device)
     model.load_state_dict(torch.load(weights_path, weights_only=True, map_location=device))
 
     train_loader = DataLoader(cdrf_train, batch_size=16, shuffle=False, num_workers=0)
     out = Path(output_dir) / "openset"
 
-    # Exclure plusieurs classes intéressantes
     holdout_classes = {
         "Skydio_2": class_names.index("Skydio_2"),
         "Parrot_Anafi": class_names.index("Parrot_Anafi"),
@@ -214,7 +216,6 @@ def run_openset_cagedronerf(device, output_dir):
         except Exception as e:
             print(f"ERREUR : Open-set échoué pour {cls_name}: {e}")
 
-    # Sauvegarder le résumé
     out.mkdir(parents=True, exist_ok=True)
     with open(out / "openset_summary.json", "w") as f:
         json.dump(all_results, f, indent=2, default=str)
@@ -224,10 +225,12 @@ def run_openset_cagedronerf(device, output_dir):
 def main():
     parser = argparse.ArgumentParser(description="Combined model evaluation suite")
     parser.add_argument("--combined_model", default="outputs/cross_dataset_enhanced/all3_balanced/models/model_best.pt")
+    parser.add_argument("--model", default="resnet", choices=list(MODEL_DISPLAY_NAMES.keys()),
+                        help="Model architecture to use")
     parser.add_argument("--dronerf_csv", default="data/metadata/dronerf_precomputed.csv")
     parser.add_argument("--rfuav_root", default="data/raw/RFUAV/ImageSet-AllDrones-MatlabPipeline/train")
     parser.add_argument("--cagedronerf_root", default="data/raw/CageDroneRF/balanced")
-    parser.add_argument("--output_dir", default="outputs/evaluation_combined_model")
+    parser.add_argument("--output_dir", default="outputs/cross_dataset_enhanced/evaluation")
     parser.add_argument("--skip_robustness", action="store_true")
     parser.add_argument("--skip_explainability", action="store_true")
     parser.add_argument("--skip_baselines", action="store_true")
@@ -239,35 +242,29 @@ def main():
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Charger le modèle binaire combiné (ResNet entraîné sur les 3 datasets)
     if not Path(args.combined_model).exists():
         print(f"ERREUR : Modèle combiné non trouvé : {args.combined_model}")
         print("Exécuter d'abord l'évaluation inter-datasets : python -m src.evaluation.cross_dataset_enhanced --model resnet --epochs 20")
         return
 
-    model = RFResNet(num_classes=2).to(device)
+    model = get_model(args.model, num_classes=2).to(device)
     model.load_state_dict(torch.load(args.combined_model, weights_only=True, map_location=device))
 
-    # Charger les données de test de tous les datasets
     datasets = load_combined_binary_data(
         args.dronerf_csv, args.rfuav_root, args.cagedronerf_root
     )
 
-    # 1. Robustesse
     if not args.skip_robustness:
-        run_robustness_combined(model, datasets, device, args.output_dir)
+        run_robustness_combined(model, datasets, device, args.output_dir, model_name=args.model)
 
-    # 2. Explicabilité
     if not args.skip_explainability:
-        run_explainability_combined(model, datasets, device, args.output_dir)
+        run_explainability_combined(model, datasets, device, args.output_dir, model_name=args.model)
 
-    # 3. Baselines
     if not args.skip_baselines:
         run_baselines_combined(datasets, args.output_dir)
 
-    # 4. Open-set (CageDroneRF multiclasse)
     if not args.skip_openset:
-        run_openset_cagedronerf(device, args.output_dir)
+        run_openset_cagedronerf(device, args.output_dir, model_key=args.model)
 
     print(f"\nToutes les évaluations terminées. Résultats dans : {args.output_dir}/")
 

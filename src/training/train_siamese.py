@@ -9,6 +9,7 @@ import torch
 from torch import nn, optim
 from torch.utils.data import DataLoader
 
+from src.models import MODEL_REGISTRY, RAW_SIGNAL_MODELS
 from src.models.siamese_network import SiameseNetwork
 from src.datasets.siamese_dataset import TripletDataset
 from src.training.train_multimodel import load_dataset
@@ -61,7 +62,8 @@ def main():
     parser.add_argument("--dataset", choices=["dronerf", "cagedronerf", "rfuav"],
                         default="dronerf")
     parser.add_argument("--backbone", default="resnet",
-                        help="Backbone model for Siamese encoder")
+                        choices=[k for k in MODEL_REGISTRY if k not in RAW_SIGNAL_MODELS],
+                        help="Backbone model for Siamese encoder (spectrogram-based only)")
     parser.add_argument("--task", choices=["binary", "multiclass"],
                         default="multiclass")
     parser.add_argument("--epochs", type=int, default=20)

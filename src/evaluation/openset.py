@@ -112,7 +112,7 @@ def fit_openmax(model, train_loader, device, num_classes, tail_size=20):
             embeddings = model.get_embedding(x).cpu().numpy()
             logits_np = logits.cpu().numpy()
 
-            for emb, logit, pred, label in zip(embeddings, logits_np, preds.numpy(), y.numpy()):
+            for emb, logit, pred, label in zip(embeddings, logits_np, preds.cpu().numpy(), y.numpy()):
                 # Utiliser uniquement les échantillons correctement classifiés
                 if pred == label:
                     activations_by_class[label].append(emb)
@@ -141,10 +141,19 @@ def fit_openmax(model, train_loader, device, num_classes, tail_size=20):
 
         # Ajuster la distribution de Weibull aux distances de queue
         try:
-            params = exponweib.fit(tail, floc=0)
+            if len(tail) < 3:
+                raise ValueError(f"Trop peu d'échantillons de queue ({len(tail)}) pour l'ajustement Weibull")
+            # Normaliser les distances pour éviter les problèmes numériques
+            tail_max = tail.max() if tail.max() > 0 else 1.0
+            tail_norm = tail / tail_max
+            params = exponweib.fit(tail_norm, floc=0)
+            # Re-scaler le paramètre d'échelle
+            params = (params[0], params[1], params[2], params[3] * tail_max)
             weibull_params.append(params)
         except Exception:
-            weibull_params.append((1.0, 0.0, 1.0, max(tail) if len(tail) > 0 else 1.0))
+            # Fallback : paramètres Weibull par défaut basés sur la distribution empirique
+            mean_d = tail.mean() if len(tail) > 0 else 1.0
+            weibull_params.append((1.0, 1.0, 0.0, mean_d))
 
     return mavs, weibull_params
 
@@ -287,21 +296,36 @@ def run_openset_evaluation(model, test_dataset, device, holdout_class,
                     output_dir, "openmax_distribution.png"
                 )
         except Exception as e:
+            import traceback
             print(f"  OpenMax échoué : {e}")
+            traceback.print_exc()
 
     # Tracer les distributions de scores
     if output_dir:
         _plot_ood_distributions(in_msp, ood_msp, "MSP Score", output_dir, "msp_distribution.png")
         _plot_ood_distributions(in_energy, ood_energy, "Energy Score", output_dir, "energy_distribution.png")
+        if "Mahalanobis" in results:
+            _plot_ood_distributions(in_maha, ood_maha, "Mahalanobis Score", output_dir, "mahalanobis_distribution.png")
 
     return results
 
 
 def _plot_ood_distributions(in_scores, ood_scores, score_name, output_dir, filename):
     # Tracer les histogrammes des scores en distribution vs OOD
+    import numpy as np
+    def _safe_hist(ax, scores, **kwargs):
+        """Plot histogram; fall back to fewer bins if range is too small."""
+        bins = kwargs.pop("bins", 50)
+        for b in [bins, 20, 10, 5, 1]:
+            try:
+                ax.hist(scores, bins=b, **kwargs)
+                return
+            except ValueError:
+                continue
+
     fig, ax = plt.subplots(figsize=(8, 4))
-    ax.hist(in_scores, bins=50, alpha=0.6, label="In-distribution (known)", density=True)
-    ax.hist(ood_scores, bins=50, alpha=0.6, label="OOD (unknown)", density=True)
+    _safe_hist(ax, in_scores,  bins=50, alpha=0.6, label="In-distribution (known)", density=True)
+    _safe_hist(ax, ood_scores, bins=50, alpha=0.6, label="OOD (unknown)", density=True)
     ax.set_xlabel(score_name)
     ax.set_ylabel("Density")
     ax.set_title(f"OOD Detection — {score_name}")

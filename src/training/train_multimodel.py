@@ -202,7 +202,7 @@ def main():
     args = parser.parse_args()
 
     if args.output_dir is None:
-        prefix = f"{args.dataset}_" if args.dataset != "dronerf" else ""
+        prefix = f"{args.dataset}_"
         args.output_dir = f"outputs/{prefix}{args.model}_{args.task}"
 
     device = "cuda" if torch.cuda.is_available() else "cpu"

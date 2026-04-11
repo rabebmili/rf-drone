@@ -38,9 +38,9 @@ def run_comparison(csv_path, task, device, output_base="outputs"):
     test_loader = DataLoader(test_ds, batch_size=16, shuffle=False, num_workers=0)
 
     model_configs = [
-        ("smallrf", f"{output_base}/smallrf_{task}/models/best_model.pt"),
-        ("resnet", f"{output_base}/resnet_{task}/models/best_model.pt"),
-        ("transformer", f"{output_base}/transformer_{task}/models/best_model.pt"),
+        ("smallrf", f"{output_base}/dronerf_smallrf_{task}/models/best_model.pt"),
+        ("resnet", f"{output_base}/dronerf_resnet_{task}/models/best_model.pt"),
+        ("transformer", f"{output_base}/dronerf_transformer_{task}/models/best_model.pt"),
     ]
 
     all_results = {}
@@ -51,7 +51,7 @@ def run_comparison(csv_path, task, device, output_base="outputs"):
             continue
 
         model = load_model(model_name, num_classes, weights_path, device)
-        out_dir = f"{output_base}/{model_name}_{task}/figures"
+        out_dir = f"{output_base}/dronerf_{model_name}_{task}/figures"
 
         metrics, _, _, _ = full_evaluation(
             model, test_loader, device,
@@ -132,8 +132,11 @@ def main():
     # =====================================================
     if not args.skip_baselines:
         print("\n--- Phase 1: Baselines (SVM + RF) ---")
-        from src.training.train_baselines import main as train_baselines
-        train_baselines(csv_path=args.csv_path, label_col=label_col)
+        subprocess.run(
+            [sys.executable, "-m", "src.training.train_baselines",
+             "--task", args.task],
+            check=True,
+        )
 
     # =====================================================
     # 2. COMPARER TOUS LES MODÈLES sur DroneRF
@@ -156,12 +159,12 @@ def main():
         test_ds = DroneRFPrecomputedDataset(args.csv_path, split="test", label_col=label_col)
 
         for model_name in ["smallrf", "resnet", "transformer"]:
-            weights_path = f"outputs/{model_name}_{args.task}/models/best_model.pt"
+            weights_path = f"outputs/dronerf_{model_name}_{args.task}/models/best_model.pt"
             if not Path(weights_path).exists():
                 continue
 
             model = load_model(model_name, num_classes, weights_path, device)
-            out_dir = f"outputs/{model_name}_{args.task}/robustness"
+            out_dir = f"outputs/dronerf_{model_name}_{args.task}/robustness"
 
             run_robustness_evaluation(
                 model, test_ds, device, out_dir,
@@ -178,7 +181,7 @@ def main():
         test_ds = DroneRFPrecomputedDataset(args.csv_path, split="test", label_col=label_col)
 
         for model_name in ["resnet"]:
-            weights_path = f"outputs/{model_name}_{args.task}/models/best_model.pt"
+            weights_path = f"outputs/dronerf_{model_name}_{args.task}/models/best_model.pt"
             if not Path(weights_path).exists():
                 continue
 
@@ -186,7 +189,7 @@ def main():
             train_ds = DroneRFPrecomputedDataset(args.csv_path, split="train", label_col=label_col)
             train_loader = DataLoader(train_ds, batch_size=16, shuffle=False, num_workers=0)
 
-            out_dir = f"outputs/{model_name}_{args.task}/openset"
+            out_dir = f"outputs/dronerf_{model_name}_{args.task}/openset"
             run_openset_evaluation(
                 model, test_ds, device,
                 holdout_class=3,
@@ -203,12 +206,12 @@ def main():
         test_ds = DroneRFPrecomputedDataset(args.csv_path, split="test", label_col=label_col)
 
         for model_name in ["smallrf", "resnet"]:
-            weights_path = f"outputs/{model_name}_{args.task}/models/best_model.pt"
+            weights_path = f"outputs/dronerf_{model_name}_{args.task}/models/best_model.pt"
             if not Path(weights_path).exists():
                 continue
 
             model = load_model(model_name, num_classes, weights_path, device)
-            out_dir = f"outputs/{model_name}_{args.task}/explainability"
+            out_dir = f"outputs/multiclass_evaluation/explainability/DroneRF/{model_name}"
 
             try:
                 generate_gradcam_examples(

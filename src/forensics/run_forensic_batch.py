@@ -9,7 +9,7 @@ import numpy as np
 import torch
 import matplotlib.pyplot as plt
 
-from src.models import MODEL_REGISTRY, get_model
+from src.models import MODEL_REGISTRY, RAW_SIGNAL_MODELS, get_model
 from src.forensics.timeline import (
     analyze_signal_file,
     generate_forensic_report,
@@ -148,7 +148,7 @@ def main():
     parser.add_argument("--recursive", action="store_true",
                         help="Recursively search subfolders")
     parser.add_argument("--model", default="resnet",
-                        choices=list(MODEL_REGISTRY.keys()))
+                        choices=[k for k in MODEL_REGISTRY if k not in RAW_SIGNAL_MODELS])
     parser.add_argument("--task", default="multiclass",
                         choices=["binary", "multiclass"])
     parser.add_argument("--weights", default=None)
@@ -167,7 +167,7 @@ def main():
 
     # Charger le modèle
     if args.weights is None:
-        args.weights = f"outputs/{args.model}_{args.task}/models/best_model.pt"
+        args.weights = f"outputs/dronerf_{args.model}_{args.task}/models/best_model.pt"
 
     model = get_model(args.model, num_classes=num_classes).to(device)
     model.load_state_dict(

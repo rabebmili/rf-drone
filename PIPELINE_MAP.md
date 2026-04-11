@@ -5,6 +5,7 @@ Detailed script-to-output mapping for all 9 pipeline phases.
 ---
 
 ## 1. Data Preparation
+
 | Script | Input | Output |
 |--------|-------|--------|
 | `src/datasets/build_dronerf_metadata.py` | `data/raw/DroneRF/` folder hierarchy | `data/metadata/dronerf_metadata.csv` |
@@ -74,12 +75,17 @@ Detailed script-to-output mapping for all 9 pipeline phases.
 | `src/evaluation/run_multiclass_eval.py` | `outputs/{dataset}_{model}_multiclass/` | robustness + open-set (MSP, Energy, Mahalanobis, OpenMax) |
 | `src/evaluation/run_combined_evaluation.py` | `outputs/combined_evaluation/` | robustness + explainability + baselines across all 3 datasets |
 | `src/evaluation/eval_ensemble.py` | `outputs/ensemble_evaluation/` | `ensemble_results.json` |
+| `src/evaluation/run_openmax_only.py` | `outputs/multiclass_evaluation/openset_multiclass/` | OpenMax AUROC scores merged into existing open-set JSON files |
+| `src/evaluation/generate_openmax_plots.py` | `outputs/{dataset}_{model}_multiclass/figures/` | OpenMax distribution plots for selected thesis cases |
 
 ## 7. Evaluation (Cross-Dataset + Figures)
 
 | Script | Output directory | Key outputs |
 |--------|-----------------|-------------|
 | `src/evaluation/cross_dataset_enhanced.py` | `outputs/cross_dataset/` | leave-one-out, pairwise, pretrain+fine-tune results |
+| `src/evaluation/run_openset_pipeline.py` | various | Orchestrates 4-step open-set pipeline (OpenMax → plots → AUROC summary → thesis figures) |
+| `src/evaluation/summarize_openset_with_openmax.py` | stdout | AUROC summary tables (MSP, Energy, Mahalanobis, OpenMax) across all models × datasets |
+| `src/evaluation/plot_openset_thesis_figures.py` | `outputs/thesis_figures/openset/` | Thesis figures: score distributions, AUROC bar chart, AUROC heatmap |
 | `src/evaluation/plot_baselines_comparison.py` | `outputs/figures/` | thesis figures: DL vs baselines |
 | `src/evaluation/plot_cross_dataset_figures.py` | `outputs/figures/` | thesis figures: cross-dataset generalization |
 
@@ -95,6 +101,7 @@ Detailed script-to-output mapping for all 9 pipeline phases.
 | Script | Output directory | Key outputs |
 |--------|-----------------|-------------|
 | `src/forensics/build_gallery.py` | `outputs/` | `gallery_{dataset}_{task}.npz` |
+| `src/forensics/build_openmax_params.py` | `outputs/` | `openmax_params_{dataset}_{model}_{task}.pkl` |
 | `src/forensics/run_integrated_analysis.py` | `outputs/forensic_integrated/` | `integrated_forensic_report.json`, `integrated_timeline.png` |
 
 ---
@@ -123,6 +130,7 @@ Detailed script-to-output mapping for all 9 pipeline phases.
         |
         v
 4. Forensics          build_gallery              (Siamese embeddings for attribution)
+                      build_openmax_params       (fit EVT/Weibull → .pkl for integrated pipeline)
                       run_forensic_analysis      (single file, basic)
                       run_forensic_batch         (batch, basic)
                       run_integrated_analysis    (classification + open-set + VAE + Siamese + GNN + Grad-CAM)

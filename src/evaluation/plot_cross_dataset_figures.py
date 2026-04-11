@@ -280,8 +280,8 @@ def plot_per_dataset_model_comparison(output_dir):
     models = ["smallrf", "resnet", "transformer"]
     model_labels = ["SmallRFNet", "RFResNet", "RFTransformer"]
     datasets_tasks = [
-        ("DroneRF", "binary", "outputs/{model}_binary/results.json"),
-        ("DroneRF", "multiclass", "outputs/{model}_multiclass/results.json"),
+        ("DroneRF", "binary", "outputs/dronerf_{model}_binary/results.json"),
+        ("DroneRF", "multiclass", "outputs/dronerf_{model}_multiclass/results.json"),
         ("CageDroneRF", "binary", "outputs/cagedronerf_{model}_binary/results.json"),
         ("CageDroneRF", "multiclass", "outputs/cagedronerf_{model}_multiclass/results.json"),
     ]

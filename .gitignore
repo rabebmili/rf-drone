@@ -9,9 +9,11 @@ data/
 # IDE
 .idea/
 
-# Model weights
+# Model weights and binary artifacts
 *.pt
 *.pth
+*.joblib
+*.npz
 
 # Python
 __pycache__/

@@ -11,6 +11,7 @@ import torch.nn as nn
 from torch.utils.data import DataLoader
 from sklearn.metrics import accuracy_score, f1_score, matthews_corrcoef
 
+from src.models import MODEL_REGISTRY, RAW_SIGNAL_MODELS
 from src.models.gnn import RFDroneGNN
 from src.datasets.signal_graph_dataset import SignalGraphDataset, collate_graphs
 from src.training.train_multimodel import load_dataset
@@ -103,7 +104,8 @@ def main():
     parser.add_argument('--siamese_weights', type=str, default=None,
                         help='Path to trained Siamese model weights')
     parser.add_argument('--backbone', default='resnet',
-                        help='Backbone model name (used if no siamese_weights)')
+                        choices=[k for k in MODEL_REGISTRY if k not in RAW_SIGNAL_MODELS],
+                        help='Backbone model name for embedding extraction (spectrogram-based only)')
     parser.add_argument('--backbone_weights', type=str, default=None,
                         help='Path to backbone classifier weights')
     parser.add_argument('--epochs', type=int, default=30)
@@ -140,7 +142,7 @@ def main():
         print(f"Loading Siamese model from {args.siamese_weights}")
         from src.models.siamese_network import SiameseNetwork
         siamese = SiameseNetwork(backbone_name=args.backbone, num_classes=num_classes)
-        siamese.load_state_dict(torch.load(args.siamese_weights, map_location=device))
+        siamese.load_state_dict(torch.load(args.siamese_weights, weights_only=True, map_location=device))
         backbone = siamese.backbone
         emb_dim = siamese.embedding_dim
     else:
@@ -148,7 +150,7 @@ def main():
         from src.models import get_model
         backbone = get_model(args.backbone, num_classes)
         if args.backbone_weights and Path(args.backbone_weights).exists():
-            backbone.load_state_dict(torch.load(args.backbone_weights, map_location=device))
+            backbone.load_state_dict(torch.load(args.backbone_weights, weights_only=True, map_location=device))
             print(f"  Loaded weights from {args.backbone_weights}")
         # Détermination de la dimension d'embedding
         dummy = torch.zeros(1, 1, 128, 128)
@@ -231,7 +233,7 @@ def main():
             torch.save(model.state_dict(), out_dir / 'models' / 'best_gnn.pt')
 
     # ── Évaluation sur le test ─────────────────────────────────────────────────
-    model.load_state_dict(torch.load(out_dir / 'models' / 'best_gnn.pt', map_location=device))
+    model.load_state_dict(torch.load(out_dir / 'models' / 'best_gnn.pt', weights_only=True, map_location=device))
     test_acc, test_f1, test_mcc = eval_epoch(model, gnn_test, device)
     print(f"\nTest: Accuracy: {test_acc:.4f} | Macro-F1: {test_f1:.4f} | MCC: {test_mcc:.4f}")
 

@@ -16,12 +16,8 @@ def evaluate_ensemble(dataset_name, task, cnn_name, tf_name, fusion="average"):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # Déterminer les chemins des poids
-    if dataset_name == "dronerf":
-        cnn_w = f"outputs/{cnn_name}_{task}/models/best_model.pt"
-        tf_w = f"outputs/{tf_name}_{task}/models/best_model.pt"
-    else:
-        cnn_w = f"outputs/{dataset_name}_{cnn_name}_{task}/models/best_model.pt"
-        tf_w = f"outputs/{dataset_name}_{tf_name}_{task}/models/best_model.pt"
+    cnn_w = f"outputs/{dataset_name}_{cnn_name}_{task}/models/best_model.pt"
+    tf_w = f"outputs/{dataset_name}_{tf_name}_{task}/models/best_model.pt"
 
     if not Path(cnn_w).exists() or not Path(tf_w).exists():
         print(f"  Ignoré {dataset_name}/{task}: poids non trouvés")
