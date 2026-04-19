@@ -5,8 +5,11 @@ import json
 import time
 from pathlib import Path
 
+import matplotlib.pyplot as plt
+import numpy as np
 import torch
 from torch import nn, optim
+from torch.optim.lr_scheduler import LinearLR, CosineAnnealingLR, SequentialLR
 from torch.utils.data import DataLoader
 
 from src.models import MODEL_REGISTRY, RAW_SIGNAL_MODELS
@@ -15,7 +18,33 @@ from src.datasets.siamese_dataset import TripletDataset
 from src.training.train_multimodel import load_dataset
 
 
-def train_one_epoch(model, loader, criterion, optimizer, device):
+def plot_curves(history, output_path):
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
+    epochs = range(1, len(history["train_loss"]) + 1)
+
+    fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+
+    axes[0].plot(epochs, history["train_loss"], label="Train", color="tab:blue")
+    axes[0].plot(epochs, history["val_loss"], label="Val", color="tab:orange")
+    axes[0].set_xlabel("Epoch")
+    axes[0].set_ylabel("Triplet Loss")
+    axes[0].set_title("Triplet Loss")
+    axes[0].legend()
+
+    axes[1].plot(epochs, history["val_triplet_acc"], label="Val", color="tab:orange")
+    axes[1].set_xlabel("Epoch")
+    axes[1].set_ylabel("Triplet Accuracy")
+    axes[1].set_title("Val Triplet Accuracy")
+    axes[1].set_ylim(0, 1.05)
+    axes[1].legend()
+
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=150)
+    plt.close()
+
+
+def train_one_epoch(model, loader, criterion, optimizer, device, grad_clip=1.0,
+                    ema_state=None, ema_decay=0.0):
     model.train()
     running_loss = 0.0
     total = 0
@@ -29,7 +58,19 @@ def train_one_epoch(model, loader, criterion, optimizer, device):
         anchor_emb, pos_emb, neg_emb = model.forward_triplet(anchor, positive, negative)
         loss = criterion(anchor_emb, pos_emb, neg_emb)
         loss.backward()
+
+        if grad_clip > 0:
+            torch.nn.utils.clip_grad_norm_(model.parameters(), grad_clip)
+
         optimizer.step()
+
+        if ema_state is not None and ema_decay > 0:
+            with torch.no_grad():
+                for k, v in model.state_dict().items():
+                    if v.dtype.is_floating_point:
+                        ema_state[k].mul_(ema_decay).add_(v.detach(), alpha=1 - ema_decay)
+                    else:
+                        ema_state[k].copy_(v.detach())
 
         running_loss += loss.item() * anchor.size(0)
         total += anchor.size(0)
@@ -40,6 +81,7 @@ def train_one_epoch(model, loader, criterion, optimizer, device):
 def validate(model, loader, criterion, device):
     model.eval()
     running_loss = 0.0
+    correct = 0
     total = 0
 
     with torch.no_grad():
@@ -51,10 +93,14 @@ def validate(model, loader, criterion, device):
             anchor_emb, pos_emb, neg_emb = model.forward_triplet(anchor, positive, negative)
             loss = criterion(anchor_emb, pos_emb, neg_emb)
 
+            d_pos = (anchor_emb - pos_emb).pow(2).sum(dim=1)
+            d_neg = (anchor_emb - neg_emb).pow(2).sum(dim=1)
+            correct += (d_pos < d_neg).sum().item()
+
             running_loss += loss.item() * anchor.size(0)
             total += anchor.size(0)
 
-    return running_loss / total
+    return running_loss / total, correct / total
 
 
 def main():
@@ -74,7 +120,19 @@ def main():
     parser.add_argument("--output_dir", default=None)
     parser.add_argument("--backbone_weights", default=None,
                         help="Path to pretrained backbone weights")
+    parser.add_argument("--weight_decay", type=float, default=1e-4)
+    parser.add_argument("--warmup_epochs", type=int, default=5,
+                        help="Linear LR warmup epochs (clamped to epochs/4)")
+    parser.add_argument("--grad_clip", type=float, default=1.0)
+    parser.add_argument("--ema_decay", type=float, default=0.999,
+                        help="EMA decay on model weights (0 = disabled)")
+    parser.add_argument("--seed", type=int, default=None)
     args = parser.parse_args()
+
+    if args.seed is not None:
+        torch.manual_seed(args.seed)
+        np.random.seed(args.seed)
+        torch.backends.cudnn.deterministic = True
 
     if args.output_dir is None:
         args.output_dir = f"outputs/siamese_{args.dataset}_{args.backbone}_{args.task}"
@@ -113,32 +171,73 @@ def main():
         print(f"Loaded pretrained backbone from {args.backbone_weights}")
 
     criterion = nn.TripletMarginLoss(margin=args.margin)
-    optimizer = optim.Adam(model.parameters(), lr=args.lr)
-    scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=args.epochs)
+    optimizer = optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
+
+    warmup_epochs = min(args.warmup_epochs, args.epochs // 4)
+    cosine_epochs = max(1, args.epochs - warmup_epochs)
+    warmup_scheduler = LinearLR(optimizer, start_factor=0.1, end_factor=1.0,
+                                total_iters=warmup_epochs)
+    cosine_scheduler = CosineAnnealingLR(optimizer, T_max=cosine_epochs,
+                                         eta_min=args.lr * 0.01)
+    scheduler = SequentialLR(optimizer,
+                             schedulers=[warmup_scheduler, cosine_scheduler],
+                             milestones=[warmup_epochs])
+
+    print(f"LR={args.lr:.2e}, warmup={warmup_epochs}, weight_decay={args.weight_decay}, "
+          f"grad_clip={args.grad_clip}, ema_decay={args.ema_decay}")
+
+    use_ema = args.ema_decay > 0
+    ema_state = {k: v.detach().clone() for k, v in model.state_dict().items()} if use_ema else None
 
     out_dir = Path(args.output_dir)
     model_dir = out_dir / "models"
     model_dir.mkdir(parents=True, exist_ok=True)
+    figures_dir = out_dir / "figures"
+    figures_dir.mkdir(parents=True, exist_ok=True)
 
+    history = {"train_loss": [], "val_loss": [], "val_triplet_acc": []}
     best_val_loss = float("inf")
+    best_val_acc = 0.0
 
     print(f"Training Siamese ({args.backbone} backbone) on {args.dataset} ({args.task})")
     print(f"  Triplets: {len(train_triplet)} train, {len(val_triplet)} val")
 
     for epoch in range(args.epochs):
         t0 = time.time()
-        train_loss = train_one_epoch(model, train_loader, criterion, optimizer, device)
-        val_loss = validate(model, val_loader, criterion, device)
+        train_loss = train_one_epoch(
+            model, train_loader, criterion, optimizer, device,
+            grad_clip=args.grad_clip,
+            ema_state=ema_state, ema_decay=args.ema_decay,
+        )
+
+        if use_ema:
+            raw_state = {k: v.detach().clone() for k, v in model.state_dict().items()}
+            model.load_state_dict(ema_state)
+            val_loss, val_triplet_acc = validate(model, val_loader, criterion, device)
+        else:
+            val_loss, val_triplet_acc = validate(model, val_loader, criterion, device)
+
         scheduler.step()
         elapsed = time.time() - t0
 
+        history["train_loss"].append(train_loss)
+        history["val_loss"].append(val_loss)
+        history["val_triplet_acc"].append(val_triplet_acc)
+
         print(f"Epoch {epoch+1}/{args.epochs} ({elapsed:.1f}s) | "
-              f"Train Loss: {train_loss:.4f} | Val Loss: {val_loss:.4f}")
+              f"Train Loss: {train_loss:.4f} | Val Loss: {val_loss:.4f} | "
+              f"Val Triplet Acc: {val_triplet_acc:.4f}")
 
         if val_loss < best_val_loss:
             best_val_loss = val_loss
+            best_val_acc = val_triplet_acc
             torch.save(model.state_dict(), model_dir / "best_siamese.pt")
-            print(f"  -> Best model saved (val_loss={val_loss:.4f})")
+            print(f"  -> Best model saved (val_loss={val_loss:.4f}, acc={val_triplet_acc:.4f})")
+
+        if use_ema:
+            model.load_state_dict(raw_state)
+
+    plot_curves(history, str(figures_dir / "siamese_training_curves.png"))
 
     # Sauvegarde des résultats
     results = {
@@ -149,6 +248,7 @@ def main():
         "margin": args.margin,
         "epochs": args.epochs,
         "best_val_loss": best_val_loss,
+        "best_val_triplet_acc": best_val_acc,
         "num_classes": num_classes,
         "class_names": class_names,
     }

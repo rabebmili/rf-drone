@@ -1,0 +1,42 @@
+Device: cuda
+Chargement du jeu de données...
+Loading backbone classifier: ast
+  Loaded weights from outputs/dronerf_ast_multiclass/models/best_model.pt
+Extraction des embeddings...
+  Embedding dim: 192, Train: 8456, Val: 1812, Test: 1812
+GNN parameters: 215,940
+LR=1.00e-03, warmup=5, weight_decay=0.0001, grad_clip=1.0, label_smoothing=0.05, ema_decay=0.999
+Epoch   1/30 | Train 0.3247 | Val Loss 1.1094 | Val Acc 0.9402 | Val F1 0.9399 | MCC 0.9204
+Epoch   2/30 | Train 0.2089 | Val Loss 0.7737 | Val Acc 0.9639 | Val F1 0.9641 | MCC 0.9519
+Epoch   3/30 | Train 0.2073 | Val Loss 0.5258 | Val Acc 0.9639 | Val F1 0.9641 | MCC 0.9519
+Epoch   4/30 | Train 0.2072 | Val Loss 0.3723 | Val Acc 0.9639 | Val F1 0.9641 | MCC 0.9519
+Epoch   5/30 | Train 0.2065 | Val Loss 0.2887 | Val Acc 0.9639 | Val F1 0.9641 | MCC 0.9519
+Epoch   6/30 | Train 0.2061 | Val Loss 0.2436 | Val Acc 0.9639 | Val F1 0.9641 | MCC 0.9519
+Epoch   7/30 | Train 0.2063 | Val Loss 0.2184 | Val Acc 0.9644 | Val F1 0.9645 | MCC 0.9525
+Epoch   8/30 | Train 0.2057 | Val Loss 0.2045 | Val Acc 0.9642 | Val F1 0.9644 | MCC 0.9523
+Epoch   9/30 | Train 0.2058 | Val Loss 0.1965 | Val Acc 0.9641 | Val F1 0.9642 | MCC 0.9521
+Epoch  10/30 | Train 0.2056 | Val Loss 0.1914 | Val Acc 0.9636 | Val F1 0.9638 | MCC 0.9515
+Epoch  11/30 | Train 0.2055 | Val Loss 0.1883 | Val Acc 0.9634 | Val F1 0.9636 | MCC 0.9513
+Epoch  12/30 | Train 0.2056 | Val Loss 0.1862 | Val Acc 0.9634 | Val F1 0.9636 | MCC 0.9513
+Epoch  13/30 | Train 0.2055 | Val Loss 0.1852 | Val Acc 0.9636 | Val F1 0.9638 | MCC 0.9515
+Epoch  14/30 | Train 0.2056 | Val Loss 0.1845 | Val Acc 0.9631 | Val F1 0.9633 | MCC 0.9509
+Epoch  15/30 | Train 0.2054 | Val Loss 0.1841 | Val Acc 0.9630 | Val F1 0.9632 | MCC 0.9507
+Epoch  16/30 | Train 0.2054 | Val Loss 0.1840 | Val Acc 0.9630 | Val F1 0.9632 | MCC 0.9507
+Epoch  17/30 | Train 0.2055 | Val Loss 0.1840 | Val Acc 0.9627 | Val F1 0.9629 | MCC 0.9503
+Epoch  18/30 | Train 0.2055 | Val Loss 0.1842 | Val Acc 0.9627 | Val F1 0.9629 | MCC 0.9503
+Epoch  19/30 | Train 0.2054 | Val Loss 0.1844 | Val Acc 0.9625 | Val F1 0.9627 | MCC 0.9501
+Epoch  20/30 | Train 0.2054 | Val Loss 0.1846 | Val Acc 0.9625 | Val F1 0.9627 | MCC 0.9501
+Epoch  21/30 | Train 0.2053 | Val Loss 0.1848 | Val Acc 0.9628 | Val F1 0.9630 | MCC 0.9505
+Epoch  22/30 | Train 0.2054 | Val Loss 0.1850 | Val Acc 0.9630 | Val F1 0.9632 | MCC 0.9508
+Epoch  23/30 | Train 0.2054 | Val Loss 0.1851 | Val Acc 0.9630 | Val F1 0.9632 | MCC 0.9508
+Epoch  24/30 | Train 0.2053 | Val Loss 0.1853 | Val Acc 0.9630 | Val F1 0.9632 | MCC 0.9508
+Epoch  25/30 | Train 0.2053 | Val Loss 0.1854 | Val Acc 0.9627 | Val F1 0.9629 | MCC 0.9504
+Epoch  26/30 | Train 0.2053 | Val Loss 0.1855 | Val Acc 0.9628 | Val F1 0.9631 | MCC 0.9506
+Epoch  27/30 | Train 0.2054 | Val Loss 0.1856 | Val Acc 0.9628 | Val F1 0.9631 | MCC 0.9506
+Epoch  28/30 | Train 0.2053 | Val Loss 0.1857 | Val Acc 0.9628 | Val F1 0.9631 | MCC 0.9506
+Epoch  29/30 | Train 0.2053 | Val Loss 0.1858 | Val Acc 0.9631 | Val F1 0.9634 | MCC 0.9510
+Epoch  30/30 | Train 0.2053 | Val Loss 0.1859 | Val Acc 0.9633 | Val F1 0.9635 | MCC 0.9512
+
+Test: Accuracy: 0.8555 | Macro-F1: 0.8560 | MCC: 0.8103
+
+Results saved to outputs\gnn_dronerf_multiclass/

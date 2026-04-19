@@ -1,374 +1,396 @@
 {
-  "all3_balanced\\all3_balanced_CageDroneRF_metrics.json": {
-    "accuracy": 1.0,
-    "macro_f1": 1.0,
-    "weighted_f1": 1.0,
-    "macro_precision": 1.0,
-    "macro_recall": 1.0,
-    "roc_auc": 1.0,
-    "pr_auc": 1.0,
-    "false_positive_rate": 0.0,
-    "false_negative_rate": 0.0
+  "leave_one_out": {
+    "leave_out_DroneRF": {
+      "accuracy": 0.3879690949227373,
+      "macro_f1": 0.38345771003083773,
+      "weighted_f1": 0.35708793769496017,
+      "macro_precision": 0.6014092186571862,
+      "macro_recall": 0.5743193524650478,
+      "roc_auc": 0.46266814158573294,
+      "pr_auc": 0.7864654672948925,
+      "false_positive_rate": 0.052980132450331126,
+      "false_negative_rate": 0.7983811626195733
+    },
+    "leave_out_DroneRF_eval_RFUAV": {
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "weighted_f1": 1.0,
+      "macro_precision": 1.0,
+      "macro_recall": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0
+    },
+    "leave_out_DroneRF_eval_CageDroneRF": {
+      "accuracy": 0.9985693848354793,
+      "macro_f1": 0.9967016633242892,
+      "weighted_f1": 0.9985729356368312,
+      "macro_precision": 0.9942528735632183,
+      "macro_recall": 0.999184339314845,
+      "roc_auc": 1.0,
+      "pr_auc": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0016313213703099511
+    },
+    "leave_out_RFUAV": {
+      "accuracy": 0.198943661971831,
+      "macro_f1": 0.16593245227606462,
+      "weighted_f1": 0.33186490455212925,
+      "macro_precision": 0.5,
+      "macro_recall": 0.0994718309859155,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.801056338028169
+    },
+    "leave_out_RFUAV_eval_DroneRF": {
+      "accuracy": 0.967439293598234,
+      "macro_f1": 0.9545482180110785,
+      "weighted_f1": 0.966651134572698,
+      "macro_precision": 0.9791960507757405,
+      "macro_recall": 0.934878587196468,
+      "roc_auc": 0.9988938107003104,
+      "pr_auc": 0.9996019473429252,
+      "false_positive_rate": 0.13024282560706402,
+      "false_negative_rate": 0.0
+    },
+    "leave_out_RFUAV_eval_CageDroneRF": {
+      "accuracy": 0.9971387696709585,
+      "macro_f1": 0.9933033148112665,
+      "weighted_f1": 0.9971242688964418,
+      "macro_precision": 0.9983739837398373,
+      "macro_recall": 0.9883720930232558,
+      "roc_auc": 1.0,
+      "pr_auc": 1.0,
+      "false_positive_rate": 0.023255813953488372,
+      "false_negative_rate": 0.0
+    },
+    "leave_out_CageDroneRF": {
+      "accuracy": 0.876967095851216,
+      "macro_f1": 0.46722560975609756,
+      "weighted_f1": 0.8194829721902369,
+      "macro_precision": 0.438483547925608,
+      "macro_recall": 0.5,
+      "roc_auc": 0.5379187374331348,
+      "pr_auc": 0.8926270856004492,
+      "false_positive_rate": 1.0,
+      "false_negative_rate": 0.0
+    },
+    "leave_out_CageDroneRF_eval_DroneRF": {
+      "accuracy": 0.902317880794702,
+      "macro_f1": 0.8480308748587391,
+      "weighted_f1": 0.8934454892428412,
+      "macro_precision": 0.9423828125,
+      "macro_recall": 0.804635761589404,
+      "roc_auc": 0.943751654816959,
+      "pr_auc": 0.965732207411386,
+      "false_positive_rate": 0.39072847682119205,
+      "false_negative_rate": 0.0
+    },
+    "leave_out_CageDroneRF_eval_RFUAV": {
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "weighted_f1": 1.0,
+      "macro_precision": 1.0,
+      "macro_recall": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0
+    }
   },
-  "all3_balanced\\all3_balanced_DroneRF_metrics.json": {
-    "accuracy": 0.9332229580573952,
-    "macro_f1": 0.9016196157703327,
-    "weighted_f1": 0.9294994873497665,
-    "macro_precision": 0.9591216216216216,
-    "macro_recall": 0.8664459161147903,
-    "roc_auc": 0.9800122476759466,
-    "pr_auc": 0.9912624393560511,
-    "false_positive_rate": 0.2671081677704194,
-    "false_negative_rate": 0.0
+  "ablation": {
+    "single_DroneRF": {
+      "DroneRF": {
+        "accuracy": 0.9530905077262694,
+        "macro_f1": 0.9330715350657444,
+        "weighted_f1": 0.9513734414536713,
+        "macro_precision": 0.9705678670360111,
+        "macro_recall": 0.9061810154525387,
+        "roc_auc": 0.9998456857805131,
+        "pr_auc": 0.9999488064049675,
+        "false_positive_rate": 0.18763796909492272,
+        "false_negative_rate": 0.0
+      },
+      "RFUAV": {
+        "accuracy": 0.9991197183098591,
+        "macro_f1": 0.4997798326728313,
+        "weighted_f1": 0.9995596653456628,
+        "macro_precision": 0.5,
+        "macro_recall": 0.49955985915492956,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.0008802816901408451
+      },
+      "CageDroneRF": {
+        "accuracy": 0.871244635193133,
+        "macro_f1": 0.46559633027522934,
+        "weighted_f1": 0.816625323200903,
+        "macro_precision": 0.4381294964028777,
+        "macro_recall": 0.4967373572593801,
+        "roc_auc": 0.6783641261049357,
+        "pr_auc": 0.9238894705937163,
+        "false_positive_rate": 1.0,
+        "false_negative_rate": 0.0065252854812398045
+      }
+    },
+    "single_RFUAV": {
+      "DroneRF": {
+        "accuracy": 0.75,
+        "macro_f1": 0.42857142857142855,
+        "weighted_f1": 0.6428571428571429,
+        "macro_precision": 0.375,
+        "macro_recall": 0.5,
+        "roc_auc": 0.6461477485555377,
+        "pr_auc": 0.8459732940637427,
+        "false_positive_rate": 1.0,
+        "false_negative_rate": 0.0
+      },
+      "RFUAV": {
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "weighted_f1": 1.0,
+        "macro_precision": 1.0,
+        "macro_recall": 1.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.0
+      },
+      "CageDroneRF": {
+        "accuracy": 0.876967095851216,
+        "macro_f1": 0.46722560975609756,
+        "weighted_f1": 0.8194829721902369,
+        "macro_precision": 0.438483547925608,
+        "macro_recall": 0.5,
+        "roc_auc": 0.4612656018817103,
+        "pr_auc": 0.8639341165748724,
+        "false_positive_rate": 1.0,
+        "false_negative_rate": 0.0
+      }
+    },
+    "single_CageDroneRF": {
+      "DroneRF": {
+        "accuracy": 0.6793598233995585,
+        "macro_f1": 0.40453499835688467,
+        "weighted_f1": 0.6068024975353271,
+        "macro_precision": 0.36549881235154397,
+        "macro_recall": 0.452906548933039,
+        "roc_auc": 0.30098419984828473,
+        "pr_auc": 0.649668159871873,
+        "false_positive_rate": 1.0,
+        "false_negative_rate": 0.094186902133922
+      },
+      "RFUAV": {
+        "accuracy": 0.11267605633802817,
+        "macro_f1": 0.10126582278481013,
+        "weighted_f1": 0.20253164556962025,
+        "macro_precision": 0.5,
+        "macro_recall": 0.056338028169014086,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.8873239436619719
+      },
+      "CageDroneRF": {
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "weighted_f1": 1.0,
+        "macro_precision": 1.0,
+        "macro_recall": 1.0,
+        "roc_auc": 1.0,
+        "pr_auc": 1.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.0
+      }
+    },
+    "pair_DroneRF+RFUAV": {
+      "DroneRF": {
+        "accuracy": 0.9370860927152318,
+        "macro_f1": 0.9079031843862353,
+        "weighted_f1": 0.9338244735490498,
+        "macro_precision": 0.9613034623217922,
+        "macro_recall": 0.8741721854304636,
+        "roc_auc": 0.9996150266313856,
+        "pr_auc": 0.9998712743007261,
+        "false_positive_rate": 0.25165562913907286,
+        "false_negative_rate": 0.0
+      },
+      "RFUAV": {
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "weighted_f1": 1.0,
+        "macro_precision": 1.0,
+        "macro_recall": 1.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.0
+      },
+      "CageDroneRF": {
+        "accuracy": 0.876967095851216,
+        "macro_f1": 0.46722560975609756,
+        "weighted_f1": 0.8194829721902369,
+        "macro_precision": 0.438483547925608,
+        "macro_recall": 0.5,
+        "roc_auc": 0.4832884403808945,
+        "pr_auc": 0.8438112771734982,
+        "false_positive_rate": 1.0,
+        "false_negative_rate": 0.0
+      }
+    },
+    "pair_DroneRF+CageDroneRF": {
+      "DroneRF": {
+        "accuracy": 0.9696467991169978,
+        "macro_f1": 0.9577680190421061,
+        "weighted_f1": 0.9689669521824307,
+        "macro_precision": 0.9805516265912306,
+        "macro_recall": 0.9392935982339956,
+        "roc_auc": 0.9996312702334368,
+        "pr_auc": 0.9998780196447552,
+        "false_positive_rate": 0.12141280353200883,
+        "false_negative_rate": 0.0
+      },
+      "RFUAV": {
+        "accuracy": 0.20774647887323944,
+        "macro_f1": 0.17201166180758018,
+        "weighted_f1": 0.34402332361516036,
+        "macro_precision": 0.5,
+        "macro_recall": 0.10387323943661972,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.7922535211267606
+      },
+      "CageDroneRF": {
+        "accuracy": 0.9985693848354793,
+        "macro_f1": 0.9966685254293026,
+        "weighted_f1": 0.9985657847229676,
+        "macro_precision": 0.999185667752443,
+        "macro_recall": 0.9941860465116279,
+        "roc_auc": 1.0,
+        "pr_auc": 1.0,
+        "false_positive_rate": 0.011627906976744186,
+        "false_negative_rate": 0.0
+      }
+    },
+    "pair_RFUAV+CageDroneRF": {
+      "DroneRF": {
+        "accuracy": 0.3675496688741722,
+        "macro_f1": 0.3620659146206592,
+        "weighted_f1": 0.33249281132492814,
+        "macro_precision": 0.5733843449488161,
+        "macro_recall": 0.5518763796909493,
+        "roc_auc": 0.44056709663481297,
+        "pr_auc": 0.7582498248289615,
+        "false_positive_rate": 0.07947019867549669,
+        "false_negative_rate": 0.8167770419426048
+      },
+      "RFUAV": {
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "weighted_f1": 1.0,
+        "macro_precision": 1.0,
+        "macro_recall": 1.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.0
+      },
+      "CageDroneRF": {
+        "accuracy": 0.994277539341917,
+        "macro_f1": 0.9869997024252344,
+        "weighted_f1": 0.9943332015745493,
+        "macro_precision": 0.9777777777777779,
+        "macro_recall": 0.9967373572593801,
+        "roc_auc": 0.9999620622937136,
+        "pr_auc": 0.9999946948898526,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.0065252854812398045
+      }
+    },
+    "all3_plain": {
+      "DroneRF": {
+        "accuracy": 0.9530905077262694,
+        "macro_f1": 0.9330715350657444,
+        "weighted_f1": 0.9513734414536713,
+        "macro_precision": 0.9705678670360111,
+        "macro_recall": 0.9061810154525387,
+        "roc_auc": 0.9946753472476029,
+        "pr_auc": 0.9973527815939635,
+        "false_positive_rate": 0.18763796909492272,
+        "false_negative_rate": 0.0
+      },
+      "RFUAV": {
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "weighted_f1": 1.0,
+        "macro_precision": 1.0,
+        "macro_recall": 1.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.0
+      },
+      "CageDroneRF": {
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "weighted_f1": 1.0,
+        "macro_precision": 1.0,
+        "macro_recall": 1.0,
+        "roc_auc": 1.0,
+        "pr_auc": 1.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.0
+      }
+    },
+    "all3_balanced": {
+      "DroneRF": {
+        "accuracy": 0.9497792494481236,
+        "macro_f1": 0.9279738439328451,
+        "weighted_f1": 0.9477889867581633,
+        "macro_precision": 0.9686206896551723,
+        "macro_recall": 0.8995584988962473,
+        "roc_auc": 0.9848187295229092,
+        "pr_auc": 0.9899746319148197,
+        "false_positive_rate": 0.20088300220750552,
+        "false_negative_rate": 0.0
+      },
+      "RFUAV": {
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "weighted_f1": 1.0,
+        "macro_precision": 1.0,
+        "macro_recall": 1.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.0
+      },
+      "CageDroneRF": {
+        "accuracy": 0.9957081545064378,
+        "macro_f1": 0.9901049899728678,
+        "weighted_f1": 0.995718806910494,
+        "macro_precision": 0.9876887536623845,
+        "macro_recall": 0.9925547251413179,
+        "roc_auc": 0.9999620622937136,
+        "pr_auc": 0.9999946819153909,
+        "false_positive_rate": 0.011627906976744186,
+        "false_negative_rate": 0.0032626427406199023
+      }
+    }
   },
-  "all3_balanced\\all3_balanced_RFUAV_metrics.json": {
-    "accuracy": 1.0,
-    "macro_f1": 1.0,
-    "weighted_f1": 1.0,
-    "macro_precision": 1.0,
-    "macro_recall": 1.0,
-    "false_positive_rate": 0.0,
-    "false_negative_rate": 0.0
-  },
-  "all3_plain\\all3_plain_CageDroneRF_metrics.json": {
-    "accuracy": 1.0,
-    "macro_f1": 1.0,
-    "weighted_f1": 1.0,
-    "macro_precision": 1.0,
-    "macro_recall": 1.0,
-    "roc_auc": 1.0,
-    "pr_auc": 1.0,
-    "false_positive_rate": 0.0,
-    "false_negative_rate": 0.0
-  },
-  "all3_plain\\all3_plain_DroneRF_metrics.json": {
-    "accuracy": 0.9481236203090507,
-    "macro_f1": 0.925404144097429,
-    "weighted_f1": 0.9459879895451584,
-    "macro_precision": 0.9676531314521679,
-    "macro_recall": 0.8962472406181016,
-    "roc_auc": 0.9954176798613447,
-    "pr_auc": 0.998104168918324,
-    "false_positive_rate": 0.20750551876379691,
-    "false_negative_rate": 0.0
-  },
-  "all3_plain\\all3_plain_RFUAV_metrics.json": {
-    "accuracy": 1.0,
-    "macro_f1": 1.0,
-    "weighted_f1": 1.0,
-    "macro_precision": 1.0,
-    "macro_recall": 1.0,
-    "false_positive_rate": 0.0,
-    "false_negative_rate": 0.0
-  },
-  "finetune\\ft_CageDroneRF\\ft_CageDroneRF_CageDroneRF_metrics.json": {
-    "accuracy": 1.0,
-    "macro_f1": 1.0,
-    "weighted_f1": 1.0,
-    "macro_precision": 1.0,
-    "macro_recall": 1.0,
-    "roc_auc": 1.0,
-    "pr_auc": 1.0,
-    "false_positive_rate": 0.0,
-    "false_negative_rate": 0.0
-  },
-  "finetune\\ft_DroneRF\\ft_DroneRF_DroneRF_metrics.json": {
-    "accuracy": 0.9718543046357616,
-    "macro_f1": 0.9609663378380947,
-    "weighted_f1": 0.9712740681606508,
-    "macro_precision": 0.9819148936170212,
-    "macro_recall": 0.9437086092715232,
-    "roc_auc": 0.999712488243693,
-    "pr_auc": 0.9999047266461185,
-    "false_positive_rate": 0.11258278145695365,
-    "false_negative_rate": 0.0
-  },
-  "finetune\\ft_RFUAV\\ft_RFUAV_RFUAV_metrics.json": {
-    "accuracy": 1.0,
-    "macro_f1": 1.0,
-    "weighted_f1": 1.0,
-    "macro_precision": 1.0,
-    "macro_recall": 1.0,
-    "false_positive_rate": 0.0,
-    "false_negative_rate": 0.0
-  },
-  "leave_out_CageDroneRF\\leave_out_CageDroneRF_CageDroneRF_metrics.json": {
-    "accuracy": 0.876967095851216,
-    "macro_f1": 0.46722560975609756,
-    "weighted_f1": 0.8194829721902369,
-    "macro_precision": 0.438483547925608,
-    "macro_recall": 0.5,
-    "roc_auc": 0.5583671611214387,
-    "pr_auc": 0.9025992067405777,
-    "false_positive_rate": 1.0,
-    "false_negative_rate": 0.0
-  },
-  "leave_out_CageDroneRF\\leave_out_CageDroneRF_DroneRF_metrics.json": {
-    "accuracy": 0.9271523178807947,
-    "macro_f1": 0.8915707874337006,
-    "weighted_f1": 0.9226274989800083,
-    "macro_precision": 0.9557344064386317,
-    "macro_recall": 0.8543046357615893,
-    "roc_auc": 0.9983334064295426,
-    "pr_auc": 0.999444360216756,
-    "false_positive_rate": 0.2913907284768212,
-    "false_negative_rate": 0.0
-  },
-  "leave_out_CageDroneRF\\leave_out_CageDroneRF_RFUAV_metrics.json": {
-    "accuracy": 1.0,
-    "macro_f1": 1.0,
-    "weighted_f1": 1.0,
-    "macro_precision": 1.0,
-    "macro_recall": 1.0,
-    "false_positive_rate": 0.0,
-    "false_negative_rate": 0.0
-  },
-  "leave_out_DroneRF\\leave_out_DroneRF_CageDroneRF_metrics.json": {
-    "accuracy": 0.9814020028612304,
-    "macro_f1": 0.959506249860743,
-    "weighted_f1": 0.9819557864974293,
-    "macro_precision": 0.9343434343434344,
-    "macro_recall": 0.9893964110929854,
-    "roc_auc": 0.996339011343374,
-    "pr_auc": 0.9995393568852,
-    "false_positive_rate": 0.0,
-    "false_negative_rate": 0.021207177814029365
-  },
-  "leave_out_DroneRF\\leave_out_DroneRF_DroneRF_metrics.json": {
-    "accuracy": 0.467439293598234,
-    "macro_f1": 0.42884916330312267,
-    "weighted_f1": 0.503079859794356,
-    "macro_precision": 0.46245758745758747,
-    "macro_recall": 0.44996320824135394,
-    "roc_auc": 0.4161545871120012,
-    "pr_auc": 0.717032497810869,
-    "false_positive_rate": 0.5849889624724062,
-    "false_negative_rate": 0.515084621044886
-  },
-  "leave_out_DroneRF\\leave_out_DroneRF_RFUAV_metrics.json": {
-    "accuracy": 1.0,
-    "macro_f1": 1.0,
-    "weighted_f1": 1.0,
-    "macro_precision": 1.0,
-    "macro_recall": 1.0,
-    "false_positive_rate": 0.0,
-    "false_negative_rate": 0.0
-  },
-  "leave_out_RFUAV\\leave_out_RFUAV_CageDroneRF_metrics.json": {
-    "accuracy": 0.9914163090128756,
-    "macro_f1": 0.9794926459083085,
-    "weighted_f1": 0.9912820839122611,
-    "macro_precision": 0.9951534733441034,
-    "macro_recall": 0.9651162790697674,
-    "roc_auc": 0.9998861868811412,
-    "pr_auc": 0.9999840585654491,
-    "false_positive_rate": 0.06976744186046512,
-    "false_negative_rate": 0.0
-  },
-  "leave_out_RFUAV\\leave_out_RFUAV_DroneRF_metrics.json": {
-    "accuracy": 0.967439293598234,
-    "macro_f1": 0.9545482180110785,
-    "weighted_f1": 0.966651134572698,
-    "macro_precision": 0.9791960507757405,
-    "macro_recall": 0.934878587196468,
-    "roc_auc": 0.9994168546863604,
-    "pr_auc": 0.9998076960080868,
-    "false_positive_rate": 0.13024282560706402,
-    "false_negative_rate": 0.0
-  },
-  "leave_out_RFUAV\\leave_out_RFUAV_RFUAV_metrics.json": {
-    "accuracy": 0.2948943661971831,
-    "macro_f1": 0.22773623385452074,
-    "weighted_f1": 0.4554724677090415,
-    "macro_precision": 0.5,
-    "macro_recall": 0.14744718309859156,
-    "false_positive_rate": 0.0,
-    "false_negative_rate": 0.7051056338028169
-  },
-  "pair_DroneRF+CageDroneRF\\pair_DroneRF+CageDroneRF_CageDroneRF_metrics.json": {
-    "accuracy": 1.0,
-    "macro_f1": 1.0,
-    "weighted_f1": 1.0,
-    "macro_precision": 1.0,
-    "macro_recall": 1.0,
-    "roc_auc": 1.0,
-    "pr_auc": 1.0,
-    "false_positive_rate": 0.0,
-    "false_negative_rate": 0.0
-  },
-  "pair_DroneRF+CageDroneRF\\pair_DroneRF+CageDroneRF_DroneRF_metrics.json": {
-    "accuracy": 0.9525386313465783,
-    "macro_f1": 0.9322257402317247,
-    "weighted_f1": 0.9507776347378311,
-    "macro_precision": 0.970242214532872,
-    "macro_recall": 0.9050772626931567,
-    "roc_auc": 0.9980946254793893,
-    "pr_auc": 0.9992494952576525,
-    "false_positive_rate": 0.18984547461368653,
-    "false_negative_rate": 0.0
-  },
-  "pair_DroneRF+CageDroneRF\\pair_DroneRF+CageDroneRF_RFUAV_metrics.json": {
-    "accuracy": 0.08714788732394366,
-    "macro_f1": 0.08016194331983806,
-    "weighted_f1": 0.16032388663967612,
-    "macro_precision": 0.5,
-    "macro_recall": 0.04357394366197183,
-    "false_positive_rate": 0.0,
-    "false_negative_rate": 0.9128521126760564
-  },
-  "pair_DroneRF+RFUAV\\pair_DroneRF+RFUAV_CageDroneRF_metrics.json": {
-    "accuracy": 0.876967095851216,
-    "macro_f1": 0.46722560975609756,
-    "weighted_f1": 0.8194829721902369,
-    "macro_precision": 0.438483547925608,
-    "macro_recall": 0.5,
-    "roc_auc": 0.5196327630031488,
-    "pr_auc": 0.8800259745060488,
-    "false_positive_rate": 1.0,
-    "false_negative_rate": 0.0
-  },
-  "pair_DroneRF+RFUAV\\pair_DroneRF+RFUAV_DroneRF_metrics.json": {
-    "accuracy": 0.9900662251655629,
-    "macro_f1": 0.9865753911806543,
-    "weighted_f1": 0.9899982219061166,
-    "macro_precision": 0.9934640522875817,
-    "macro_recall": 0.9801324503311258,
-    "roc_auc": 0.9993177687138478,
-    "pr_auc": 0.9997687510370226,
-    "false_positive_rate": 0.039735099337748346,
-    "false_negative_rate": 0.0
-  },
-  "pair_DroneRF+RFUAV\\pair_DroneRF+RFUAV_RFUAV_metrics.json": {
-    "accuracy": 1.0,
-    "macro_f1": 1.0,
-    "weighted_f1": 1.0,
-    "macro_precision": 1.0,
-    "macro_recall": 1.0,
-    "false_positive_rate": 0.0,
-    "false_negative_rate": 0.0
-  },
-  "pair_RFUAV+CageDroneRF\\pair_RFUAV+CageDroneRF_CageDroneRF_metrics.json": {
-    "accuracy": 1.0,
-    "macro_f1": 1.0,
-    "weighted_f1": 1.0,
-    "macro_precision": 1.0,
-    "macro_recall": 1.0,
-    "roc_auc": 1.0,
-    "pr_auc": 1.0,
-    "false_positive_rate": 0.0,
-    "false_negative_rate": 0.0
-  },
-  "pair_RFUAV+CageDroneRF\\pair_RFUAV+CageDroneRF_DroneRF_metrics.json": {
-    "accuracy": 0.28807947019867547,
-    "macro_f1": 0.2546034807365569,
-    "weighted_f1": 0.17562106809937092,
-    "macro_precision": 0.6299483648881239,
-    "macro_recall": 0.5253863134657837,
-    "roc_auc": 0.6525915854892654,
-    "pr_auc": 0.8584747618126287,
-    "false_positive_rate": 0.0,
-    "false_negative_rate": 0.9492273730684326
-  },
-  "pair_RFUAV+CageDroneRF\\pair_RFUAV+CageDroneRF_RFUAV_metrics.json": {
-    "accuracy": 1.0,
-    "macro_f1": 1.0,
-    "weighted_f1": 1.0,
-    "macro_precision": 1.0,
-    "macro_recall": 1.0,
-    "false_positive_rate": 0.0,
-    "false_negative_rate": 0.0
-  },
-  "single_CageDroneRF\\single_CageDroneRF_CageDroneRF_metrics.json": {
-    "accuracy": 0.9971387696709585,
-    "macro_f1": 0.9934358800991661,
-    "weighted_f1": 0.9971528759169463,
-    "macro_precision": 0.9886363636363636,
-    "macro_recall": 0.99836867862969,
-    "roc_auc": 1.0,
-    "pr_auc": 1.0,
-    "false_positive_rate": 0.0,
-    "false_negative_rate": 0.0032626427406199023
-  },
-  "single_CageDroneRF\\single_CageDroneRF_DroneRF_metrics.json": {
-    "accuracy": 0.4271523178807947,
-    "macro_f1": 0.3607505451539754,
-    "weighted_f1": 0.46376425421304773,
-    "macro_precision": 0.38867701496251594,
-    "macro_recall": 0.35467255334805003,
-    "roc_auc": 0.3227717432796157,
-    "pr_auc": 0.692981372730183,
-    "false_positive_rate": 0.7902869757174393,
-    "false_negative_rate": 0.5003679175864606
-  },
-  "single_CageDroneRF\\single_CageDroneRF_RFUAV_metrics.json": {
-    "accuracy": 0.13732394366197184,
-    "macro_f1": 0.12074303405572756,
-    "weighted_f1": 0.24148606811145512,
-    "macro_precision": 0.5,
-    "macro_recall": 0.06866197183098592,
-    "false_positive_rate": 0.0,
-    "false_negative_rate": 0.8626760563380281
-  },
-  "single_DroneRF\\single_DroneRF_CageDroneRF_metrics.json": {
-    "accuracy": 0.8755364806866953,
-    "macro_f1": 0.4668192219679634,
-    "weighted_f1": 0.818770194753538,
-    "macro_precision": 0.4383954154727794,
-    "macro_recall": 0.499184339314845,
-    "roc_auc": 0.47065518418756397,
-    "pr_auc": 0.8707424089267561,
-    "false_positive_rate": 1.0,
-    "false_negative_rate": 0.0016313213703099511
-  },
-  "single_DroneRF\\single_DroneRF_DroneRF_metrics.json": {
-    "accuracy": 0.9475717439293598,
-    "macro_f1": 0.9245444459688876,
-    "weighted_f1": 0.9453863360310133,
-    "macro_precision": 0.9673314993122422,
-    "macro_recall": 0.8951434878587197,
-    "roc_auc": 0.9996475138354881,
-    "pr_auc": 0.9998833728906573,
-    "false_positive_rate": 0.2097130242825607,
-    "false_negative_rate": 0.0
-  },
-  "single_DroneRF\\single_DroneRF_RFUAV_metrics.json": {
-    "accuracy": 0.9920774647887324,
-    "macro_f1": 0.4980114891736633,
-    "weighted_f1": 0.9960229783473264,
-    "macro_precision": 0.5,
-    "macro_recall": 0.4960387323943662,
-    "false_positive_rate": 0.0,
-    "false_negative_rate": 0.007922535211267605
-  },
-  "single_RFUAV\\single_RFUAV_CageDroneRF_metrics.json": {
-    "accuracy": 0.876967095851216,
-    "macro_f1": 0.46722560975609756,
-    "weighted_f1": 0.8194829721902369,
-    "macro_precision": 0.438483547925608,
-    "macro_recall": 0.5,
-    "roc_auc": 0.42490231040631277,
-    "pr_auc": 0.8814555816693691,
-    "false_positive_rate": 1.0,
-    "false_negative_rate": 0.0
-  },
-  "single_RFUAV\\single_RFUAV_DroneRF_metrics.json": {
-    "accuracy": 0.75,
-    "macro_f1": 0.42857142857142855,
-    "weighted_f1": 0.6428571428571429,
-    "macro_precision": 0.375,
-    "macro_recall": 0.5,
-    "roc_auc": 0.21888253764048685,
-    "pr_auc": 0.5958660076036527,
-    "false_positive_rate": 1.0,
-    "false_negative_rate": 0.0
-  },
-  "single_RFUAV\\single_RFUAV_RFUAV_metrics.json": {
-    "accuracy": 1.0,
-    "macro_f1": 1.0,
-    "weighted_f1": 1.0,
-    "macro_precision": 1.0,
-    "macro_recall": 1.0,
-    "false_positive_rate": 0.0,
-    "false_negative_rate": 0.0
+  "finetune": {
+    "finetune_DroneRF": {
+      "accuracy": 0.9497792494481236,
+      "macro_f1": 0.9279738439328451,
+      "weighted_f1": 0.9477889867581633,
+      "macro_precision": 0.9686206896551723,
+      "macro_recall": 0.8995584988962473,
+      "roc_auc": 0.9976284341005187,
+      "pr_auc": 0.99900045578766,
+      "false_positive_rate": 0.20088300220750552,
+      "false_negative_rate": 0.0
+    },
+    "finetune_RFUAV": {
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "weighted_f1": 1.0,
+      "macro_precision": 1.0,
+      "macro_recall": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0
+    },
+    "finetune_CageDroneRF": {
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "weighted_f1": 1.0,
+      "macro_precision": 1.0,
+      "macro_recall": 1.0,
+      "roc_auc": 1.0,
+      "pr_auc": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0
+    }
   }
 }

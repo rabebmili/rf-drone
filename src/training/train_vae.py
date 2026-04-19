@@ -5,8 +5,10 @@ import json
 import time
 from pathlib import Path
 
+import numpy as np
 import torch
 from torch import optim
+from torch.optim.lr_scheduler import LinearLR, CosineAnnealingLR, SequentialLR
 from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
 
@@ -14,7 +16,8 @@ from src.models.vae import RFVAE
 from src.training.train_multimodel import load_dataset
 
 
-def train_one_epoch(model, loader, optimizer, device, beta=0.5):
+def train_one_epoch(model, loader, optimizer, device, beta=0.5, grad_clip=1.0,
+                    ema_state=None, ema_decay=0.0):
     model.train()
     total_loss = 0.0
     total_recon = 0.0
@@ -27,7 +30,20 @@ def train_one_epoch(model, loader, optimizer, device, beta=0.5):
         x_recon, mu, logvar = model(x)
         loss, recon_loss, kl_loss = RFVAE.loss_function(x_recon, x, mu, logvar, beta=beta)
         loss.backward()
+
+        if grad_clip > 0:
+            torch.nn.utils.clip_grad_norm_(model.parameters(), grad_clip)
+
         optimizer.step()
+
+        # EMA : mise à jour par-batch des poids ombres
+        if ema_state is not None and ema_decay > 0:
+            with torch.no_grad():
+                for k, v in model.state_dict().items():
+                    if v.dtype.is_floating_point:
+                        ema_state[k].mul_(ema_decay).add_(v.detach(), alpha=1 - ema_decay)
+                    else:
+                        ema_state[k].copy_(v.detach())
 
         total_loss += loss.item() * x.size(0)
         total_recon += recon_loss.item() * x.size(0)
@@ -134,8 +150,20 @@ def main():
     parser.add_argument("--latent_dim", type=int, default=32)
     parser.add_argument("--beta", type=float, default=0.5,
                         help="KL weight (beta-VAE)")
+    parser.add_argument("--weight_decay", type=float, default=1e-4)
+    parser.add_argument("--warmup_epochs", type=int, default=5,
+                        help="Linear LR warmup epochs (clamped to epochs/4)")
+    parser.add_argument("--grad_clip", type=float, default=1.0)
+    parser.add_argument("--ema_decay", type=float, default=0.999,
+                        help="EMA decay on model weights (0 = disabled)")
+    parser.add_argument("--seed", type=int, default=None)
     parser.add_argument("--output_dir", default=None)
     args = parser.parse_args()
+
+    if args.seed is not None:
+        torch.manual_seed(args.seed)
+        np.random.seed(args.seed)
+        torch.backends.cudnn.deterministic = True
 
     if args.output_dir is None:
         args.output_dir = f"outputs/vae_{args.dataset}"
@@ -157,8 +185,25 @@ def main():
     param_count = sum(p.numel() for p in model.parameters() if p.requires_grad)
     print(f"VAE parameters: {param_count:,}")
 
-    optimizer = optim.Adam(model.parameters(), lr=args.lr)
-    scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=args.epochs)
+    optimizer = optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
+
+    # Warmup linéaire suivi d'un cosine annealing (même schéma que train_multimodel)
+    warmup_epochs = min(args.warmup_epochs, args.epochs // 4)
+    cosine_epochs = max(1, args.epochs - warmup_epochs)
+    warmup_scheduler = LinearLR(optimizer, start_factor=0.1, end_factor=1.0,
+                                total_iters=warmup_epochs)
+    cosine_scheduler = CosineAnnealingLR(optimizer, T_max=cosine_epochs,
+                                         eta_min=args.lr * 0.01)
+    scheduler = SequentialLR(optimizer,
+                             schedulers=[warmup_scheduler, cosine_scheduler],
+                             milestones=[warmup_epochs])
+
+    print(f"LR={args.lr:.2e}, warmup={warmup_epochs}, weight_decay={args.weight_decay}, "
+          f"grad_clip={args.grad_clip}, ema_decay={args.ema_decay}")
+
+    # EMA : shadow weights, mis à jour à chaque batch, utilisés pour la validation
+    use_ema = args.ema_decay > 0
+    ema_state = {k: v.detach().clone() for k, v in model.state_dict().items()} if use_ema else None
 
     out_dir = Path(args.output_dir)
     model_dir = out_dir / "models"
@@ -178,11 +223,19 @@ def main():
     for epoch in range(args.epochs):
         t0 = time.time()
         train_loss, train_recon, train_kl = train_one_epoch(
-            model, train_loader, optimizer, device, beta=args.beta
+            model, train_loader, optimizer, device, beta=args.beta,
+            grad_clip=args.grad_clip,
+            ema_state=ema_state, ema_decay=args.ema_decay,
         )
-        val_loss, val_recon, val_kl = validate(
-            model, val_loader, device, beta=args.beta
-        )
+
+        if use_ema:
+            # Validation sur les poids EMA (courbes lisses)
+            raw_state = {k: v.detach().clone() for k, v in model.state_dict().items()}
+            model.load_state_dict(ema_state)
+            val_loss, val_recon, val_kl = validate(model, val_loader, device, beta=args.beta)
+        else:
+            val_loss, val_recon, val_kl = validate(model, val_loader, device, beta=args.beta)
+
         scheduler.step()
         elapsed = time.time() - t0
 
@@ -197,10 +250,14 @@ def main():
               f"Train: {train_loss:.4f} (R={train_recon:.4f} KL={train_kl:.4f}) | "
               f"Val: {val_loss:.4f} (R={val_recon:.4f} KL={val_kl:.4f})")
 
+        # Sauvegarde du meilleur modèle. Si EMA actif, les poids EMA sont chargés.
         if val_loss < best_val_loss:
             best_val_loss = val_loss
             torch.save(model.state_dict(), model_dir / "best_vae.pt")
             print(f"  -> Best model saved (val_loss={val_loss:.4f})")
+
+        if use_ema:
+            model.load_state_dict(raw_state)
 
     # Courbes d'entraînement
     plot_vae_curves(history, str(figures_dir / "vae_training_curves.png"))

@@ -1,52 +1,52 @@
 [
   {
     "epoch": 1,
-    "train_loss": 0.288573431697643,
+    "train_loss": 0.3097289062947919,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
-    "CageDroneRF_acc": 0.9269340974212035,
-    "CageDroneRF_f1": 0.7791180357774428,
-    "avg_f1": 0.8895590178887214
+    "CageDroneRF_acc": 0.9040114613180515,
+    "CageDroneRF_f1": 0.6550035041127218,
+    "avg_f1": 0.8275017520563609
   },
   {
     "epoch": 2,
-    "train_loss": 0.23440735007832322,
+    "train_loss": 0.2367534198631781,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
-    "CageDroneRF_acc": 0.9813753581661891,
-    "CageDroneRF_f1": 0.9562409880258291,
-    "avg_f1": 0.9781204940129146
+    "CageDroneRF_acc": 0.9512893982808023,
+    "CageDroneRF_f1": 0.8632980806893851,
+    "avg_f1": 0.9316490403446925
   },
   {
     "epoch": 3,
-    "train_loss": 0.2245239349514697,
+    "train_loss": 0.22325065915671585,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
-    "CageDroneRF_acc": 0.9871060171919771,
-    "CageDroneRF_f1": 0.9708847207352511,
-    "avg_f1": 0.9854423603676256
+    "CageDroneRF_acc": 0.9742120343839542,
+    "CageDroneRF_f1": 0.9343120647468474,
+    "avg_f1": 0.9671560323734236
   },
   {
     "epoch": 4,
-    "train_loss": 0.21757938479427516,
+    "train_loss": 0.21951975534793525,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
-    "CageDroneRF_acc": 0.9756446991404012,
-    "CageDroneRF_f1": 0.9383119752540875,
-    "avg_f1": 0.9691559876270437
+    "CageDroneRF_acc": 0.9871060171919771,
+    "CageDroneRF_f1": 0.9693923787900196,
+    "avg_f1": 0.9846961893950098
   },
   {
     "epoch": 5,
-    "train_loss": 0.21301265296411062,
+    "train_loss": 0.21828592326821644,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
-    "CageDroneRF_acc": 0.9914040114613181,
-    "CageDroneRF_f1": 0.9806830132285382,
-    "avg_f1": 0.9903415066142691
+    "CageDroneRF_acc": 0.9856733524355301,
+    "CageDroneRF_f1": 0.9654537535635097,
+    "avg_f1": 0.9827268767817549
   },
   {
     "epoch": 6,
-    "train_loss": 0.2102797680053357,
+    "train_loss": 0.21066126154013012,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "CageDroneRF_acc": 0.9928366762177651,
@@ -55,52 +55,34 @@
   },
   {
     "epoch": 7,
-    "train_loss": 0.20906752288336428,
+    "train_loss": 0.20878090697156537,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
-    "CageDroneRF_acc": 0.997134670487106,
-    "CageDroneRF_f1": 0.9933019863736685,
-    "avg_f1": 0.9966509931868343
+    "CageDroneRF_acc": 0.995702005730659,
+    "CageDroneRF_f1": 0.9901029875365702,
+    "avg_f1": 0.9950514937682851
   },
   {
     "epoch": 8,
-    "train_loss": 0.20650539945940632,
+    "train_loss": 0.2079232581885149,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
-    "CageDroneRF_acc": 0.997134670487106,
-    "CageDroneRF_f1": 0.9933690530475756,
-    "avg_f1": 0.9966845265237878
+    "CageDroneRF_acc": 0.9899713467048711,
+    "CageDroneRF_f1": 0.9759446618910469,
+    "avg_f1": 0.9879723309455235
   },
   {
     "epoch": 9,
-    "train_loss": 0.20609987736848778,
+    "train_loss": 0.20596169022293476,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
-    "CageDroneRF_acc": 0.998567335243553,
-    "CageDroneRF_f1": 0.9966678601265067,
-    "avg_f1": 0.9983339300632533
+    "CageDroneRF_acc": 0.994269340974212,
+    "CageDroneRF_f1": 0.9864665736001241,
+    "avg_f1": 0.9932332868000621
   },
   {
     "epoch": 10,
-    "train_loss": 0.20604852049796435,
-    "DroneRF_acc": 1.0,
-    "DroneRF_f1": 1.0,
-    "CageDroneRF_acc": 0.997134670487106,
-    "CageDroneRF_f1": 0.9933019863736685,
-    "avg_f1": 0.9966509931868343
-  },
-  {
-    "epoch": 11,
-    "train_loss": 0.20484251381291396,
-    "DroneRF_acc": 1.0,
-    "DroneRF_f1": 1.0,
-    "CageDroneRF_acc": 0.998567335243553,
-    "CageDroneRF_f1": 0.9966678601265067,
-    "avg_f1": 0.9983339300632533
-  },
-  {
-    "epoch": 12,
-    "train_loss": 0.20328902591190864,
+    "train_loss": 0.20559443749951667,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "CageDroneRF_acc": 1.0,
@@ -108,8 +90,26 @@
     "avg_f1": 1.0
   },
   {
+    "epoch": 11,
+    "train_loss": 0.20491100499870246,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "CageDroneRF_acc": 1.0,
+    "CageDroneRF_f1": 1.0,
+    "avg_f1": 1.0
+  },
+  {
+    "epoch": 12,
+    "train_loss": 0.2036487355590101,
+    "DroneRF_acc": 1.0,
+    "DroneRF_f1": 1.0,
+    "CageDroneRF_acc": 0.998567335243553,
+    "CageDroneRF_f1": 0.9966678601265067,
+    "avg_f1": 0.9983339300632533
+  },
+  {
     "epoch": 13,
-    "train_loss": 0.20277147299357484,
+    "train_loss": 0.2029729693381641,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "CageDroneRF_acc": 1.0,
@@ -118,7 +118,7 @@
   },
   {
     "epoch": 14,
-    "train_loss": 0.20237658320150678,
+    "train_loss": 0.20230313601865962,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "CageDroneRF_acc": 1.0,
@@ -127,7 +127,7 @@
   },
   {
     "epoch": 15,
-    "train_loss": 0.2018109088331647,
+    "train_loss": 0.2016363648744065,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "CageDroneRF_acc": 1.0,
@@ -136,7 +136,7 @@
   },
   {
     "epoch": 16,
-    "train_loss": 0.20125948880047703,
+    "train_loss": 0.20154989323347836,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "CageDroneRF_acc": 1.0,
@@ -145,7 +145,7 @@
   },
   {
     "epoch": 17,
-    "train_loss": 0.20116410394062986,
+    "train_loss": 0.20148841061060405,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "CageDroneRF_acc": 1.0,
@@ -154,7 +154,7 @@
   },
   {
     "epoch": 18,
-    "train_loss": 0.2011183190115477,
+    "train_loss": 0.2010877362002429,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "CageDroneRF_acc": 1.0,
@@ -163,7 +163,7 @@
   },
   {
     "epoch": 19,
-    "train_loss": 0.20088460582149814,
+    "train_loss": 0.20083746093951266,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "CageDroneRF_acc": 1.0,
@@ -172,7 +172,7 @@
   },
   {
     "epoch": 20,
-    "train_loss": 0.20090656896637732,
+    "train_loss": 0.20089903350813448,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "CageDroneRF_acc": 1.0,

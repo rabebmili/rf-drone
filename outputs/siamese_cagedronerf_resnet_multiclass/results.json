@@ -5,7 +5,8 @@
   "embedding_dim": 128,
   "margin": 1.0,
   "epochs": 20,
-  "best_val_loss": 0.0014095639431032547,
+  "best_val_loss": 0.02435683384324213,
+  "best_val_triplet_acc": 0.998567335243553,
   "num_classes": 27,
   "class_names": [
     "Autel_EXOII",

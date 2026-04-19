@@ -188,7 +188,7 @@ def full_evaluate(model, loader, device, dataset_name, class_names,
                           for i in unique_labels]
         disp = ConfusionMatrixDisplay(cm, display_labels=display_labels)
         disp.plot(ax=ax, cmap="Blues", values_format="d")
-        ax.set_title(f"{experiment_name} → {dataset_name}")
+        ax.set_title(f"{experiment_name} -> {dataset_name}")
         plt.tight_layout()
         plt.savefig(out / f"{prefix}_confusion_matrix.png", dpi=150)
         plt.close()
@@ -454,7 +454,7 @@ def print_summary(all_results, output_dir, model_name):
         elif isinstance(exp_data, dict):
             for ds_name, metrics in exp_data.items():
                 if isinstance(metrics, dict) and "accuracy" in metrics:
-                    rows.append((f"{exp_name} → {ds_name}", metrics))
+                    rows.append((f"{exp_name} -> {ds_name}", metrics))
 
     if rows:
         print(f"\n  {'Experience':<50} {'Acc':>7} {'F1':>7} {'Prec':>7} {'Rappel':>7} {'TFP':>7}")

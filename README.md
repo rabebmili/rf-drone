@@ -277,10 +277,10 @@ All spectrogram models take input shape `[batch, 1, H, W]` (single-channel spect
 - **STFT:** nperseg=512, noverlap=256, fs=1.0
 - **Normalization:** log-magnitude, zero-mean, unit-variance
 - **Splits:** 70% train / 15% val / 15% test (file-level stratified, no data leakage)
-- **Training:** Adam lr=1e-3, CosineAnnealingLR, CrossEntropyLoss with class weights, SpecAugment, 20 epochs, batch_size=16
+- **Training:** AdamW lr=1e-3, LinearLR warmup → CosineAnnealingLR, CrossEntropyLoss with class weights and label smoothing (multiclass), gradient clipping (clip_grad_norm_=1.0), EMA on model weights (decay=0.999, used for validation), SpecAugment, 20 epochs, batch_size=16. GNN/VAE/Siamese training scripts share the same stabilization recipe; `--seed` supported for reproducibility.
 - **Open-set methods:** MSP, Energy scoring, Mahalanobis distance, **OpenMax (EVT/Weibull fitting)**
 - **Explainability:** Grad-CAM (CNN layers), **Attention Rollout** (AST/Transformer), **GradCAM1D** (1D-CNN)
 - **Forensic analysis:** **Integrated pipeline** with 9 components (classification, open-set detection, VAE anomaly detection, Siamese attribution, GNN graph analysis, Grad-CAM explainability, timeline generation, confidence tracking, report generation) with graceful degradation when optional models are unavailable
-- **Siamese attribution:** Triplet loss training, cosine similarity gallery matching for drone type identification
+- **Siamese attribution:** Triplet loss training with val triplet accuracy tracking, cosine similarity gallery matching for drone type identification
 - **GNN:** Graph Attention Network built on Siamese embedding similarity graph for relational analysis
 - **Windows note:** DataLoaders use `num_workers=0` for compatibility

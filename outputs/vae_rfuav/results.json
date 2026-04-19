@@ -1,0 +1,8 @@
+{
+  "dataset": "rfuav",
+  "latent_dim": 32,
+  "beta": 0.5,
+  "epochs": 30,
+  "best_val_loss": 0.7200280797313636,
+  "param_count": 393601
+}

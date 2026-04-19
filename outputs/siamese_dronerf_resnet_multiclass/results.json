@@ -5,7 +5,8 @@
   "embedding_dim": 128,
   "margin": 1.0,
   "epochs": 20,
-  "best_val_loss": 0.0006272950709260853,
+  "best_val_loss": 0.00594037797540492,
+  "best_val_triplet_acc": 0.9988962472406181,
   "num_classes": 4,
   "class_names": [
     "Background",

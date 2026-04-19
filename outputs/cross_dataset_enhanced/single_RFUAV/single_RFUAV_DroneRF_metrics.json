@@ -4,8 +4,8 @@
   "weighted_f1": 0.6428571428571429,
   "macro_precision": 0.375,
   "macro_recall": 0.5,
-  "roc_auc": 0.21888253764048685,
-  "pr_auc": 0.5958660076036527,
+  "roc_auc": 0.6461477485555377,
+  "pr_auc": 0.8459732940637427,
   "false_positive_rate": 1.0,
   "false_negative_rate": 0.0
 }

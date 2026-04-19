@@ -35,7 +35,7 @@ Detailed script-to-output mapping for all 9 pipeline phases.
 | `src/datasets/cagedronerf_dataset.py` | `CageDroneRFDataset` | train_multimodel |
 | `src/datasets/rfuav_dataset.py` | `RFUAVDataset` | train_multimodel |
 | `src/datasets/siamese_dataset.py` | `TripletDataset` | train_siamese |
-| `src/datasets/signal_graph_dataset.py` | `SignalGraphDataset` | train_gnn |
+| `src/datasets/signal_graph_dataset.py` | `SignalGraphDataset` (supports `deterministic=True` mode: pre-samples subgraphs once with a fixed seed so val/test curves are stable across epochs) | train_gnn |
 | `src/preprocessing/segmentation.py` | `segment_signal()` | precompute, forensics |
 | `src/preprocessing/stft_utils.py` | `compute_log_spectrogram()` | precompute, forensics |
 | `src/evaluation/metrics.py` | accuracy, F1, ROC-AUC, ECE, confusion matrix, PR curves | all evaluation scripts |
@@ -57,7 +57,7 @@ Detailed script-to-output mapping for all 9 pipeline phases.
 
 | Script | Output directory | Key outputs |
 |--------|-----------------|-------------|
-| `src/training/train_siamese.py` | `outputs/siamese_{dataset}_{backbone}_{task}/` | `models/best_siamese.pt`, `results.json` |
+| `src/training/train_siamese.py` | `outputs/siamese_{dataset}_{backbone}_{task}/` | `models/best_siamese.pt`, `figures/siamese_training_curves.png` (triplet loss + triplet accuracy), `results.json` |
 | `src/training/train_vae.py` | `outputs/vae_{dataset}/` | `models/best_vae.pt`, `figures/vae_training_curves.png`, `figures/vae_reconstructions.png`, `results.json` |
 | `src/training/train_gnn.py` | `outputs/gnn_{dataset}_{task}/` | `models/best_gnn.pt`, `figures/gnn_training_curves.png`, `results.json` |
 

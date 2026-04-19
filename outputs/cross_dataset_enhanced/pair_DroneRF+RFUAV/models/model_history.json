@@ -1,7 +1,7 @@
 [
   {
     "epoch": 1,
-    "train_loss": 0.2518623155468711,
+    "train_loss": 0.23696626759151357,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "RFUAV_acc": 1.0,
@@ -10,7 +10,7 @@
   },
   {
     "epoch": 2,
-    "train_loss": 0.2091157465602299,
+    "train_loss": 0.20849768959913761,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "RFUAV_acc": 1.0,
@@ -19,7 +19,7 @@
   },
   {
     "epoch": 3,
-    "train_loss": 0.20632175753983967,
+    "train_loss": 0.2035794377886375,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "RFUAV_acc": 1.0,
@@ -28,7 +28,7 @@
   },
   {
     "epoch": 4,
-    "train_loss": 0.20228944193703347,
+    "train_loss": 0.2015333944182642,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "RFUAV_acc": 1.0,
@@ -37,7 +37,7 @@
   },
   {
     "epoch": 5,
-    "train_loss": 0.2015286096908265,
+    "train_loss": 0.20137597792666181,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "RFUAV_acc": 1.0,
@@ -46,7 +46,7 @@
   },
   {
     "epoch": 6,
-    "train_loss": 0.20152417741671774,
+    "train_loss": 0.20160752019246492,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "RFUAV_acc": 1.0,
@@ -55,7 +55,7 @@
   },
   {
     "epoch": 7,
-    "train_loss": 0.20069808485127566,
+    "train_loss": 0.20177406652201707,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "RFUAV_acc": 1.0,
@@ -64,7 +64,7 @@
   },
   {
     "epoch": 8,
-    "train_loss": 0.20195325764521002,
+    "train_loss": 0.20032778756693148,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "RFUAV_acc": 1.0,
@@ -73,7 +73,7 @@
   },
   {
     "epoch": 9,
-    "train_loss": 0.20035657149198854,
+    "train_loss": 0.20016235045968903,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "RFUAV_acc": 1.0,
@@ -82,7 +82,7 @@
   },
   {
     "epoch": 10,
-    "train_loss": 0.20015612905007507,
+    "train_loss": 0.2001229925908642,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "RFUAV_acc": 1.0,
@@ -91,7 +91,7 @@
   },
   {
     "epoch": 11,
-    "train_loss": 0.20018065419254125,
+    "train_loss": 0.20002169445006882,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "RFUAV_acc": 1.0,
@@ -100,7 +100,7 @@
   },
   {
     "epoch": 12,
-    "train_loss": 0.2001129179168127,
+    "train_loss": 0.19998064066425764,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "RFUAV_acc": 1.0,
@@ -109,7 +109,7 @@
   },
   {
     "epoch": 13,
-    "train_loss": 0.1999476373651888,
+    "train_loss": 0.19988674798101835,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "RFUAV_acc": 1.0,
@@ -118,7 +118,7 @@
   },
   {
     "epoch": 14,
-    "train_loss": 0.1998665097314804,
+    "train_loss": 0.1997568005449048,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "RFUAV_acc": 1.0,
@@ -127,7 +127,7 @@
   },
   {
     "epoch": 15,
-    "train_loss": 0.19983440241760286,
+    "train_loss": 0.1997728130193167,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "RFUAV_acc": 1.0,
@@ -136,7 +136,7 @@
   },
   {
     "epoch": 16,
-    "train_loss": 0.1997826404445987,
+    "train_loss": 0.19975201877500195,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "RFUAV_acc": 1.0,
@@ -145,7 +145,7 @@
   },
   {
     "epoch": 17,
-    "train_loss": 0.19976538837446653,
+    "train_loss": 0.19974891312723572,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "RFUAV_acc": 1.0,
@@ -154,7 +154,7 @@
   },
   {
     "epoch": 18,
-    "train_loss": 0.19975641752121145,
+    "train_loss": 0.19968463228967467,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "RFUAV_acc": 1.0,
@@ -163,7 +163,7 @@
   },
   {
     "epoch": 19,
-    "train_loss": 0.19973387051219252,
+    "train_loss": 0.19967479595166646,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "RFUAV_acc": 1.0,
@@ -172,7 +172,7 @@
   },
   {
     "epoch": 20,
-    "train_loss": 0.19970975542964453,
+    "train_loss": 0.19965581562654067,
     "DroneRF_acc": 1.0,
     "DroneRF_f1": 1.0,
     "RFUAV_acc": 1.0,

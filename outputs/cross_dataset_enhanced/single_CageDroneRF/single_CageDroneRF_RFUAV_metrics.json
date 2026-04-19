@@ -1,9 +1,9 @@
 {
-  "accuracy": 0.13732394366197184,
-  "macro_f1": 0.12074303405572756,
-  "weighted_f1": 0.24148606811145512,
+  "accuracy": 0.11267605633802817,
+  "macro_f1": 0.10126582278481013,
+  "weighted_f1": 0.20253164556962025,
   "macro_precision": 0.5,
-  "macro_recall": 0.06866197183098592,
+  "macro_recall": 0.056338028169014086,
   "false_positive_rate": 0.0,
-  "false_negative_rate": 0.8626760563380281
+  "false_negative_rate": 0.8873239436619719
 }

@@ -3,6 +3,6 @@
   "latent_dim": 32,
   "beta": 0.5,
   "epochs": 30,
-  "best_val_loss": 0.7604756319420386,
+  "best_val_loss": 0.7606708047041578,
   "param_count": 393601
 }

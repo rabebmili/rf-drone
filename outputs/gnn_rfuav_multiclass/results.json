@@ -1,0 +1,17 @@
+{
+  "accuracy": 0.96,
+  "macro_f1": 0.9496725958379213,
+  "mcc": 0.9583752861433898,
+  "best_val_f1": 0.9492966277593248,
+  "best_epoch": 17,
+  "model": "gnn",
+  "backbone": "ast",
+  "dataset": "rfuav",
+  "task": "multiclass",
+  "epochs": 30,
+  "param_count": 220197,
+  "emb_dim": 192,
+  "subgraph_size": 64,
+  "threshold": 0.5,
+  "k": 5
+}
