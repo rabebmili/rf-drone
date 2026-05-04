@@ -245,6 +245,43 @@ def get_target_layer(model, model_name="smallrf"):
         raise ValueError(f"Grad-CAM target layer not defined for model: {model_name}")
 
 
+def plot_gradcam1d(signal, heatmap, predicted_class, confidence,
+                   class_names=None, output_path=None, title=None):
+    # Plot raw 1D signal with GradCAM1D heatmap overlay
+    if class_names is None:
+        class_names = [f"Class {i}" for i in range(10)]
+    class_label = class_names[predicted_class] if predicted_class < len(class_names) else str(predicted_class)
+
+    fig, axes = plt.subplots(3, 1, figsize=(14, 8))
+    t = np.arange(len(signal))
+
+    axes[0].plot(t, signal, linewidth=0.5, color="steelblue")
+    axes[0].set_title("Signal brut (I/Q)")
+    axes[0].set_xlabel("Échantillon")
+    axes[0].set_ylabel("Amplitude")
+
+    axes[1].fill_between(t, heatmap, alpha=0.8, color="red")
+    axes[1].set_title("Importance GradCAM1D")
+    axes[1].set_xlabel("Échantillon")
+    axes[1].set_ylabel("Activation")
+
+    axes[2].plot(t, signal, linewidth=0.5, color="steelblue", alpha=0.6)
+    ax2 = axes[2].twinx()
+    ax2.fill_between(t, heatmap, alpha=0.4, color="red")
+    ax2.set_ylabel("Activation", color="red")
+    axes[2].set_title(f"Superposition — Prédiction : {class_label} ({confidence:.2%})")
+    axes[2].set_xlabel("Échantillon")
+
+    if title:
+        fig.suptitle(title, fontsize=14)
+    plt.tight_layout()
+    if output_path:
+        Path(output_path).parent.mkdir(parents=True, exist_ok=True)
+        plt.savefig(output_path, dpi=150, bbox_inches="tight")
+        print(f"Saved: {output_path}")
+    plt.close()
+
+
 def plot_gradcam(spectrogram, heatmap, predicted_class, confidence,
                  class_names=None, output_path=None, title=None):
     # Tracer le spectrogramme avec superposition Grad-CAM
@@ -319,11 +356,17 @@ def generate_gradcam_examples(model, dataset, device, model_name="smallrf",
             x_input = x.unsqueeze(0).to(device)
 
             heatmap, pred_cls, conf = explainer.generate(x_input)
-            spectrogram = x.squeeze(0).numpy()
+            signal = x.squeeze(0).numpy()
 
             cls_name = class_names[cls] if class_names else f"class_{cls}"
             method = "attention" if model_name in ("ast", "transformer") else "gradcam"
             fname = f"{method}_{cls_name.replace(' ', '_')}_sample{j}.png"
-            plot_gradcam(spectrogram, heatmap, pred_cls, conf,
-                         class_names=class_names,
-                         output_path=str(out_dir / fname))
+
+            if model_name == "cnn1d":
+                plot_gradcam1d(signal, heatmap, pred_cls, conf,
+                               class_names=class_names,
+                               output_path=str(out_dir / fname))
+            else:
+                plot_gradcam(signal, heatmap, pred_cls, conf,
+                             class_names=class_names,
+                             output_path=str(out_dir / fname))
