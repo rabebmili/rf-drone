@@ -14,6 +14,7 @@ from src.datasets.cagedronerf_dataset import create_cagedronerf_loaders
 from src.models import get_model
 from src.evaluation.robustness import run_robustness_evaluation
 from src.evaluation.openset import run_openset_evaluation
+from src.evaluation.explainability import generate_gradcam_examples
 
 
 # Models available per dataset
@@ -252,11 +253,57 @@ def run_openset_multiclass(device, output_dir):
     return all_results
 
 
+def run_explainability_multiclass(device, output_dir):
+    print(f"\n{'='*60}")
+    print("  EXPLICABILITÉ — Grad-CAM / Attention Rollout / GradCAM1D (tous les modèles)")
+    print(f"{'='*60}")
+
+    out_base = Path(output_dir) / "explainability"
+
+    for ds_name, config in DATASET_CONFIGS.items():
+        ds_key = ds_name.lower()
+
+        for model_key in config["models"]:
+            model_path = _model_path(ds_key, model_key)
+            if not Path(model_path).exists():
+                print(f"SKIP: {model_path} not found")
+                continue
+
+            _, test_ds = load_dataset(ds_name, model_key)
+            if test_ds is None:
+                continue
+
+            if config["class_names"] is not None:
+                class_names = config["class_names"]
+                num_classes = config["num_classes"]
+            else:
+                class_names = test_ds.get_class_names()
+                num_classes = test_ds.num_classes
+
+            display_name = MODEL_DISPLAY_NAMES[model_key]
+            model = get_model(model_key, num_classes=num_classes).to(device)
+            model.load_state_dict(torch.load(model_path, weights_only=True, map_location=device))
+
+            out_dir = str(out_base / ds_name / model_key)
+            try:
+                generate_gradcam_examples(
+                    model, test_ds, device,
+                    model_name=model_key,
+                    class_names=class_names,
+                    output_dir=out_dir,
+                    n_per_class=5,
+                )
+                print(f"OK: {display_name} on {ds_name} → {out_dir}")
+            except Exception as e:
+                print(f"ERREUR : Explicabilité échouée pour {display_name} on {ds_name}: {e}")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Multiclass robustness + open-set evaluation (all models)")
     parser.add_argument("--output_dir", default="outputs/multiclass_evaluation")
     parser.add_argument("--skip_robustness", action="store_true")
     parser.add_argument("--skip_openset", action="store_true")
+    parser.add_argument("--skip_explainability", action="store_true")
     args = parser.parse_args()
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -269,6 +316,9 @@ def main():
 
     if not args.skip_openset:
         run_openset_multiclass(device, args.output_dir)
+
+    if not args.skip_explainability:
+        run_explainability_multiclass(device, args.output_dir)
 
     print(f"\nToutes les évaluations multiclasses terminées. Résultats dans : {args.output_dir}/")
 
